@@ -1,0 +1,82 @@
+[
+  {
+    "id": "S2",
+    "file": "CoopReviveFix.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "        byte[] bytes=File.ReadAllBytes(proxy.Location);\n        if(Convert.ToHexString(SHA256.HashData(bytes))==RawPin)return;\n        var pins=new Dictionary<string,string>(StringComparer.Ordinal);\n        foreach(var assembly in new[]{typeof(ModCore.Mods.ModBase).Assembly,typeof(HashlinkNET.Compiler.HashlinkCompiler).Assembly,\n            typeof(ModuleDefinition).Assembly,typeof(HaxeProxy.Runtime.HaxeProxyBase).Assembly})\n        {\n            byte[] image=File.ReadAllBytes(assembly.Location);\n            using(var stream=new MemoryStream(image,false))using(var parsed=AssemblyDefinition.ReadAssembly(stream))\n                if(parsed.MainModule.Mvid!=assembly.ManifestModule.ModuleVersionId || parsed.Name.FullName!=assembly.FullName)\n                    throw new InvalidOperationException(\"Loaded generator identity differs from its file\");\n            pins.Add(assembly.GetName().Name,Convert.ToHexString(SHA256.HashData(image)));\n        }\n        ValidateImage(bytes,proxy.ManifestModule.ModuleVersionId,proxy.FullName,pins);\n        Serilog.Log.Information(\"[CoopReviveFix] Generated GameProxy ABI/IL verified: raw={RawSha256} symbolic={SymbolicSha256}\",\n            Convert.ToHexString(SHA256.HashData(bytes)),FingerprintPin);\n",
+    "replace": "        var image=global::CoopPackRuntime.PackProxyImage.Acquire(proxy);\n        try\n        {\n            if(image.RawSha256==RawPin)return;\n            ValidateImage(image,proxy.ManifestModule.ModuleVersionId,proxy.FullName,image.Generators);\n            Serilog.Log.Information(\"[CoopReviveFix] Generated GameProxy ABI/IL verified: raw={RawSha256} symbolic={SymbolicSha256}\",\n                image.RawSha256,FingerprintPin);\n        }\n        finally{image.Release();}\n",
+    "count": 1,
+    "note": "S1: raw-pin fast path on the shared image hash (no second 27 MB read); fallback order unchanged"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "public static void ValidateImage(byte[] bytes,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators)",
+    "replace": "public static void ValidateImage(global::CoopPackRuntime.PackProxyImage image,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators)",
+    "count": 1,
+    "note": "S1"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "if(Convert.ToHexString(SHA256.HashData(bytes))==RawPin)return;",
+    "replace": "if(image.RawSha256==RawPin)return;",
+    "count": 1,
+    "note": "S1: raw pin from the image hash"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "        using(var stream=new MemoryStream(bytes,false))using(var assembly=AssemblyDefinition.ReadAssembly(stream))\n        {\n            if(assembly.Modules.Count!=1 || assembly.MainModule.Mvid!=loadedMvid || assembly.Name.FullName!=loadedName)\n                throw new InvalidOperationException(\"Loaded GameProxy identity differs from the checked image\");\n            if(ReviveProxyFingerprint.Compute(assembly).Sha256!=FingerprintPin)\n                throw new InvalidOperationException(\"CoopReviveFix unsupported symbolic proxy ABI/IL\");\n        }\n",
+    "replace": "        {\n            var assembly=image.Definition;\n            if(assembly.Modules.Count!=1 || assembly.MainModule.Mvid!=loadedMvid || assembly.Name.FullName!=loadedName)\n                throw new InvalidOperationException(\"Loaded GameProxy identity differs from the checked image\");\n            if(ReviveProxyFingerprint.Compute(image).Sha256!=FingerprintPin)\n                throw new InvalidOperationException(\"CoopReviveFix unsupported symbolic proxy ABI/IL\");\n        }\n",
+    "count": 1,
+    "note": "S1: symbolic fallback on the shared Definition with its hard-coded roots"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "readonly Dictionary<string,List<CustomAttribute>> bindings=new(StringComparer.Ordinal);",
+    "replace": "readonly Dictionary<string,List<CustomAttribute>> bindings;",
+    "count": 1,
+    "note": "S1"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "    ReviveProxyFingerprint(AssemblyDefinition value)\n    {\n        assembly=value;\n        // This generator can emit duplicate names for unrelated private closure classes.\n        // A referenced type must still resolve uniquely; unrelated closures are outside this contract.\n        types=AllTypes(value.MainModule.Types).GroupBy(t=>t.FullName,StringComparer.Ordinal).ToDictionary(g=>g.Key,g=>g.ToArray(),StringComparer.Ordinal);\n        foreach(var attr in value.CustomAttributes.Where(a=>a.AttributeType.FullName==\"HaxeProxy.Runtime.Internals.HaxeProxyBindingAttribute\"))\n        {\n            string target=BindingTarget(attr);\n            if(!bindings.TryGetValue(target,out var list))bindings.Add(target,list=new List<CustomAttribute>());\n            list.Add(attr);\n        }\n    }\n",
+    "replace": "    ReviveProxyFingerprint(global::CoopPackRuntime.PackProxyImage image)\n    {\n        assembly=image.Definition;this.image=image;\n        // This generator can emit duplicate names for unrelated private closure classes.\n        // A referenced type must still resolve uniquely; unrelated closures are outside this contract.\n        types=image.TypesByFullName;\n        bindings=image.Bindings;\n    }\n",
+    "count": 1,
+    "note": "S1: types and bindings from the shared image (same expressions)"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "    public static Result Compute(byte[] bytes)\n    {using(var s=new MemoryStream(bytes,false))using(var a=AssemblyDefinition.ReadAssembly(s))return Compute(a);}\n    public static Result Compute(AssemblyDefinition value)=>new ReviveProxyFingerprint(value).Run();\n",
+    "replace": "    public static Result Compute(byte[] bytes)\n    {using(var image=global::CoopPackRuntime.PackProxyImage.FromBytes(bytes))return Compute(image);}\n    public static Result Compute(global::CoopPackRuntime.PackProxyImage image)=>new ReviveProxyFingerprint(image).Run();\n",
+    "count": 1,
+    "note": "S1: Compute(bytes) keeps its contract through a private image"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "foreach(var name in RootMethods)AddMethod(types.Values.SelectMany(group=>group).SelectMany(t=>t.Methods).Single(v=>v.FullName==name));",
+    "replace": "foreach(var name in RootMethods)AddMethod(image.MethodsByFullName(name).Single(v=>v.FullName==name));",
+    "count": 1,
+    "note": "S1: FullName index; same .Single outcome"
+  },
+  {
+    "id": "S1",
+    "file": "ReviveProxyFingerprint.cs",
+    "find": "        throw new InvalidOperationException(\"Unreviewed symbolic value \"+v.GetType().FullName);\n    }\n",
+    "replace": "        throw new InvalidOperationException(\"Unreviewed symbolic value \"+v.GetType().FullName);\n    }\n    // CoopPack S1: the GameProxy image this walk reads (types, bindings, method index). Declared last so no member\n    // ordinal (and so no compiler-generated name) of the original members changes.\n    readonly global::CoopPackRuntime.PackProxyImage image;\n",
+    "count": 1,
+    "note": "S1: image field, appended after all original members"
+  }
+]

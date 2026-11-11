@@ -1,0 +1,1097 @@
+{
+  "scope": "CoopPack 0.1.0-alpha build; offline only, no deployment, no native execution",
+  "pack": {
+    "name": "CoopPack",
+    "version": "0.1.0-alpha",
+    "assembly": "CoopPack, Version=0.1.0.0"
+  },
+  "sha256": "A05309D439BC90F52A90C17D9D2928908EAD6051AED22B5AFA95D5BEB2455DAE",
+  "workerSha256": "3D574B4977FD91F2DE7CC3292254678CAABA874BC0A646A5CC05C7BD16DF2C8B",
+  "modinfoSha256": "20A1489F3C02D8CAA194017CC167587A9C0BCB7065780277BEE6696E39E49DB7",
+  "partial": false,
+  "excluded": [],
+  "partsJsonSha256": "477367D9D9D85D3528B254F829CAD15FFEB2C168F4D594CF40278038FD6E0192",
+  "buildPackSha256": "64E6E2C626D39259A7FE1726D75385B64224D2AD87EB2AD16EB90D2E9C8B31AF",
+  "extractRootsSha256": "708EC394960B6B5D9367443806436D0BB6D9425A79612A93535323471327285D",
+  "psVersion": "7.6.9",
+  "codeAnalysisFileVersion": "5.0.25.56712",
+  "refSetSha256": "956CFC07425B0BAA9AEB5F98FDAF8BC3E1A289C65F61E04195CB9A381F87B78A",
+  "compilerOptions": "/nowarn:1701",
+  "compileOrder": [
+    "source/CoopCorpseRotationFix/CorpseRotationPatch.cs",
+    "source/CoopCorpseRotationFix/CorpseRotationProxyFingerprint.cs",
+    "source/CoopCorpseRotationFix/CoopCorpseRotationFix.cs",
+    "source/CoopDeadCameraFix/DeadCameraPatch.cs",
+    "source/CoopDeadCameraFix/DeadCameraProxyFingerprint.cs",
+    "source/CoopDeadCameraFix/CoopDeadCameraFix.cs",
+    "source/CoopDialogPresenceFix/DialogPresenceRules.cs",
+    "source/CoopDialogPresenceFix/DialogPresencePatch.cs",
+    "source/CoopDialogPresenceFix/CoopDialogPresenceFix.cs",
+    "source/CoopDownedAnchorFix/DownedAnchorRules.cs",
+    "source/CoopDownedAnchorFix/DownedAnchorPatch.cs",
+    "source/CoopDownedAnchorFix/CoopDownedAnchorFix.cs",
+    "source/CoopFlintFix/CoopFlintFix.cs",
+    "source/CoopFrameFix/FrameFixRules.cs",
+    "source/CoopFrameFix/CallbackFinalization.cs",
+    "source/CoopFrameFix/PlayerTint.cs",
+    "source/CoopFrameFix/HotPaths.cs",
+    "source/CoopFrameFix/PositionGate.cs",
+    "source/CoopFrameFix/CoopFrameFix.cs",
+    "source/CoopInventoryFix/InventorySlotPatch.cs",
+    "source/CoopInventoryFix/CoopInventoryFix.cs",
+    "source/CoopLoadFix/ChainRules.cs",
+    "source/CoopLoadFix/ChainCache.cs",
+    "source/CoopLoadFix/CoopLoadFix.cs",
+    "source/CoopLobby/CoopLobby.cs",
+    "source/CoopLobby/LobbyCore.cs",
+    "source/CoopLobby/LobbyModel.cs",
+    "source/CoopLobby/LobbyText.cs",
+    "source/CoopLobby/LobbyPalette.cs",
+    "source/CoopLobby/LobbyUi.cs",
+    "source/CoopLobby/LobbyUiNative.cs",
+    "source/CoopLobby/LobbyUiPages.cs",
+    "source/CoopLobby/LobbyUiPageView.cs",
+    "source/CoopLobby/LobbyUiRules.cs",
+    "source/CoopLobby/LobbyUiView.cs",
+    "source/CoopLobby/LobbyCap.cs",
+    "source/CoopLobby/LobbyCapClient.cs",
+    "source/CoopLobby/LobbyCapHost.cs",
+    "source/CoopLobby/LobbyCapRules.cs",
+    "source/CoopLobby/LobbyColor.cs",
+    "source/CoopLobby/LobbyColorRules.cs",
+    "source/CoopLobby/LobbyColorTint.cs",
+    "source/CoopMobRegistrationFix/MobRegistrationPatch.cs",
+    "source/CoopMobRegistrationFix/CoopMobRegistrationFix.cs",
+    "source/CoopNetworkFixes/MobMoveQueuePatch.cs",
+    "source/CoopNetworkFixes/CoopNetworkFixes.cs",
+    "source/CoopPerfFix/PerfPatches.cs",
+    "source/CoopPerfFix/CoopPerfFix.cs",
+    "source/CoopReviveFix/CoopReviveFix.cs",
+    "source/CoopReviveFix/ReviveProxyFingerprint.cs",
+    "source/CoopRuneDropFix/RuneDropPatch.cs",
+    "source/CoopRuneDropFix/RuneDropProxyFingerprint.cs",
+    "source/CoopRuneDropFix/CoopRuneDropFix.cs",
+    "source/CoopShrineDeathFix/ShrineLateDeathPatch.cs",
+    "source/CoopShrineDeathFix/ShrineLateDeathPatch.Native.cs",
+    "source/CoopShrineDeathFix/ShrineLateDeathGuard.cs",
+    "source/CoopShrineDeathFix/LateShrineProxyFingerprint.cs",
+    "source/CoopShrineDeathFix/CoopShrineDeathFix.cs",
+    "source/CoopShrineFix/ShrineReplicaPatch.cs",
+    "source/CoopShrineFix/ShrinePairGuard.cs",
+    "source/CoopShrineFix/ShrineProxyFingerprint.cs",
+    "source/CoopShrineFix/CoopShrineFix.cs",
+    "source/CoopSteamInviteFix/CoopSteamInviteFix.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Activation.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Branches.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Catchup.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.CinematicAttackExpiry.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.CinematicPresentation.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.CinematicVisualManagers.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Colors.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Culled.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.DoorsAndDeaths.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.ElevatorProtocol.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Elevators.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.EliteDeaths.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Enemies.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.ExitMembership.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.GraphLinks.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Join.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.JoinLease.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Lifecycle.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Manifest.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.MapHistory.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.PlayerSafety.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.ReceiveAge.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.RegistryBatches.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.RemoteWeaponEquip.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.RouteGeneratedGraphs.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Routes.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.SecretFamily.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.SleepMotion.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.SnapshotFence.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.Transfers.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.WeaponIdentity.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.WireControl.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.WireEpoch.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.WirePayloads.cs",
+    "source/CoopSyncFixes/CoopSyncFixes.World.cs",
+    "source/CoopSyncFixes/RouteGeneratedGraphGuard.cs",
+    "source/CoopSyncFixes/RoutePortalProgress.cs",
+    "source/CoopOpt/CoopOpt.cs",
+    "source/CoopOpt/OptCore.cs",
+    "source/CoopOpt/OptHost.cs",
+    "source/CoopOpt/OptHostMobs.cs",
+    "source/CoopOpt/OptHostRules.cs",
+    "source/CoopOpt/OptHostTargets.cs",
+    "source/CoopOpt/OptClient.cs",
+    "source/CoopOpt/OptClientRules.cs",
+    "source/CoopOpt/OptMinimap.cs",
+    "source/CoopOpt/OptMinimapRules.cs",
+    "source/pack/CoopPack.cs",
+    "source/pack/CsfRollback.cs",
+    "source/pack/PackHost.cs",
+    "source/pack/PackLog.cs",
+    "source/pack/PackParts.cs",
+    "source/pack/PackPins.cs",
+    "source/pack/PackProxyImage.cs",
+    "source/pack/PartGate.cs",
+    "source/pack/FrozenRoots.g.cs",
+    "source/pack/PartTable.g.cs"
+  ],
+  "packRuntime": [
+    {
+      "name": "CoopPack.cs",
+      "sha256": "E7999D4B52FE3AF43A58D533C5F8DA54E4C4E3A70EAB90544E30D8010A21C4C7"
+    },
+    {
+      "name": "CsfRollback.cs",
+      "sha256": "9C7143AD5BCAF3C174B9707E40DE3D298C94079397D20392C5717C4A30DA2867"
+    },
+    {
+      "name": "PackHost.cs",
+      "sha256": "6AE4281BB8F34F7A1967794AE8E3AF9212EED6F01FE6AF2946E638E33FBF01E3"
+    },
+    {
+      "name": "PackLog.cs",
+      "sha256": "BD2146536E0F7A63A426D4250F987F53F1400AEB0BC41AD6D19824792795CA1C"
+    },
+    {
+      "name": "PackParts.cs",
+      "sha256": "FEF64E2F9CD6A56F0B995E1A66D40FECCC34C22EE7C98DB35BA294D140967FED"
+    },
+    {
+      "name": "PackPins.cs",
+      "sha256": "C0FBBADA0A111ED9D15AF983DF39F12775B7C4F43157D2EA72D00229B83CF856"
+    },
+    {
+      "name": "PackProxyImage.cs",
+      "sha256": "E5652157208C55F016B45FE90B0DD80263A84130D87A8B2B1F9DAB3947A797AF"
+    },
+    {
+      "name": "PartGate.cs",
+      "sha256": "787828B09EE16BF7E8842322C9FC2C4C588CDE04A253AE1E4DBDC69F09E7E8E3"
+    }
+  ],
+  "generated": [
+    {
+      "name": "FrozenRoots.g.cs",
+      "sha256": "29CE64198114C233E50480BB9C5A59CD7371AD79109B304E8C76BAE872CECD70"
+    },
+    {
+      "name": "PartTable.g.cs",
+      "sha256": "3740AB87A9D39A121598DD4EBA61D4EB64CD95782B74EF5F5FCFFED77AD1A887"
+    }
+  ],
+  "parts": [
+    {
+      "name": "CoopCorpseRotationFix",
+      "excluded": false,
+      "manifestSha256": "2EC3E23B23B71E7149ED9E3F08A95404B9396975A2FD5D7521210671D24E5F56",
+      "originalDllSha256": "14BB493D2A2C6D2261E2F7CE0298BD3CCE80350C02FD05C9A2F5937F95CAC3D3",
+      "sources": [
+        {
+          "name": "CorpseRotationPatch.cs",
+          "sha256": "AD8ACD9314D059AF69765F49B3EDCFD98E1D67D8164E8098384FDD008BBE8D69",
+          "patchedSha256": "EF9ABC6C78100E618C2DF0679D64A6455EDC75773D692F684F0F81DD30A9CD5F"
+        },
+        {
+          "name": "CorpseRotationProxyFingerprint.cs",
+          "sha256": "F29DC45279DE682C1CFC406B1EC7727BD46CE0159897F0E351495457B06E7509",
+          "patchedSha256": "B912F44E892232A3F433321638F9C2EA5445A5484DFDBC3E41BA1A110B1F5F12"
+        },
+        {
+          "name": "CoopCorpseRotationFix.cs",
+          "sha256": "C3DC57692948B1AADD89C52672A5E265CADF88E782C9CD56DCC4F074A26C0912",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "00ACAB1351FDCCAA46C62278EEECD64239D56F0D8784B63EEA75874F9A221E2C",
+      "rootsSha256": "106E26520B0A302F6F621E27EC6E82FEA41A84EB68CB2E6A4F7F8F55C7C701B3"
+    },
+    {
+      "name": "CoopDeadCameraFix",
+      "excluded": false,
+      "manifestSha256": "A58CE00A502F74296FAE256D5C88C91DF630471DF75924F46458FA0FD29535AE",
+      "originalDllSha256": "FBBD9358B6AB32832A2B4C2DB9D587E9316CBD9661A3B8C728F1B6D906C64943",
+      "sources": [
+        {
+          "name": "DeadCameraPatch.cs",
+          "sha256": "09D7D88DDA2FA96D1DEB6BC282E6345BABF7D2B2E8FE368664556F4266A0B598",
+          "patchedSha256": "1D8544A55ED56A254769E4653FD7C9623CB539D809BCC567C2ABC7DAF9DA9789"
+        },
+        {
+          "name": "DeadCameraProxyFingerprint.cs",
+          "sha256": "8024467FDDCED7D46C1197C46D82D38249AB087560DE3536D6B030928A1D6009",
+          "patchedSha256": "166498CCBC3CD1278438DE185F152B03FCD7C12500544B94FB0EC9CB2DCCA2C4"
+        },
+        {
+          "name": "CoopDeadCameraFix.cs",
+          "sha256": "97E5A90A8E026FB11E3CDFA04C1B04DE5526856A609F6A32862ACFD687982DF4",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "9954C96C25E421337B9628FFC54BD76A5C4A3B3353908746FBBBDE97A1857BB5",
+      "rootsSha256": "F50F18330C852CB1F61A50569E307134B005897C8A4A06C1DE2D5F92EC45813D"
+    },
+    {
+      "name": "CoopDialogPresenceFix",
+      "excluded": false,
+      "manifestSha256": "6A26E3238DB2DC5CE97E8573C14763FD2A04ECD458C1CDC1813DB73F123AFE33",
+      "originalDllSha256": "BAEBE3FA6669277C3A58F8B12EB3B5E4464C6890253BBFA3F3728BE50986EA9E",
+      "sources": [
+        {
+          "name": "DialogPresenceRules.cs",
+          "sha256": "8B97BD3D50447C15091E8BAF83A2C5639F7C65817FF9E943CDD10F345D173F09",
+          "patchedSha256": null
+        },
+        {
+          "name": "DialogPresencePatch.cs",
+          "sha256": "15F85652D78B11196FF2BB8919C4B854D0178C4D08C44870F47BBBD63CDAA914",
+          "patchedSha256": "476C728D90AB82396FE796DF8898235682E1C8A67FA04EE5AEAC2B31FBBE34BB"
+        },
+        {
+          "name": "CoopDialogPresenceFix.cs",
+          "sha256": "F561043B12DD6E750A4DCA215751E7B4D9FB6CF12110A77CB907C5BA302F9EA1",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "5ACA5CE9731635B82BB1563085A7DAD28D0719950527E70A0510496EABFAD3B5",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopDownedAnchorFix",
+      "excluded": false,
+      "manifestSha256": "C1BA9C756C0E73EE04F684B3AD1033DE6B0F300B938291F76FFC8993A50C9E0C",
+      "originalDllSha256": "8314060E0DC2C216EC8F4E5E4B9987F576E61DE889A33EE5C3CF6EC2735400B6",
+      "sources": [
+        {
+          "name": "DownedAnchorRules.cs",
+          "sha256": "EB8EE530B2A63511939DBC1E3C8ABB7493A26A48335C74DEA0D80D01C01BA5AD",
+          "patchedSha256": null
+        },
+        {
+          "name": "DownedAnchorPatch.cs",
+          "sha256": "29106CEDB4535D53CE9652AB3B1E5243FC03CDE6AF968882C025138066A32202",
+          "patchedSha256": "AA786B9D50C251FD50A77F6CF405C6E3A8A07AC3EC0398903CE286DFC45ED575"
+        },
+        {
+          "name": "CoopDownedAnchorFix.cs",
+          "sha256": "7E1064886E7939429F7145491AF1FB6972ADD4E8E72CF66E90CE1AA8A1E64C20",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "8704CADA2B486C44587690B1A65DB257113C64B33F6048EDA62393C81B52B45F",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopFlintFix",
+      "excluded": false,
+      "manifestSha256": "9F36A5D690FC04B7D5284E500FE856F93BF7A21E8B49A1978F11E8ECEBCA7666",
+      "originalDllSha256": "F203F5E9E8B510AB5B04935263F2B0419A15C3080169005031EFC736DBD76AB9",
+      "sources": [
+        {
+          "name": "CoopFlintFix.cs",
+          "sha256": "4D89A2633959A542AD405FB45A8E3DBAFA20E584660F9D3042E54A4CB1147323",
+          "patchedSha256": "32D0C314DC2109BBF488416132D32ECCAF925FD5801B60860D377613B3354C4F"
+        }
+      ],
+      "editsSha256": "FB72A817BCF232139A53ABBB8A8FCF45C2CF13712587BF44C8B828FD889E838F",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopFrameFix",
+      "excluded": false,
+      "manifestSha256": "F0B8AD500A3752364918660FC6194616E3AE246B255DC38D2950B9878076CB7F",
+      "originalDllSha256": "A5827F82B9D9D76E04EC96462B4732879B23F72D0A0F9D534A3E443765006D9E",
+      "sources": [
+        {
+          "name": "FrameFixRules.cs",
+          "sha256": "18A64027188E8B767871123FBCB35B096A0890FF3D7B1482269DF23CE4A2D322",
+          "patchedSha256": null
+        },
+        {
+          "name": "CallbackFinalization.cs",
+          "sha256": "40B25D024B892CFEC1A76AC859FDB9F8EF67936CC997806C5157B283189AFFF5",
+          "patchedSha256": "3D3E7FE4CEFDBD8B27485123A535EA136E39CA9D1B786B9188AC1A25AF4B5695"
+        },
+        {
+          "name": "PlayerTint.cs",
+          "sha256": "0C6C9FA3AE6A272DE926591ECF2C607F93CAC5D51161309E386F3A3A780A5992",
+          "patchedSha256": "0D8D34CF3496F2F4B58852B30CD7112C72E5220C11DEA59D86121BEFE921C6D4"
+        },
+        {
+          "name": "HotPaths.cs",
+          "sha256": "2E8D05C793A3E0D0387FC05EE476469294BF677BD6FDD904DA5638527EB4342E",
+          "patchedSha256": "92617ABA38DEDD856754086647873D7B8B7067BFEDE4F039A5772CC017CB422E"
+        },
+        {
+          "name": "PositionGate.cs",
+          "sha256": "32896EC41215F927130992015BC26F1B1F62270B05AB9BA2CFD1D0FE15EB8387",
+          "patchedSha256": "F993E30EB4005ECD5D3B76A49DE2F7CF3D06D5383BD3C3CF5FD5198D8D9D6FAA"
+        },
+        {
+          "name": "CoopFrameFix.cs",
+          "sha256": "81551169720B22B6C78634974EF41F78CEB35BDEBB0F6E2F3E6A7A100CD4C3A0",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "D5A83CA8F1E8BA359614F03837ED60F95C37715A74DEB4836E10DAB5AF74A246",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopInventoryFix",
+      "excluded": false,
+      "manifestSha256": "9B782C3414D4A9CEA2F44C50967B1187000C504945ED3DB198152EB7D0CF1FFA",
+      "originalDllSha256": "9A1561151EF64E2167625096F67138F8EBAF391B09E55DBFBC89D1EEA1557400",
+      "sources": [
+        {
+          "name": "InventorySlotPatch.cs",
+          "sha256": "9C043D6C617E0923A96885F1E63D607EDFD85B66143FD2B471173114D922D740",
+          "patchedSha256": "6823936D25B1ED8F25E2DFA100F470A7C2089D97ED01FB7C82BD163C65670842"
+        },
+        {
+          "name": "CoopInventoryFix.cs",
+          "sha256": "6B2B48B055631BD16271B5969F4F1FEB0F1A62372CBB2A6E06D6C0693B1C05F1",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "BC3FA028F3AD0E3DEE98A605B09AFAEF4F7EFAADA14C00EE78223E24A4438054",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopLoadFix",
+      "excluded": false,
+      "manifestSha256": "CCD21B68DB184A9F45ACBD78D79AB53EDA88C0D4CB2981ADD726B972D3C1AE20",
+      "originalDllSha256": "7E31BDDBAC74A875A1EB691335B2D9485DBECA2F5CD20BF263829433F742D621",
+      "sources": [
+        {
+          "name": "ChainRules.cs",
+          "sha256": "4EED1A460975D7D7A1BD56F9B2E00F128F0D7CA12D304FA76F3DA653244E8757",
+          "patchedSha256": null
+        },
+        {
+          "name": "ChainCache.cs",
+          "sha256": "B71D397D50C5958249F3711C2F75F54636AE7C6D64574AFC15EE585C08F54215",
+          "patchedSha256": "223116B32FD3B364E16C59BC232A2F4DF35BD68247A92C8421A07A79246CB44A"
+        },
+        {
+          "name": "CoopLoadFix.cs",
+          "sha256": "231367D2D144A206E730BB16E81ECD86B5F06A5807EF9F07C1157490E797CF63",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "B2C823AA40AEC2958C92A22608EFB287365CF37272A3D60814F2881B95670FD2",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopLobby",
+      "excluded": false,
+      "manifestSha256": "3370CFB01A4009792C50AD62261CB61F16604938C065AC8428A6CC6F6D89EBC2",
+      "originalDllSha256": "B5526FFA4EEBE7C07A3A55250DB4679ACA922DCD9FF949B8F5501A33E29D58D5",
+      "sources": [
+        {
+          "name": "CoopLobby.cs",
+          "sha256": "3E88796935835205D2EA68AA378FEF7A9AE22FCADB5AD01FA6C7AE949C16EDCC",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyCore.cs",
+          "sha256": "E9456D27763A1D3F3D0A053B59FC41FC27D81A37AAFC86F78B1B4EF332B18A20",
+          "patchedSha256": "2BCD55EC893D9B2D58B3B5E5E12D72F1781594AF9049CAC9CDA34952DC54C8A0"
+        },
+        {
+          "name": "LobbyModel.cs",
+          "sha256": "DAB119316265CB6BAA2BF532073B4107AA1E64EB330481FEEC949AD093DC9FD0",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyText.cs",
+          "sha256": "04090DB10EFAEE549202C804A058C22FF65E8EBECDCBD4198D64FEA2792C0CA0",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyPalette.cs",
+          "sha256": "1A1690D923971F130AE9A6E3ADF4E751840E0C4FDDD5E5466187BAE28F6D0629",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyUi.cs",
+          "sha256": "7119E7CE5C75FC98D0A3F81BBF4A526A5A79C8A6F269487B9FD13758D4F8D0BF",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyUiNative.cs",
+          "sha256": "A0F5115A1A21A3F23C5A6D2822A4004A892A2650EBF2245B3F2929742F1B87C5",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyUiPages.cs",
+          "sha256": "5902A74EDCACE2E5B9A3C7B76F68D3F8174510C6D9DA33540EBE8F3205DDB6E9",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyUiPageView.cs",
+          "sha256": "FE250E72D7006AE24950DEDDD9E746F2DD4C1DFCD440557EBC076B54A87CE0AF",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyUiRules.cs",
+          "sha256": "89E61B7D9CA3440A36EF23B7F0EB250E6ADD48D747F3E63CFA7340B8FB44A5C6",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyUiView.cs",
+          "sha256": "63A80AE47FA94966F91B1DAC6837F06616EFF3B130E8ED46CB5C2F3B0219130B",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyCap.cs",
+          "sha256": "41DCC389AD19166F5B0824CAAC3066CC6723396ECAE57D447CC834D44C91367D",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyCapClient.cs",
+          "sha256": "2DE85B6242126FFFD80FC057323BBF499ECFC786A1C13EDAE3CAB9BDD2836BDB",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyCapHost.cs",
+          "sha256": "678512E1063F4664E085196786A5F175AB1E3C3DD6D71857CDB4420ABAC7279A",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyCapRules.cs",
+          "sha256": "B5F044523447F02D9AB275B5F53538C3D1225F31F557A6C7FC1EE1E93A4C4F59",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyColor.cs",
+          "sha256": "8BE0C466B5D3CA259EC4FEB5D566333643837B191972F55D8BF5D474094544D2",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyColorRules.cs",
+          "sha256": "CD9FDCFA071AE9254B4EAC82441FEC2F583FFA77DD87221C40CA8DAFA3D5C505",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyColorTint.cs",
+          "sha256": "BA226A0F633E9767ABD5138DFEE4F4EC7A2D92C7AF3B285C07580717F215431A",
+          "patchedSha256": "FE8961D59DCEFEFCE6E0B5E6530609F74CEB5C1238B2827102F705727814241C"
+        }
+      ],
+      "editsSha256": "ACCAD58647FD5B6E9362EC1D278905DCEFAC9E7F54B7697BFA3982025650B565",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopMobRegistrationFix",
+      "excluded": false,
+      "manifestSha256": "EAE0BB57D26500672FE725AC70D69EAF3BCA9FAE6D22D3BCEAD97BF1DA787586",
+      "originalDllSha256": "857C4714B2D9218BD2FF2DB2BD8E9DB6F41B075D54596BB6646F6B523A7791A7",
+      "sources": [
+        {
+          "name": "MobRegistrationPatch.cs",
+          "sha256": "E8123E6AD647B92AB6E0910D6E277AD3ECCA773FB4C6A6661668ECC16F9B9722",
+          "patchedSha256": "82B113B3254B3DE77DE462E19303219931EE4D9B36CCEE4FC5A744E12632C798"
+        },
+        {
+          "name": "CoopMobRegistrationFix.cs",
+          "sha256": "924C13141ADC2AF8E4386BDD5AA0BABDB92E5E572F2C8AA66417AC5BB8C5E4E5",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "695F91CC1CFC4FEFA4F005214C90C3870F9E44652698F3F95668E7C5A6F31E30",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopNetworkFixes",
+      "excluded": false,
+      "manifestSha256": "DF826E044075D4BB3D3B00EB4CD810480136A1270539DA3CBA7102129A108F14",
+      "originalDllSha256": "C971EFE3C6A948C73C25607A550913BA0DF4974135323DB3FBD5E6CA8EBDB8CC",
+      "sources": [
+        {
+          "name": "MobMoveQueuePatch.cs",
+          "sha256": "C45ECDEF487E42E775327D9B93E117913F7B62EB60E9F529AEB3E32F3D5884EF",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopNetworkFixes.cs",
+          "sha256": "A94C3C602E91766D8B699F946CDA0191304B2E3DFC2F8A45EE40CCD0F903CEC4",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": null,
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopPerfFix",
+      "excluded": false,
+      "manifestSha256": "2CC2008028AFE0F40F199366A5E9997A966D8E5033D3679E9CF3ACC0CEF4DCEF",
+      "originalDllSha256": "76251D8108B561CD37ABCD8E59D5E0760472BC7B99A54B3281C16718D122175F",
+      "sources": [
+        {
+          "name": "PerfPatches.cs",
+          "sha256": "322983889EDFD3CFF2141A5F719A7637E02AA17675522189264499BA4C27FEE1",
+          "patchedSha256": "4CBC5E8C4BBA3732963F3FC4C12FF53E95FD14040862D7F1F10ADE7F54B630A2"
+        },
+        {
+          "name": "CoopPerfFix.cs",
+          "sha256": "05D30FCA7783118762D027D79A4CF07D29E8673EE7474CED35AE942144F3CA81",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "FE49D5F1B467D1BC2A80DD50FE7E352E30658DA64732F83F8077C07C7B430AB8",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopReviveFix",
+      "excluded": false,
+      "manifestSha256": "38482C76B5D0148E9F0DBCC57E8A9C788DB950550EF6E991EDB17F9FAEDF41ED",
+      "originalDllSha256": "B87D406C56F29C53EDB26C57F7615C4BB4C73D77A9D9A6933967433500F69129",
+      "sources": [
+        {
+          "name": "CoopReviveFix.cs",
+          "sha256": "5740F9D2FCA229415F298B30FDE2BFE5CA1F6B0FA590E961395DB2BA6D6EDD39",
+          "patchedSha256": "15D3860E42692035C88D9B551B01384BF4AA78849068916D52DE7AD1F0DAA774"
+        },
+        {
+          "name": "ReviveProxyFingerprint.cs",
+          "sha256": "69D57E287EFDBC630D2275C0CDB93ABAEED13101672368F5EFEC8BFD9AC817B2",
+          "patchedSha256": "D347DC4FC710A0A06314AFF2122AA4822FBD8059A6EA5CA9E1EF35D870755F49"
+        }
+      ],
+      "editsSha256": "39C9DD493879827E564013B5FA3B8846C6A3D3130BEC28E65E131D758FF0B91B",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopRuneDropFix",
+      "excluded": false,
+      "manifestSha256": "9ECE7722E306A1338BDB79C00C75AB6A4E52964A8BF54E2933AC67E5C07636A8",
+      "originalDllSha256": "08A445BB7ECDA7BA65FDCF744CB416E2091835ACF2D6894D425A7B6F201C1569",
+      "sources": [
+        {
+          "name": "RuneDropPatch.cs",
+          "sha256": "56BBD4D6A9EB6DF7B6DB1ABD03E2FE07CD2D87C859DADC8BA18647CDEC15F861",
+          "patchedSha256": "66982A88E0F35B6FCEE85E394B5CCA538460797E59E77E6A97914C63B7FD98FA"
+        },
+        {
+          "name": "RuneDropProxyFingerprint.cs",
+          "sha256": "13F080CF74CE2557FF1DF53E083D2CCB8682CAB52F57869A702AF962E808973B",
+          "patchedSha256": "FE1545536F32F66E0FD766ACB8FC70D2E6B0D094A9E2AAB66668F7199DC1A038"
+        },
+        {
+          "name": "CoopRuneDropFix.cs",
+          "sha256": "823C3A687BC3E16BF8C85AE206017E5055AF24B291C97CD4EDE761F4CDA1A6D0",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "59657AE0399451881AE47B299925A46D1C9DA1363051E2559F42C26074877443",
+      "rootsSha256": "C48173563A6D0D4883219F3FE90A5500CDCE0C5D20F3C42F2913634F8F2DCE60"
+    },
+    {
+      "name": "CoopShrineDeathFix",
+      "excluded": false,
+      "manifestSha256": "F280140D2A255E319D183E857AD0CD8862AC91470EACB7BDE301BF4B7E328740",
+      "originalDllSha256": "B8933B973A700E48ECCA8EE6900EF85DEE4D739CF6E7EAE670FB5F659053D98B",
+      "sources": [
+        {
+          "name": "ShrineLateDeathPatch.cs",
+          "sha256": "F7D57D3CEEB5C9D1E3AD0D188B473096C48DD00DF2C4072DC9C254A9421A471B",
+          "patchedSha256": "66D17286CF5371BFDEF11D0952CCB7636B2F83922F44F4DFF315EC2C1AB6572E"
+        },
+        {
+          "name": "ShrineLateDeathPatch.Native.cs",
+          "sha256": "658EE4A157A1C65B542CC18399CB19A08030EFC8EA60D487F6851B35D27AE67B",
+          "patchedSha256": null
+        },
+        {
+          "name": "ShrineLateDeathGuard.cs",
+          "sha256": "A022DB2B85652FA5F23622864BD633804C6D5E76A8B21327E117EF2D2568E358",
+          "patchedSha256": null
+        },
+        {
+          "name": "LateShrineProxyFingerprint.cs",
+          "sha256": "73262C840371478E6A732046828D414F3A470776946DED7D8F120D87A5582670",
+          "patchedSha256": "5D5FD8F25FC87A00A7AC7EA80A4305E6468A7C1DA4D7765E5C6666433B910F67"
+        },
+        {
+          "name": "CoopShrineDeathFix.cs",
+          "sha256": "A42AE94F554074FB5862DDB2D94E6A0F35CE57BAE9DDFD3498EB38972A7D6620",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "75ACABD81BD91DAB1EC3B61E8B3CDA378F2E1CE57B86306A49D203F2BF9524B9",
+      "rootsSha256": "D67E1108D2B7A63FAC51BE0F0A30DDBAE1672972A03A87EB6154264E421E66B1"
+    },
+    {
+      "name": "CoopShrineFix",
+      "excluded": false,
+      "manifestSha256": "829C708A17399FB5E529602826EB42D61F827C6822B90FC49F56250C284B460A",
+      "originalDllSha256": "EA0702E0E1C1634BE4543864DA53AD6200ACEDB2FD77EEBA37DA54076CF68E45",
+      "sources": [
+        {
+          "name": "ShrineReplicaPatch.cs",
+          "sha256": "49D20D7D29263ACD34521B64064FFEB2E085F4B1BF15D732659293F77870063C",
+          "patchedSha256": "8B9CFF1D80612AB1C346B75477E3691B95B2702E450AB64CCB25C61ACD1846BE"
+        },
+        {
+          "name": "ShrinePairGuard.cs",
+          "sha256": "B968F2A27AF261D20E4A94BA1C4A46FA73EBAEC884461620C43F51F923185D87",
+          "patchedSha256": null
+        },
+        {
+          "name": "ShrineProxyFingerprint.cs",
+          "sha256": "4B440CA98412B7C4F71C0C7F3D7A613638240DECBF392097835893E0D8DAB726",
+          "patchedSha256": "EAA2DDA3FAE6FDAAA460880AD96E496086AF4383D94C6C807569E4ACA8BA5CB5"
+        },
+        {
+          "name": "CoopShrineFix.cs",
+          "sha256": "77B1F9F257D59A8D90D2F2BB48A4027570ACB0F914FCA7E848DFFE5CC819FE86",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "444036B3D4E18A9D4E0634174B29DE728166D1299B11AC1165D630463BD9C60D",
+      "rootsSha256": "0ED9001CC4D34A7D773FF6A21E82971F8F18E362E3A058E211CB3B2262E2CF5C"
+    },
+    {
+      "name": "CoopSteamInviteFix",
+      "excluded": false,
+      "manifestSha256": "93737E1FC3AADC2762F9BF4BD34D5E1AD5EED8A8E7C219230F09075FE7C04909",
+      "originalDllSha256": "A475DB14292BD8CDFEE39F917329236DC384351046D12544960DACF450A39955",
+      "sources": [
+        {
+          "name": "CoopSteamInviteFix.cs",
+          "sha256": "87BEF5401F02A1E2A7493E413D3C008700AA91CEE5DBFF0F2698BC4352A94A34",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": null,
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopSyncFixes",
+      "excluded": false,
+      "manifestSha256": "6D222CF9056C08A50C263C52470280270535325340A4C49331DC935555F2F304",
+      "originalDllSha256": "FFF00CA3F9297B00EBD7688A9E4D223FD2A14F2D0EC8DFE34801F8490C7342E9",
+      "sources": [
+        {
+          "name": "CoopSyncFixes.Activation.cs",
+          "sha256": "4F6DE3C5FF2C0853ACEDFAF0CF01E0A19EF4B9D03B1F5DBBFB8D5DC41CED806E",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Branches.cs",
+          "sha256": "9B199D71080C4F0884BC85836FE28B106E60AB89926731782840D1B9FF330B95",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Catchup.cs",
+          "sha256": "06E88242BBC913EED188206E3FDB6509D02E973C6203DFBABF45BD16C8EF5BB6",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.CinematicAttackExpiry.cs",
+          "sha256": "0C0F1953F2CD72EC3330D564CFB56F4744D3E6CA6FEBFB3E07DDD1FCDB31F4CE",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.CinematicPresentation.cs",
+          "sha256": "DF58CB15A6473B628D38E3771E3905EA0991634C56B320BAC1CC2344C11E1488",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.CinematicVisualManagers.cs",
+          "sha256": "4ECCF35DE5F7682C44B64BDB0F950DE7AFC5F49F9B34C7A73C9DA5FD4FC6FBA5",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Colors.cs",
+          "sha256": "04861413E97F4458FAE7E8D9F376FD2C4E393C81A26A41DF5E74FDF2241BD6C4",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.cs",
+          "sha256": "3C489ADE4CF7A907E394E8AC60000296774D9CA965A511931C2BA8D5FAF28AAA",
+          "patchedSha256": "1A2156303CC32850C259C3F967AC1CE7C7CA863B17A36A29038BFA1E5CC2E45F"
+        },
+        {
+          "name": "CoopSyncFixes.Culled.cs",
+          "sha256": "65E6E8777E45B21E2083E344CE7C067356C5912F9EB40B4D6C8A0BB50D5CE1A8",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.DoorsAndDeaths.cs",
+          "sha256": "ABAF13DD92DD0606912F2E072726EF716E9F994EDDB7526F8E17C0FF83BB1AA3",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.ElevatorProtocol.cs",
+          "sha256": "008E486FFEABA8019BD70D7AFC4FD35C8471E9127A68DA5CEAD7F65B1F4AA72C",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Elevators.cs",
+          "sha256": "F81CA04167169EF3F01737B9035B946B613BFD91232214DEAAA22911380DE46A",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.EliteDeaths.cs",
+          "sha256": "D8803431FEBF7D423E8B2ADC4A8FF6CA14C8CA86BA02101F5D973FCC1DE3C1E4",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Enemies.cs",
+          "sha256": "D4A48B59CB0F159EC91857AE9981FC0B8BE32358C9EFEA92E0A69CF87559081D",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.ExitMembership.cs",
+          "sha256": "8332EB49967016F38AF0E0D4A6F0D7A6F5BF5E2090BEB033E7D6DD3B3CD481A4",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.GraphLinks.cs",
+          "sha256": "FBAEFEB0B6C99E452F13E2D1191E76D39FD3E298B3FEB08BFB3DD66E6C3D0BE1",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Join.cs",
+          "sha256": "4C426966C13A050B443091ADA3035AFA2E9B6E3C2B62AD3E96B86A8E8331AB7B",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.JoinLease.cs",
+          "sha256": "E81DAF3D5816CCB067D2E8BC7466740B1F72DACD7ABD5DAC408FF71C171F1A5E",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Lifecycle.cs",
+          "sha256": "370D680A9EF1D4E64BE40077CFF035126FA43A74D1122C7CD34E03E3910177C3",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Manifest.cs",
+          "sha256": "C5777CF1C23E0F74BD400AE2EA703FFCD6693947D9CFB63107587F733C375B5D",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.MapHistory.cs",
+          "sha256": "7D9264E6519514DD198ED0C48DFC39B9E938CFE95F7EB0A5F8BE2ED2D0EEE88F",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.PlayerSafety.cs",
+          "sha256": "0F04A83C497903687E086E71D712B68664B0290DE05CEAD8BF6C1F687A1763AD",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.ReceiveAge.cs",
+          "sha256": "275C404E5B993FFBA3610587250565DC4175D294FF5E570B9AC5C348E3C38036",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.RegistryBatches.cs",
+          "sha256": "1348F82DC76BAFF6ADE23957A9D8CEA0696423D2CB5A3F5FBE3AEB652E534469",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.RemoteWeaponEquip.cs",
+          "sha256": "0E6DBC710BA700EC139B275B60794E18C9C4C8DE025C6642E241905A49795E8A",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.RouteGeneratedGraphs.cs",
+          "sha256": "1A3C691C09FB4CF3EA8A9A0C4F5A12D803B2D3627E2A2127B4901019B08B1F2E",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Routes.cs",
+          "sha256": "8022BE51FAB3F821883961668909C53DB09DA2029A78655683B178C4E9235238",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.SecretFamily.cs",
+          "sha256": "2B97E0DC8C035C61D43C275E2641BE53358EC74AFADD1F1DDCADCDA3DE1E2695",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.SleepMotion.cs",
+          "sha256": "CDA75D0AB1A218780D758666E16595379CB8E25642556F583F9EC3F2CBA542FF",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.SnapshotFence.cs",
+          "sha256": "4E30865F716A3FFACC2A68B4EEB0C6AD4E7DE3C89C458D22E5FCFE7F3AF0B0E4",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.Transfers.cs",
+          "sha256": "F937AA33C6E3662800B126F328E65A38414503429A3A2C89622FF13F9EFFB67B",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.WeaponIdentity.cs",
+          "sha256": "8E5DF42B38BC0C7D3E9F43AD071F32E799F133A90E5F13F9E7E05FEB6DE16AC8",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.WireControl.cs",
+          "sha256": "62B753D2EC60B6A4613AE0DF91C1E4AFF48382F71D6E7113ED08ED6384EDD69D",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.WireEpoch.cs",
+          "sha256": "51901E9FA7B30615E97FDCF92EB5181F8EAD1CA242DC855BD261FEF7E429E53F",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.WirePayloads.cs",
+          "sha256": "B146388BD9778923922FD4B6FEC399E03F4C524FD781BA0758001E8D84E3439C",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopSyncFixes.World.cs",
+          "sha256": "9AFF7BE95F9BAE67E13C312F1C532526646D16209A400EA29A093C458E653299",
+          "patchedSha256": null
+        },
+        {
+          "name": "RouteGeneratedGraphGuard.cs",
+          "sha256": "E436DF0830F81C9B203920300480AC4C2EC39C60F8E101EFB486711538FEB73A",
+          "patchedSha256": null
+        },
+        {
+          "name": "RoutePortalProgress.cs",
+          "sha256": "320CCD1C588A6F16392A87662C723D57F5563920ED13FFCC023795B64591D68E",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "B2F353E681C9BF5A01E71409833B140B31C01E259CD1258D2779AB219241AA82",
+      "rootsSha256": null
+    },
+    {
+      "name": "CoopOpt",
+      "excluded": false,
+      "manifestSha256": "C101AEA48198F9F801CC08014DC14367FDE8344C41961DB278534CC5DF08F822",
+      "originalDllSha256": "B9611C93336D39F4A996A23F3A9C3C04152FDF785EA5C24E40E1AAB392159932",
+      "sources": [
+        {
+          "name": "CoopOpt.cs",
+          "sha256": "8B0793EF2BF2355D4128CCFFF6202355F37C219C5E240C692ACD272BAF5747D7",
+          "patchedSha256": null
+        },
+        {
+          "name": "OptCore.cs",
+          "sha256": "1EB5CFB86B88316D9B3C342F7E2D001DF0B81FD186D316DCB5A1B0FC3FBDEFC2",
+          "patchedSha256": "9E3A16CE783C07560A5661B5C1FD758698542E6A3766D9F210B4AD3B7566CB4F"
+        },
+        {
+          "name": "OptHost.cs",
+          "sha256": "F495057669E19186533B51AB0847CBAEC48C91E5760666A971ABFDAEE76412AA",
+          "patchedSha256": "2057209062D8876101F82B3085133DC60EE37A2C17481F633920431D430B02B5"
+        },
+        {
+          "name": "OptHostMobs.cs",
+          "sha256": "47533319691749BBD21822A5CA8C4AC3750F2FDF9DAD12091233F073FEC0DB84",
+          "patchedSha256": null
+        },
+        {
+          "name": "OptHostRules.cs",
+          "sha256": "6E459A3AC81BBC88A887C0A5970E4F364639E09E36DD7ED92EA4DF0627ACE120",
+          "patchedSha256": null
+        },
+        {
+          "name": "OptHostTargets.cs",
+          "sha256": "9681A33C4A01C6233E534FAC9D580EBE97962BF9D87F914C7A8383C2A8B2C693",
+          "patchedSha256": null
+        },
+        {
+          "name": "OptClient.cs",
+          "sha256": "0889FE420F9874C8CB704E08EDDC89AF794D0C3515DAF9F2ADB76F8833B3BCFA",
+          "patchedSha256": "C28A5EC5CCFE2331B0FE8B7D2F631755F0F6A6EE2C1B5311025C4713E90D3672"
+        },
+        {
+          "name": "OptClientRules.cs",
+          "sha256": "4ABC30724EFD334334067B984531B2A0EA6A8E5FAB8BCF9D5B9405BD94C8EEB7",
+          "patchedSha256": null
+        },
+        {
+          "name": "OptMinimap.cs",
+          "sha256": "7D45014D9A3C749114589DBB8DC36DC7895BE7AF4FEF73B31A870E8B0AEFDB72",
+          "patchedSha256": "63924D40AB77059D655E1113FE88D08D61E27CF2BE0BD4389FC100F8F2E49553"
+        },
+        {
+          "name": "OptMinimapRules.cs",
+          "sha256": "733412FFF0794500CB4C203C48FB0C05C956490EF6EACFF135D788AF134B398F",
+          "patchedSha256": null
+        }
+      ],
+      "editsSha256": "39380DBD577B2D098684F9A7AF056048522CFBADAA9CF7D8AB7AC6B43253EBF3",
+      "rootsSha256": null
+    }
+  ],
+  "references": {
+    "gameProxy": "2A1803BA27DB053A21CD854CA4F720C5F5D874FE384F72603CA524F21BB98259",
+    "base": "378BE6B0B8517A2C2F50A7A95DD240A4F9026F34AE0FDE1A40576D0E77520D28",
+    "worker": "3D574B4977FD91F2DE7CC3292254678CAABA874BC0A646A5CC05C7BD16DF2C8B",
+    "host": [
+      {
+        "name": "0Harmony.dll",
+        "sha256": "70E7647876B6C3D874EA99B56627A95D1DCE2E1DD791981A002578A2FEBC9BBD"
+      },
+      {
+        "name": "BytecodeMapping.dll",
+        "sha256": "9056B2429930F9124A448C9A1DCC7ED41419C2CFEC24F204AE40257AEFB44851"
+      },
+      {
+        "name": "DCCMShell.dll",
+        "sha256": "A108B5A1A934A1C2874165A75DFC21954634F59AC7C74AC837FCC9160BFFA6BC"
+      },
+      {
+        "name": "GameRes.Core.dll",
+        "sha256": "4AA1EC27766209FDFA81043BE8D3918FA1154EA1B2FDB670EF7B82F3D43B3700"
+      },
+      {
+        "name": "HashlinkNET.Bytecode.dll",
+        "sha256": "A49920D424DE342EA67DEE3D0A07A00FB3AB5F535A8A41E874AFE2CC29C19C38"
+      },
+      {
+        "name": "HashlinkNET.Compiler.dll",
+        "sha256": "4E6E19C786FF26475A1FEFC6D3A0F718EA429A901770F4FDD68A81F388602B62"
+      },
+      {
+        "name": "HashlinkSharp.dll",
+        "sha256": "207FC8DD54D8A0A804E4051F90D2375F2C58CF6E69EFC26EF3E7EC502DFE8B63"
+      },
+      {
+        "name": "HaxeDocs.dll",
+        "sha256": "EEDBD1F09078CCD175507727FB1294E5081640A4D9815E3A8901F55D65E37A81"
+      },
+      {
+        "name": "HaxeProxy.dll",
+        "sha256": "0DF9697335FFDBA4461E599CEE063BC41E4B76C881CCAEDB08AE16DC4A27A8B2"
+      },
+      {
+        "name": "K4os.Hash.xxHash.dll",
+        "sha256": "19D73FA58C1F6C12C61F30EAAD91881BD06F50CAF4B462B061BC1B45D0A577CD"
+      },
+      {
+        "name": "MemoryPack.Core.dll",
+        "sha256": "6DC7785EEA92DC72B9EA4D9D9B08C585CE87C11EC6B8388D00A179AF694CF6BE"
+      },
+      {
+        "name": "ModCore.Common.dll",
+        "sha256": "0BCB0F339F63715ADDD4833108C30B5E226C7355E9048A999C6ACCD2D90D502F"
+      },
+      {
+        "name": "ModCore.dll",
+        "sha256": "630FBBCEDFE8B2E66C5F75234BE80C2EC42FB178C30706E7398583D9FA1A14AE"
+      },
+      {
+        "name": "ModCore.Native.dll",
+        "sha256": "427F1F34DB8EF61A1318D8A183F36815DBB62B375FEE9E2575C496925BA2FA0A"
+      },
+      {
+        "name": "Mono.Cecil.dll",
+        "sha256": "831DCA77470D85CB6FFBEA3072DAA7A3DF5B7C9FCFD9C3F43674A9BE99D4BFCF"
+      },
+      {
+        "name": "Mono.Cecil.Mdb.dll",
+        "sha256": "28CB367972BDC1CD43E4006306AF2FD96D37F4ED4B239EE90E1DC7237A93AF7F"
+      },
+      {
+        "name": "Mono.Cecil.Pdb.dll",
+        "sha256": "A332332633FBCB20E8D50E49B4DB7BD1557721417122CF0C5F4C42F2332391D0"
+      },
+      {
+        "name": "Mono.Cecil.Rocks.dll",
+        "sha256": "BF992F3DCE364EBCC3200FA7832EF07E20B4E2DBC3A8A6213CE44E3D239DB984"
+      },
+      {
+        "name": "MonoMod.Backports.dll",
+        "sha256": "AC3F32BFD44AAB83ABF71ABDFF6DDE548D57B7C0F8A1FE6D8964E348B4EEAFB1"
+      },
+      {
+        "name": "MonoMod.Core.dll",
+        "sha256": "E8825F6974D496F4E158D2B02D79E49B04261705B806829C604B1DD867C55D15"
+      },
+      {
+        "name": "MonoMod.Iced.dll",
+        "sha256": "6F6355BCF21159073C777F36B51F3EDAE7177502B530B8EBA97DAF32F00C239E"
+      },
+      {
+        "name": "MonoMod.ILHelpers.dll",
+        "sha256": "FDD0E3538340FD78B8F521E62B8CAC1EBB7683AC1F27F6AAEDFC1044B14BF4BB"
+      },
+      {
+        "name": "MonoMod.RuntimeDetour.dll",
+        "sha256": "FB1029F51A93CC5FCD5A1E1AC7E87D8FB6C03DBD893AAEE684F7DF69E834C155"
+      },
+      {
+        "name": "MonoMod.Utils.dll",
+        "sha256": "987ADECB948EE6D6D0D82BA588F8BA41E7C3D38A0EFCC46A5A14A4343333EF29"
+      },
+      {
+        "name": "Newtonsoft.Json.dll",
+        "sha256": "A28C251DFE36D881E9E2462E171441B8B0EC156FE3F452602C9149B1B9EFE05B"
+      },
+      {
+        "name": "NonPublicNativeMembers.dll",
+        "sha256": "F5792AA259A6FE0A06CE5A8E9D91F670972C7C3C9AB3BC83E9CFCAE7180D7B14"
+      },
+      {
+        "name": "SDL3-CS.dll",
+        "sha256": "310BC028FCC515154AFB985A191AB6B5E3914EF3C965BEA3336A4E6722C69295"
+      },
+      {
+        "name": "Serilog.dll",
+        "sha256": "3EE17790B1BF00EABCA2176288DE6C058977BC5B07E6D9839CF6A88433D72311"
+      },
+      {
+        "name": "Serilog.Sinks.Console.dll",
+        "sha256": "DC88002DDD9F5FD0FFEC9A6568EF89954671F60F2C9161593EE78932538C1E3E"
+      },
+      {
+        "name": "Serilog.Sinks.File.dll",
+        "sha256": "4F4282671C2AC68284B4DC99F7A76EAC9CBD4E659978CEF642CFF9E6C01B676D"
+      },
+      {
+        "name": "Serilog.Sinks.TextWriter.dll",
+        "sha256": "2BD413584D890899E896C755A216B1997DE7AA8E67AD1FE74E4D948C229C526B"
+      },
+      {
+        "name": "Serilog.Sinks.Trace.dll",
+        "sha256": "7883B9CF29F8D96A33C5D226D5D92A5F15B9D55DB1A9A3B8F9C91311624C9601"
+      },
+      {
+        "name": "SharpPdb.dll",
+        "sha256": "205F04D73C6869EF31DC4BAE8A0D0D65ECE7C603650026E8D315601831DB8388"
+      },
+      {
+        "name": "SharpPdb.Windows.dll",
+        "sha256": "67065BF2C78D37342828AB42FD469BACF781B4ADBD45DC665BA7F954E5B583DD"
+      },
+      {
+        "name": "SharpUtilities.dll",
+        "sha256": "66AB79BEEA8076CE698C668438B39CD18940BDFE39A3CCE898895BEDA69098B0"
+      },
+      {
+        "name": "StbImageSharp.dll",
+        "sha256": "0FF268F51876E7924192C70A164BAC8DA402ED0A3CA30E9D2A2840E7F0DEDA84"
+      },
+      {
+        "name": "StbImageWriteSharp.dll",
+        "sha256": "70921000BEB9CA762A8ACDB93AC6F6C39DB8A351A6FA12ACA3EDDBC652855F04"
+      },
+      {
+        "name": "Steamworks.NET.dll",
+        "sha256": "88542B6163D3BF1597E80ED626E38D9D8CEECF7A363892017DFE158B3CC0A7E2"
+      },
+      {
+        "name": "System.IO.Hashing.dll",
+        "sha256": "F887F4F0DEF418C9FD4195B48F0ADF76BC1D2496767A8D302595192A8BA13AA9"
+      }
+    ]
+  }
+}

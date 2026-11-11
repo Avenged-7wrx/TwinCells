@@ -1,0 +1,25 @@
+[
+  {
+    "file": "RuneDropPatch.cs",
+    "before": "56BBD4D6A9EB6DF7B6DB1ABD03E2FE07CD2D87C859DADC8BA18647CDEC15F861",
+    "after": "66982A88E0F35B6FCEE85E394B5CCA538460797E59E77E6A97914C63B7FD98FA",
+    "edits": [
+      "S2"
+    ]
+  },
+  {
+    "file": "RuneDropProxyFingerprint.cs",
+    "before": "13F080CF74CE2557FF1DF53E083D2CCB8682CAB52F57869A702AF962E808973B",
+    "after": "FE1545536F32F66E0FD766ACB8FC70D2E6B0D094A9E2AAB66668F7199DC1A038",
+    "edits": [
+      "S1",
+      "S1",
+      "R7",
+      "S1",
+      "R7",
+      "R7",
+      "S1",
+      "S1"
+    ]
+  }
+]

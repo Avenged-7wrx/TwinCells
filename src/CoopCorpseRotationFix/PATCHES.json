@@ -1,0 +1,25 @@
+[
+  {
+    "file": "CorpseRotationPatch.cs",
+    "before": "AD8ACD9314D059AF69765F49B3EDCFD98E1D67D8164E8098384FDD008BBE8D69",
+    "after": "EF9ABC6C78100E618C2DF0679D64A6455EDC75773D692F684F0F81DD30A9CD5F",
+    "edits": [
+      "S2"
+    ]
+  },
+  {
+    "file": "CorpseRotationProxyFingerprint.cs",
+    "before": "F29DC45279DE682C1CFC406B1EC7727BD46CE0159897F0E351495457B06E7509",
+    "after": "B912F44E892232A3F433321638F9C2EA5445A5484DFDBC3E41BA1A110B1F5F12",
+    "edits": [
+      "S1",
+      "S1",
+      "R9",
+      "S1",
+      "R9",
+      "R9",
+      "S1",
+      "S1"
+    ]
+  }
+]

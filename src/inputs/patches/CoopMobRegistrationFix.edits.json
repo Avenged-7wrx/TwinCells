@@ -1,0 +1,10 @@
+[
+  {
+    "id": "S2",
+    "file": "MobRegistrationPatch.cs",
+    "find": "Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(assembly.Location)))",
+    "replace": "global::CoopPackRuntime.PackPins.Sha256(assembly.Location)",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); evaluation order of the || condition unchanged"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "file": "ShrineReplicaPatch.cs",
+    "before": "49D20D7D29263ACD34521B64064FFEB2E085F4B1BF15D732659293F77870063C",
+    "after": "8B9CFF1D80612AB1C346B75477E3691B95B2702E450AB64CCB25C61ACD1846BE",
+    "edits": [
+      "S2",
+      "R1",
+      "R2"
+    ]
+  },
+  {
+    "file": "ShrineProxyFingerprint.cs",
+    "before": "4B440CA98412B7C4F71C0C7F3D7A613638240DECBF392097835893E0D8DAB726",
+    "after": "EAA2DDA3FAE6FDAAA460880AD96E496086AF4383D94C6C807569E4ACA8BA5CB5",
+    "edits": [
+      "S1",
+      "S1",
+      "R6",
+      "S1",
+      "R6",
+      "R6",
+      "S1",
+      "S1"
+    ]
+  }
+]

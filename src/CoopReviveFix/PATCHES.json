@@ -1,0 +1,26 @@
+[
+  {
+    "file": "CoopReviveFix.cs",
+    "before": "5740F9D2FCA229415F298B30FDE2BFE5CA1F6B0FA590E961395DB2BA6D6EDD39",
+    "after": "15D3860E42692035C88D9B551B01384BF4AA78849068916D52DE7AD1F0DAA774",
+    "edits": [
+      "S2"
+    ]
+  },
+  {
+    "file": "ReviveProxyFingerprint.cs",
+    "before": "69D57E287EFDBC630D2275C0CDB93ABAEED13101672368F5EFEC8BFD9AC817B2",
+    "after": "D347DC4FC710A0A06314AFF2122AA4822FBD8059A6EA5CA9E1EF35D870755F49",
+    "edits": [
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1"
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "file": "DeadCameraPatch.cs",
+    "before": "09D7D88DDA2FA96D1DEB6BC282E6345BABF7D2B2E8FE368664556F4266A0B598",
+    "after": "1D8544A55ED56A254769E4653FD7C9623CB539D809BCC567C2ABC7DAF9DA9789",
+    "edits": [
+      "S2"
+    ]
+  },
+  {
+    "file": "DeadCameraProxyFingerprint.cs",
+    "before": "8024467FDDCED7D46C1197C46D82D38249AB087560DE3536D6B030928A1D6009",
+    "after": "166498CCBC3CD1278438DE185F152B03FCD7C12500544B94FB0EC9CB2DCCA2C4",
+    "edits": [
+      "S1",
+      "S1",
+      "R10",
+      "S1",
+      "R10",
+      "R10",
+      "S1",
+      "S1"
+    ]
+  }
+]

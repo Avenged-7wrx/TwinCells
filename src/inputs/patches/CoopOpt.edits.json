@@ -1,0 +1,66 @@
+[
+  {
+    "id": "R11",
+    "file": "OptHost.cs",
+    "find": "foreach(var a in AppDomain.CurrentDomain.GetAssemblies()){var t=a.GetType(\"CoopSyncFixes\",false);if(t!=null)return t;}",
+    "replace": "{var t=global::CoopPackRuntime.PackParts.FindType(\"CoopSyncFixes\",\"CoopSyncFixes\");if(t!=null)return t;}",
+    "count": 1,
+    "note": "FindOwnerModule (OptHost.cs:285): the CSF owner is the present CSF part of this assembly (same lookup as R1/R4); a failed or switched-off CSF reads as absent, as a missing module does standalone"
+  },
+  {
+    "id": "R12",
+    "file": "OptHost.cs",
+    "find": "if(string.IsNullOrEmpty(owner.Assembly.Location)||Hash(owner.Assembly.Location)!=R.OwnerModulePin)throw new InvalidOperationException(\"CoopSyncFixes is not the pinned build\");",
+    "replace": "if(string.IsNullOrEmpty(owner.Assembly.Location)||owner.Assembly!=typeof(OptHost).Assembly)throw new InvalidOperationException(\"CoopSyncFixes is not the pinned build\");",
+    "count": 1,
+    "note": "BindOwner (OptHost.cs:298): same form as R4 (PlayerTint.cs:120): in CoopPack the owner must be this assembly; its identity is the build-time source pin (G1a) and IL equality (G4). Drops the only use of the FFF00CA3 literal (removedStrings)"
+  },
+  {
+    "id": "R12",
+    "file": "OptHost.cs",
+    "find": "Pin(prefix,R.OwnerPins);Pin(field,R.OwnerPins);Pin(salt,R.OwnerPins);",
+    "replace": "/* R12: in CoopPack the owner's IL is pinned at build time (G1a, G4), not by raw IL bytes, whose metadata tokens differ in a merged assembly */",
+    "count": 1,
+    "note": "BindOwner (OptHost.cs:302); exact signature checks at :299-301 stay. Measured: FFF00CA3 IL 74/23/480 bytes = OptHostRules.cs:208-210; the merged CoopPack has other bytes (same lengths)"
+  },
+  {
+    "id": "R13",
+    "file": "OptClient.cs",
+    "find": "if(il!=null&&il.Length==CsfLevelPrefixIl&&Convert.ToHexString(SHA256.HashData(il))==CsfLevelPrefixSha)return m.Name;",
+    "replace": "if(il!=null&&il.Length==CsfLevelPrefixIl&&m.Module.Assembly==typeof(OptClient).Assembly&&m.DeclaringType!=null&&m.DeclaringType.FullName==\"CoopSyncFixes\")return m.Name;",
+    "count": 1,
+    "note": "PatchName (OptClient.cs:324): owner id and method name are already checked at :320; IL length is token-independent (74 in both, measured)"
+  },
+  {
+    "id": "S2",
+    "file": "OptCore.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S2",
+    "file": "OptHost.cs",
+    "find": "static string Hash(string path)=>R.Sha256(File.ReadAllBytes(path));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read (OptHostRules.Sha256 is Convert.ToHexString(SHA256.HashData(..)), OptHostRules.cs:168)"
+  },
+  {
+    "id": "S2",
+    "file": "OptClient.cs",
+    "find": "Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(a.Location)))!=pin",
+    "replace": "global::CoopPackRuntime.PackPins.Sha256(a.Location)!=pin",
+    "count": 1,
+    "note": "PinFile (OptClient.cs:158): memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S2",
+    "file": "OptMinimap.cs",
+    "find": "R.Sha256(File.ReadAllBytes(a.Location))!=pin",
+    "replace": "global::CoopPackRuntime.PackPins.Sha256(a.Location)!=pin",
+    "count": 1,
+    "note": "PinFile (OptMinimap.cs:214): memoized file SHA-256 (PackPins); same value, same exception on a failed read (OptMinimapRules.Sha256 is Convert.ToHexString(SHA256.HashData(..)), OptMinimapRules.cs:406)"
+  }
+]

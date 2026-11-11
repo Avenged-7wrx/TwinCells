@@ -1,0 +1,50 @@
+[
+  {
+    "id": "S2",
+    "file": "CallbackFinalization.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S2",
+    "file": "PlayerTint.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S2",
+    "file": "HotPaths.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S2",
+    "file": "PositionGate.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "R4",
+    "file": "PlayerTint.cs",
+    "find": "foreach(var assembly in AppDomain.CurrentDomain.GetAssemblies()){OwnerType=assembly.GetType(\"CoopSyncFixes\",false);if(OwnerType!=null)break;}",
+    "replace": "OwnerType=global::CoopPackRuntime.PackParts.FindType(\"CoopSyncFixes\",\"CoopSyncFixes\");",
+    "count": 1,
+    "note": "CSF owner = present CSF part of this assembly; null keeps waiting, then OwnerAbsent after 3600 frames as before"
+  },
+  {
+    "id": "R4",
+    "file": "PlayerTint.cs",
+    "find": "||Hash(OwnerType.Assembly.Location)!=OwnerModulePin){State=Mode.OwnerAbsent;return;}",
+    "replace": "||OwnerType.Assembly!=typeof(PlayerTint).Assembly){State=Mode.OwnerAbsent;return;}",
+    "count": 1,
+    "note": "owner must be the in-pack CSF (same assembly) instead of the FFF00CA3 file; member/palette checks unchanged"
+  }
+]

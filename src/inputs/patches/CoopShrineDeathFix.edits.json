@@ -1,0 +1,98 @@
+[
+  {
+    "id": "S2",
+    "file": "ShrineLateDeathPatch.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "R3",
+    "file": "ShrineLateDeathPatch.cs",
+    "find": "    static Type Companion(string type,string pin,bool requireEnabled)\n    {\n        var target=AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType(type,false)).Single(t=>t!=null);\n        if(Hash(target.Assembly.Location)!=pin)throw new InvalidOperationException(\"Exact companion required: \"+type);\n",
+    "replace": "    static Type Companion(string type,string part,bool requireEnabled)\n    {\n        // CoopPack: the companion is a part of this assembly; it counts only while that part is present (not failed, not switched off).\n        var target=global::CoopPackRuntime.PackParts.FindType(part,type)??throw new InvalidOperationException(\"Exact companion required: \"+type);\n",
+    "count": 1,
+    "note": "companion = present part of this assembly instead of an assembly-file hash; requireEnabled checks unchanged"
+  },
+  {
+    "id": "R3",
+    "file": "ShrineLateDeathPatch.cs",
+    "find": "Source=Companion(\"ShrineReplicaPatch\",SourcePin,true);F=Companion(\"CoopSyncFixes\",FixesPin,false);",
+    "replace": "Source=Companion(\"ShrineReplicaPatch\",\"CoopShrineFix\",true);F=Companion(\"CoopSyncFixes\",\"CoopSyncFixes\",false);",
+    "count": 1,
+    "note": "calls name the owning part instead of the file pin"
+  },
+  {
+    "id": "R3",
+    "file": "ShrineLateDeathPatch.cs",
+    "find": "Companion(\"MobRegistrationPatch\",RegistrationPin,true);",
+    "replace": "Companion(\"MobRegistrationPatch\",\"CoopMobRegistrationFix\",true);",
+    "count": 1,
+    "note": "call names the owning part instead of the file pin"
+  },
+  {
+    "id": "S1",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "        byte[] bytes=File.ReadAllBytes(proxy.Location);\n\n        var pins=new Dictionary<string,string>(StringComparer.Ordinal);\n        foreach(var assembly in new[]{typeof(ModCore.Mods.ModBase).Assembly,typeof(HashlinkNET.Compiler.HashlinkCompiler).Assembly,\n            typeof(ModuleDefinition).Assembly,typeof(HaxeProxy.Runtime.HaxeProxyBase).Assembly})\n        {\n            byte[] image=File.ReadAllBytes(assembly.Location);\n            using(var stream=new MemoryStream(image,false))using(var parsed=AssemblyDefinition.ReadAssembly(stream))\n                if(parsed.MainModule.Mvid!=assembly.ManifestModule.ModuleVersionId || parsed.Name.FullName!=assembly.FullName)\n                    throw new InvalidOperationException(\"Loaded generator identity differs from its file\");\n            pins.Add(assembly.GetName().Name,Convert.ToHexString(SHA256.HashData(image)));\n        }\n        ValidateImage(bytes,proxy.ManifestModule.ModuleVersionId,proxy.FullName,pins);\n        Serilog.Log.Information(\"[CoopShrineDeathFix] Generated GameProxy ABI/IL verified: raw={RawSha256} symbolic={SymbolicSha256}\",\n            Convert.ToHexString(SHA256.HashData(bytes)),FingerprintPin);\n",
+    "replace": "        var image=global::CoopPackRuntime.PackProxyImage.Acquire(proxy);\n        try\n        {\n            ValidateImage(image,proxy.ManifestModule.ModuleVersionId,proxy.FullName,image.Generators);\n            Serilog.Log.Information(\"[CoopShrineDeathFix] Generated GameProxy ABI/IL verified: raw={RawSha256} symbolic={SymbolicSha256}\",\n                image.RawSha256,FingerprintPin);\n        }\n        finally{image.Release();}\n",
+    "count": 1,
+    "note": "S1: one GameProxy read/hash/generator check per process (PackProxyImage); log line unchanged"
+  },
+  {
+    "id": "S1",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "public static void ValidateImage(byte[] bytes,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators)",
+    "replace": "public static void ValidateImage(global::CoopPackRuntime.PackProxyImage image,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators)",
+    "count": 1,
+    "note": "S1: the checked image comes from PackProxyImage; generator pin comparison unchanged"
+  },
+  {
+    "id": "R8",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "        using(var stream=new MemoryStream(bytes,false))using(var assembly=AssemblyDefinition.ReadAssembly(stream))\n        {\n            if(assembly.Modules.Count!=1 || assembly.MainModule.Mvid!=loadedMvid || assembly.Name.FullName!=loadedName)\n                throw new InvalidOperationException(\"Loaded GameProxy identity differs from the checked image\");\n            if(LateShrineProxyFingerprint.Compute(assembly,typeof(ShrineLateDeathPatch).Assembly.Location).Sha256!=FingerprintPin)\n                throw new InvalidOperationException(\"CoopShrineDeathFix unsupported symbolic proxy ABI/IL\");\n        }\n",
+    "replace": "        {\n            var assembly=image.Definition;\n            if(assembly.Modules.Count!=1 || assembly.MainModule.Mvid!=loadedMvid || assembly.Name.FullName!=loadedName)\n                throw new InvalidOperationException(\"Loaded GameProxy identity differs from the checked image\");\n            if(LateShrineProxyFingerprint.Compute(image).Sha256!=FingerprintPin)\n                throw new InvalidOperationException(\"CoopShrineDeathFix unsupported symbolic proxy ABI/IL\");\n        }\n",
+    "count": 1,
+    "note": "frozen roots instead of typeof(ShrineLateDeathPatch).Assembly.Location (CoopPack.dll would be the union of all parts); identity checks and FingerprintPin throw unchanged"
+  },
+  {
+    "id": "S1",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "readonly Dictionary<string,List<CustomAttribute>> bindings=new(StringComparer.Ordinal);",
+    "replace": "readonly Dictionary<string,List<CustomAttribute>> bindings;",
+    "count": 1,
+    "note": "S1: bindings come from the shared image (same :88-93 loop, read-only use)"
+  },
+  {
+    "id": "R8",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "    LateShrineProxyFingerprint(AssemblyDefinition value,string consumerPath)\n    {\n        assembly=value;\n        using(var consumer=AssemblyDefinition.ReadAssembly(consumerPath))\n        {\n            bool Native(TypeReference type)\n            {\n                while(type is TypeSpecification spec)type=spec.ElementType;\n                return type.Scope is AssemblyNameReference scope && scope.Name==\"GameProxy\";\n            }\n            RootMethods=consumer.MainModule.GetMemberReferences().OfType<MethodReference>().Where(m=>Native(m.DeclaringType))\n                .Select(m=>m is GenericInstanceMethod gi?gi.ElementMethod.FullName:m.FullName).Distinct(StringComparer.Ordinal).OrderBy(x=>x,StringComparer.Ordinal).ToArray();\n            RootTypes=consumer.MainModule.GetTypeReferences().Where(Native).Select(t=>t.FullName).Distinct(StringComparer.Ordinal).OrderBy(x=>x,StringComparer.Ordinal).ToArray();\n            if(RootMethods.Length<10 || RootTypes.Length<8)throw new InvalidOperationException(\"Incomplete shrine native roots\");\n        }\n        // This generator can emit duplicate names for unrelated private closure classes.\n        // A referenced type must still resolve uniquely; unrelated closures are outside this contract.\n        types=AllTypes(value.MainModule.Types).GroupBy(t=>t.FullName,StringComparer.Ordinal).ToDictionary(g=>g.Key,g=>g.ToArray(),StringComparer.Ordinal);\n        foreach(var attr in value.CustomAttributes.Where(a=>a.AttributeType.FullName==\"HaxeProxy.Runtime.Internals.HaxeProxyBindingAttribute\"))\n        {\n            string target=BindingTarget(attr);\n            if(!bindings.TryGetValue(target,out var list))bindings.Add(target,list=new List<CustomAttribute>());\n            list.Add(attr);\n        }\n    }\n",
+    "replace": "    LateShrineProxyFingerprint(global::CoopPackRuntime.PackProxyImage image,string[] rootTypes,string[] rootMethods)\n    {\n        assembly=image.Definition;this.image=image;\n        {\n            // Frozen roots (roots\\CoopShrineDeathFix-B8933B97.txt): exactly what the reviewed B8933B97 build extracted here from its\n            // own compiled GameProxy references (:80-82). Inside CoopPack.dll that extraction would see every part.\n            RootMethods=rootMethods;\n            RootTypes=rootTypes;\n            if(RootMethods.Length<10 || RootTypes.Length<8)throw new InvalidOperationException(\"Incomplete shrine native roots\");\n        }\n        // This generator can emit duplicate names for unrelated private closure classes.\n        // A referenced type must still resolve uniquely; unrelated closures are outside this contract.\n        types=image.TypesByFullName;\n        bindings=image.Bindings;\n    }\n",
+    "count": 1,
+    "note": "frozen consumer roots instead of reading the consumer assembly; minimum-root check kept; types/bindings from the shared image (S1)"
+  },
+  {
+    "id": "R8",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "    public static Result Compute(byte[] bytes,string consumerPath)\n    {using(var s=new MemoryStream(bytes,false))using(var a=AssemblyDefinition.ReadAssembly(s))return Compute(a,consumerPath);}\n    public static Result Compute(AssemblyDefinition value,string consumerPath)=>new LateShrineProxyFingerprint(value,consumerPath).Run();\n",
+    "replace": "    public static Result Compute(global::CoopPackRuntime.PackProxyImage image)\n    {return Compute(image,global::CoopPackRuntime.FrozenRoots.LateShrineTypes,global::CoopPackRuntime.FrozenRoots.LateShrineMethods);}\n    public static Result Compute(global::CoopPackRuntime.PackProxyImage image,string[] rootTypes,string[] rootMethods)=>new LateShrineProxyFingerprint(image,rootTypes,rootMethods).Run();\n",
+    "count": 1,
+    "note": "entry points over a PackProxyImage with the frozen roots (or explicit roots for offline mutation checks)"
+  },
+  {
+    "id": "S1",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "foreach(var name in RootMethods)AddMethod(types.Values.SelectMany(group=>group).SelectMany(t=>t.Methods).Single(v=>v.FullName==name));",
+    "replace": "foreach(var name in RootMethods)AddMethod(image.MethodsByFullName(name).Single(v=>v.FullName==name));",
+    "count": 1,
+    "note": "S1: FullName index instead of a linear scan of all GameProxy methods per root; same .Single outcome and exception"
+  },
+  {
+    "id": "S1",
+    "file": "LateShrineProxyFingerprint.cs",
+    "find": "        throw new InvalidOperationException(\"Unreviewed symbolic value \"+v.GetType().FullName);\n    }\n",
+    "replace": "        throw new InvalidOperationException(\"Unreviewed symbolic value \"+v.GetType().FullName);\n    }\n    // CoopPack S1: the GameProxy image this walk reads (types, bindings, method index). Declared last so no member\n    // ordinal (and so no compiler-generated name) of the original members changes.\n    readonly global::CoopPackRuntime.PackProxyImage image;\n",
+    "count": 1,
+    "note": "S1: image field, appended after all original members"
+  }
+]

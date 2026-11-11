@@ -1,0 +1,18 @@
+[
+  {
+    "id": "S2",
+    "file": "ChainCache.cs",
+    "find": "Hex(File.ReadAllBytes(assembly.Location))",
+    "replace": "global::CoopPackRuntime.PackPins.Sha256(assembly.Location)",
+    "count": 1,
+    "note": "Hex(bytes) is Convert.ToHexString(SHA256.HashData(bytes)) (ChainCache.cs:110), so the value is identical"
+  },
+  {
+    "id": "S2",
+    "file": "ChainCache.cs",
+    "find": "Hex(File.ReadAllBytes(harmonyAssembly.Location))",
+    "replace": "global::CoopPackRuntime.PackPins.Sha256(harmonyAssembly.Location)",
+    "count": 1,
+    "note": "Hex(bytes) is Convert.ToHexString(SHA256.HashData(bytes)) (ChainCache.cs:110), so the value is identical"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "file": "ShrineLateDeathPatch.cs",
+    "before": "F7D57D3CEEB5C9D1E3AD0D188B473096C48DD00DF2C4072DC9C254A9421A471B",
+    "after": "66D17286CF5371BFDEF11D0952CCB7636B2F83922F44F4DFF315EC2C1AB6572E",
+    "edits": [
+      "S2",
+      "R3",
+      "R3",
+      "R3"
+    ]
+  },
+  {
+    "file": "LateShrineProxyFingerprint.cs",
+    "before": "73262C840371478E6A732046828D414F3A470776946DED7D8F120D87A5582670",
+    "after": "5D5FD8F25FC87A00A7AC7EA80A4305E6468A7C1DA4D7765E5C6666433B910F67",
+    "edits": [
+      "S1",
+      "S1",
+      "R8",
+      "S1",
+      "R8",
+      "R8",
+      "S1",
+      "S1"
+    ]
+  }
+]

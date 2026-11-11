@@ -1,0 +1,10 @@
+[
+  {
+    "id": "S2",
+    "file": "DialogPresencePatch.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  }
+]
