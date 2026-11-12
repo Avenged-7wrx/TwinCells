@@ -1,6 +1,6 @@
 # Third-party notices
 
-Twin Cells' own code is released under the MIT licence in [LICENSE](LICENSE). This repository contains source code only. It ships no binaries, no third-party files and no game files. Twin Cells depends on the projects below, and each one keeps its own licence.
+Twin Cells' own code is released under the MIT licence in [LICENSE](LICENSE). The git tree contains source code only: no binaries, no third-party files and no game files. The installer attached to the GitHub release redistributes the official releases of DCCM 35.13.5 and DeadCellsMultiplayerMod 0.5.1 unchanged (the latter includes Valve's `steam_api64.dll`), with their licence texts in the installer's `base/licenses` folder. The installer contains no game files: it copies the player's own Steam installation. Twin Cells depends on the projects below, and each one keeps its own licence.
 
 ## 1. DeadCellsMultiplayerMod
 

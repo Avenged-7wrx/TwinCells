@@ -56,7 +56,7 @@ The base mod DeadCellsMultiplayerMod and the separate `LocalSaveIsolation` mod a
 
 ## Getting Twin Cells
 
-**This repository holds the source code only. There is nothing to download or install from it.** For now, the ready-made installers are shared directly with testers. They are not published here.
+**The ready-made installer is attached to the [Alpha1 release](https://github.com/Avenged-7wrx/TwinCells/releases/tag/v0.1.0-alpha):** `DeadCells-Coop-Full-Install-Alpha1-2026-11-11.zip`, SHA-256 `BDAC011E117D1CC7530D835762DD66212DCFD35FD18B05DE3E9559F3647A9D1F`, with step-by-step instructions in Russian. The repository itself holds the source code only.
 
 What a player needs:
 - Windows 10 or 11, 64-bit. Only Windows 11 was tested.
@@ -97,7 +97,7 @@ Names such as Load1 and Lobby1 below are earlier tester updates of the separate 
 
   Each comparison run was paired with the same run using the same 19 parts as separate mods, and the results matched.
 - **Update kit (shared with testers):** 708/708 installer tests under Windows PowerShell 5.1, and 708/708 again under PowerShell 7. These runs used a pre-release kit with the same updater script as the release kit. They ran on test copies of each of the five earlier states that the kit can update (Death1, Anchor1-Dialog1, Frame1, Load1 and Load1-Lobby1) and covered install, re-run, byte-exact undo, refusals and restoring files after a failure at every step. The final release kit was re-checked with the quick suite: 522/522 under Windows PowerShell 5.1. The game was not started in these tests.
-- **Full installer (shared with testers):** 140/140 end-to-end checks of the final installer on a real Steam game under Windows PowerShell 5.1, the shell that the installer's launcher uses. A PowerShell 7 run of the same installer passed 138/140; the two failed checks guard the test environment (files outside the test changed during the run), not the installer's result. The game was not started in these tests.
+- **Full installer (the release download):** 140/140 end-to-end checks of the final installer on a real Steam game under Windows PowerShell 5.1, the shell that the installer's launcher uses. A PowerShell 7 run of the same installer passed 138/140; the two failed checks guard the test environment (files outside the test changed during the run), not the installer's result. The game was not started in these tests.
 
 **Not tested:**
 - Steam lobbies, Steam invites and joining through Steam. All in-game runs used `127.0.0.1`.
@@ -128,7 +128,7 @@ This is an alpha. If something breaks, or behaves differently than with the sepa
 | `THIRD-PARTY-NOTICES.md` | Credits and licences of DeadCellsMultiplayerMod, DCCM and the libraries the sources compile against. |
 | `.gitattributes`, `.gitignore` | Git settings. Every file is kept byte for byte, with no line-ending conversion, because `src/` is pinned by hashes. |
 
-The repository contains no binaries, no installers and no update kits.
+The git tree contains no binaries, no installers and no update kits. The installer is attached to the release (see "Getting Twin Cells").
 
 ## Building
 
