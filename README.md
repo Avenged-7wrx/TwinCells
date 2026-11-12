@@ -1,5 +1,7 @@
 # Twin Cells
 
+<p align="center"><img src="media/twin-cells-cover.jpg" alt="Twin Cells: Dead Cells 2 player co-op mod" width="520"></p>
+
 **A two-player co-op overhaul for Dead Cells.** [Русская версия](README_ru.md)
 
 **Alpha.** Current build: 0.1.0-alpha, release **Alpha1** (2026-11-11). Windows only.
@@ -125,10 +127,12 @@ This is an alpha. If something breaks, or behaves differently than with the sepa
 | `src/` | The source snapshot of CoopPack.dll 0.1.0-alpha (SHA-256 `A05309D4…`, the `sha256` value in `src/build-manifest.json`), unchanged and checked against its manifest. See "Building" below. |
 | `README.md`, `README_ru.md` | This description, in English and Russian. |
 | `LICENSE` | The MIT licence of Twin Cells. |
-| `THIRD-PARTY-NOTICES.md` | Credits and licences of DeadCellsMultiplayerMod, DCCM and the libraries the sources compile against. |
+| `THIRD-PARTY-NOTICES.md` | Credits and licences of DeadCellsMultiplayerMod, DCCM and the libraries the sources compile against. Section 6 covers the third-party components that the release installer redistributes, including LGPL components. |
+| `media/` | The cover image used at the top of this README. |
+| `licenses/` | Licence texts of the third-party components that the release installer redistributes, in `licenses/third-party/` with an index in its `README.md`. `THIRD-PARTY-NOTICES.md`, section 6, says which installer files each text applies to. |
 | `.gitattributes`, `.gitignore` | Git settings. Every file is kept byte for byte, with no line-ending conversion, because `src/` is pinned by hashes. |
 
-The git tree contains no binaries, no installers and no update kits. The installer is attached to the release (see "Getting Twin Cells").
+The git tree contains no binaries (apart from the cover image), no installers and no update kits. The installer is attached to the release (see "Getting Twin Cells").
 
 ## Building
 
@@ -149,3 +153,5 @@ Twin Cells is released under the [MIT licence](LICENSE), Copyright (c) 2026 Twin
 Most parts in `src/` were first released by this project as separate DCCM mods under the MIT licence, with the copyright line "Local Dead Cells Sync Fixes contributors" (see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), section 4).
 
 DeadCellsMultiplayerMod (Copyright (c) 2025 Alexey) and DCCM (Copyright (c) 2025-2026 Dead Cells Core Modding) are MIT-licensed by their authors. Their licence texts are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+The release installer redistributes DCCM's and DeadCellsMultiplayerMod's official release archives unchanged. DCCM's archive also contains third-party components under their own licences, including LGPL components. They are listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), section 6, with links to their source, and their licence texts are in [`licenses/third-party`](licenses/third-party/README.md).
