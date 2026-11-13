@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "kit": "Alpha2",
+  "releaseReady": true,
+  "gated": false,
+  "placeholderPayload": false,
+  "fromPackages": [
+    "DeadCells-Coop-Test-2026-11-08-B893-Steam1-Death1-Anchor1-Dialog1-Frame1-Load1-Lobby1-Alpha1"
+  ],
+  "toPackage": "DeadCells-Coop-Test-2026-11-08-B893-Steam1-Death1-Anchor1-Dialog1-Frame1-Load1-Lobby1-Alpha1-Alpha2",
+  "fromModuleVersion": "0.1.0-alpha",
+  "moduleVersions": {
+    "CoopPack": "0.2.0-alpha"
+  },
+  "fromStateTable": [
+    "state|A|the owner's copy: an adopted 2026-11-08 test copy, updated step by step and then by the Alpha1 update kit",
+    "state|B|a copy made by the Alpha1 full installer (2026-11-08 base kit + All-Updates 2026-11-10 + Alpha1 update)",
+    "file|coremod/ModCoreVersion.txt|5D44411064C0A2DF989149571D4D16D6095EE0BB943431E4A98D7DA0F761DC4F",
+    "file|coremod/plugins/ModCore.ModLoader.Default/ModCore.ModLoader.Default.dll|CE5A7939AFDC6D62AB014180B29F8FF5BAA7669FAF484DE3F4CE3970D5118AE8",
+    "file|coremod/plugins/ModCore.ModLoader.Default/ModCore.ModLoader.Default.pdb|14930B0DDC06ACB6B8C848911569533ADC5A2ECF80F326A966502502783F120E",
+    "file|coremod/mods/DeadCellsMultiplayerMod/.dcmm-installed-build.json|241C827D5028D7E0FBE3A645542F87C72D6298CE6A8FA3D267D23ECDF314DA70",
+    "file|coremod/mods/DeadCellsMultiplayerMod/DeadCellsMultiplayerMod.dll|378BE6B0B8517A2C2F50A7A95DD240A4F9026F34AE0FDE1A40576D0E77520D28",
+    "file|coremod/mods/DeadCellsMultiplayerMod/DeadCellsMultiplayerMod.pdb|DFB098BB906BC21D0DDBEDFE08799508D2B09856036013952FEB0CC6A064FEBE",
+    "file|coremod/mods/DeadCellsMultiplayerMod/modinfo.json|DC06E5EBDDFF1F3C3DD296092FE5DB6EFDE0AAFCAF375955BFF3F42DE366EBC1",
+    "file|coremod/mods/DeadCellsMultiplayerMod/res.pak|35901F6B8E0522CB152FDCBA92F9C20182B8ABB513521802D0F1D567D891A551",
+    "file|coremod/mods/DeadCellsMultiplayerMod/steam_api64.dll|EB17909A76668CF9AE0B92A618A34A50F6C73D3A6787CB4DD8CE36A8B10BFB75",
+    "file|coremod/mods/LocalSaveIsolation/LocalSaveIsolation.dll|F4226EBF18311342A6813D2ACBA5457AC89759E156E2DFF0697A4243811C4EF7",
+    "file|coremod/mods/LocalSaveIsolation/modinfo.json|85BA727B34ABC54433100FB6EA3041034B17E2C49919A1208CD453D5D2BEC5F3",
+    "file|Launch-Coop.ps1|8F1A86F7C6645CE7070E282D43C46AEB4CC8F53CDA8B699F35CDF6B33BDFD724",
+    "file|Start Dead Cells Coop.cmd|C4C4035EC0E5B0AD256989BFED45854258C99BBEED1C87EDFFBB72AF962751F2",
+    "file|coremod/mods/CoopPack/CoopSteamInviteWorker.dll|3D574B4977FD91F2DE7CC3292254678CAABA874BC0A646A5CC05C7BD16DF2C8B",
+    "file|coremod/mods/CoopPack/CoopPack.dll|A05309D439BC90F52A90C17D9D2928908EAD6051AED22B5AFA95D5BEB2455DAE",
+    "file|coremod/mods/CoopPack/modinfo.json|20A1489F3C02D8CAA194017CC167587A9C0BCB7065780277BEE6696E39E49DB7",
+    "core|330|CF72E17107E5F888759A34C5865F5AE90AC3AA84C58C1D24DAA99CE346F62809"
+  ],
+  "files": [
+    {
+      "file": "coremod/mods/CoopPack/CoopPack.dll",
+      "before": "A05309D439BC90F52A90C17D9D2928908EAD6051AED22B5AFA95D5BEB2455DAE",
+      "after": "3D0A58807946E01A8E68683905EF96A7757185470476AFA5550FB09F6F58C2D1"
+    },
+    {
+      "file": "coremod/mods/CoopPack/modinfo.json",
+      "before": "20A1489F3C02D8CAA194017CC167587A9C0BCB7065780277BEE6696E39E49DB7",
+      "after": "B1316D1AB0F238C7F8FD3BA9764EE76FB20FE10786F0685C70CFE9D54FC4FA98"
+    }
+  ],
+  "unchanged": [
+    {
+      "file": "coremod/mods/CoopPack/CoopSteamInviteWorker.dll",
+      "sha256": "3D574B4977FD91F2DE7CC3292254678CAABA874BC0A646A5CC05C7BD16DF2C8B"
+    },
+    {
+      "file": "Launch-Coop.ps1",
+      "sha256": "8F1A86F7C6645CE7070E282D43C46AEB4CC8F53CDA8B699F35CDF6B33BDFD724"
+    }
+  ],
+  "capabilities": [
+    "+TwinCells-Alpha2",
+    "+csf1.3a",
+    "+csfcine1",
+    "+csfelev1",
+    "+csfelev2"
+  ],
+  "launcher": {
+    "file": "Launch-Coop.ps1",
+    "sha256": "8F1A86F7C6645CE7070E282D43C46AEB4CC8F53CDA8B699F35CDF6B33BDFD724",
+    "change": "none: the Alpha1 launcher stays (COOP_SYNC_DISABLE_COLORS=1)"
+  },
+  "validation": "Twin Cells Alpha2 0.2.0-alpha, CoopPack 3D0A5880, 30 parts. Managed G1-G11 PASS. Native INCOMPLETE: 43 PASS, one REFUSED before staging, 32 NOT_RUN. The original updater core passed 392/392 PS7 checks. Public packaging disables development fault hooks and pins the release authorization. No new final-build performance or two-PC Steam validation is claimed.",
+  "twoPcSteamVerified": false,
+  "build": {
+    "folder": "build-becb85fd5655445796b299b6fc4c313e",
+    "dllSha256": "3D0A58807946E01A8E68683905EF96A7757185470476AFA5550FB09F6F58C2D1",
+    "workerSha256": "3D574B4977FD91F2DE7CC3292254678CAABA874BC0A646A5CC05C7BD16DF2C8B",
+    "modinfoSha256": "B1316D1AB0F238C7F8FD3BA9764EE76FB20FE10786F0685C70CFE9D54FC4FA98",
+    "manifestSha256": "C3DD0D0146A0875028AC08B48386ED7F5B0A690E13419A29BAEE010087B4CA75",
+    "gatesSha256": "63C65E0EC86799BC653F117E93261294903D6DFD2F6027E1388BC70274D40390",
+    "testPackSha256": "2DC6172DFF108EA10F83980AD38F1B07A1CB8953278E9006BA0293E79271C1EF",
+    "sourceVerified": true
+  },
+  "buildManifestSha256": "C3DD0D0146A0875028AC08B48386ED7F5B0A690E13419A29BAEE010087B4CA75",
+  "gateFailures": [
+    "Full native validation was not completed: 43/76 PASS; one REFUSED at the requested stop and 32 NOT_RUN.",
+    "Final PS5/K and new performance validation skipped at the explicit user request; no fully gated release claim."
+  ],
+  "evidence": {
+    "matrixLabel": "a2rel13-r4",
+    "summarySha256": "3BB6BA22B354892D18B6F37C813246E3DFEEF839EA3012C41D4B9F046818FDF0",
+    "rawVerdict": "INCOMPLETE",
+    "pass": 43,
+    "rawFail": 1,
+    "refusedRow": "U9-bv-head-ctl",
+    "refusedResult": "REFUSED",
+    "notRun": 32,
+    "userStopSha256": "97313D07D554E817FBCBEAED7266D2521AE9E91E2C5E77EF8B71BADA6006759D",
+    "priorPs7ReceiptSha256": "DF2ABC92507AD94ABD147FC5B9885839613639E94597ABB24141954D6C9EAAC6"
+  },
+  "deliveryMode": "maintainer-alpha-1",
+  "authorization": {
+    "schema": "alpha2-maintainer-release-1",
+    "kind": "direct-user-request",
+    "approved": true,
+    "requestSummary": "Publish the exact Twin Cells Alpha2 update as a GitHub prerelease.",
+    "requestSha256": "094144695E2E4742AADCE9BF6AA6E28C43B67EA909BEB568A00FB7EB2AC6896E",
+    "recordedUtc": "2026-11-13T13:50:48.414925+00:00",
+    "source": "Repository maintainer publication request",
+    "scope": "Publish the existing Alpha1-to-Alpha2 delta; game binaries unchanged",
+    "fullNativeValidated": false
+  },
+  "validationStatus": {
+    "managed": "PASS",
+    "native": "INCOMPLETE",
+    "fullNativeValidated": false,
+    "nativeMatrix": "a2rel13-r4",
+    "nativeRowsTotal": 76,
+    "nativePass": 43,
+    "nativeRawFail": 1,
+    "nativeRefusedAtUserStop": 1,
+    "nativeNotRun": 32,
+    "ps7OriginalUpdaterChecks": "392/392 PASS",
+    "ps5FinalSuite": "SKIPPED_BY_USER",
+    "installerFinalK": "SKIPPED_BY_USER",
+    "finalPerformance": "SKIPPED_BY_USER",
+    "twoPcSteamVerified": false
+  }
+}

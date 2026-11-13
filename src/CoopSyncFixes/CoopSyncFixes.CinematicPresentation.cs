@@ -32,10 +32,19 @@ public sealed partial class CoopSyncFixes
     private const BindingFlags CineStatic=BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic;
     private static readonly MethodInfo CineUnsafeAnim=CineWeaponSupport.GetMethod("IsUnsafeRemoteGhostAnimation",CineStatic);
     private static long CinePresentationFrames,CinePresentationPositions,CinePresentationAnimations,CinePresentationSent,CinePresentationReceived;
+    // Alpha2 U9 (PLAN-ALPHA2.md issue 2 step 4 and issue 6 R1). Switches: COOP_SYNC_DISABLE_CINEMATIC_BRANCH,
+    // COOP_SYNC_DISABLE_CINEMATIC_HEADS. No initializer here reads the shared Flags field (see above).
+    private static bool CineBranchOff,CineHeadsOff,CineBranchApiLooked;
+    private static Func<bool> CineBranchActive;
+    private static Func<int,string,int,bool,bool> CineBranchHide;
+    private static readonly Dictionary<int,bool> CineBranchSkipped=new();
+    private static readonly List<GhostKing> CinePresentedGhosts=new();
+    private static long CinePresentationBranchSkips,CinePresentationHeads;
 
     private static void InitializeCinematicPresentation(Harmony harmony)
     {
         if(CineModuleInitialized || Disabled("CINEMATIC_PRESENTATION"))return;
+        CineBranchOff=Disabled("CINEMATIC_BRANCH");CineHeadsOff=Disabled("CINEMATIC_HEADS");
         if(CineUnsafeAnim==null)throw new MissingMethodException("Pinned cinematic animation safety filter is unavailable");
         if(ModEntry._net?.IsAlive==true)throw new InvalidOperationException("Initialize cinematic capability before connecting peers");
         foreach(var name in new[]{"BuildHelloLine","BuildWelcomeLine"})
@@ -161,32 +170,97 @@ public sealed partial class CoopSyncFixes
     {
         try {
             if(!CinematicPresentationContext(out var game,out var level)){
-                if(ModEntry._net!=null)CineVisualQueues.Remove(ModEntry._net);return;
+                if(ModEntry._net!=null)CineVisualQueues.Remove(ModEntry._net);CineBranchSkipped.Clear();return;
             }
-            CinePresentationFrames++;var net=ModEntry._net;
+            CinePresentationFrames++;var net=ModEntry._net;CinePresentedGhosts.Clear();
             if(net.TryConsumeRemoteSnapshot(out var snapshots)){
             try {foreach(var remote in snapshots){
+                // A partner in a sub-level or secret room of this map is not presented here (issue 2).
+                if(CinematicRemoteInOtherBranch(level,remote.Id,remote.RoomLevelId,remote.RoomId,remote.HasRoom))continue;
                 var ghost=PresentationGhost(net,level,remote.Id,remote.LevelId);
                 if(ghost==null || !double.IsFinite(remote.X) || !double.IsFinite(remote.Y))continue;
                 ghost.setPosPixel(remote.X,remote.Y);ghost.dir=remote.Dir;CinePresentationPositions++;
                 if(remote.HasAnim)PlayPresentationSprite(ghost.spr,remote.Anim,remote.AnimQueue,remote.AnimG,false);
                 if(remote.HasHeadAnim)PlayPresentationSprite(ghost.head?.customHeadSpr,remote.HeadAnim,null,null,false);
-                // Broad native head effects remain outside the proven presentation path.
-
-
+                CinePresentedGhosts.Add(ghost);
             }}finally {NetNode.ReleaseConsumedList(snapshots);}
             }
+            PresentCinematicHeads(game);
             // Ordered HandleLine callbacks run in the frame's network pump.
             // Apply fresh attack visuals after snapshot locomotion, so an older
             // pending idle ANIM cannot erase a newly arrived swing in this frame.
             if(CineVisualQueues.TryGetValue(net,out var events)){
                 try {foreach(var visual in events){
                     if(visual.Level!=level.HashlinkPointer || visual.Cine!=game.curCine.HashlinkPointer || visual.Expires<Environment.TickCount64)continue;
+                    if(CineBranchSkipped.TryGetValue(visual.Sender,out var otherBranch) && otherBranch)continue;
                     var ghost=PresentationGhost(net,level,visual.Sender,visual.RemoteLevel);
                     if(ghost!=null)PlayPresentationSprite(ghost.spr,visual.Animation,visual.Queue,visual.Flag,true);
                 }}finally {events.Clear();}
             }
         } catch(Exception error){Serilog.Log.Warning(error,"[CoopSyncFixes] Cinematic presentation frame skipped");}
+    }
+
+    // Issue 2 (PLAN-ALPHA2.md step 4): a sub-level shares LevelMap.id with its parent, so the level test of PresentationGhost
+    // alone would move the partner to sub-level coordinates inside this map. With CoopBranchVisibilityFix present and active
+    // its decision is used (same 0.4 s rule as the base path; when it hides, the base's own walkOut/dispose runs, as
+    // ReceiveGhostCoords would run it). Without it: this presenter runs only on a main map (CinematicPresentationContext), whose
+    // ROOM token is 0 for every peer version, so a partner whose ROOM marker for this level is non-zero is not presented.
+    private static bool CinematicRemoteInOtherBranch(Level level,int remoteId,string roomLevel,int? roomId,bool hasRoom)
+    {
+        if(CineBranchOff)return false;
+        bool skip;
+        BindCinematicBranchApi();
+        if(CineBranchHide!=null && CineBranchActive())skip=CineBranchHide(remoteId,roomLevel,roomId??-1,hasRoom);
+        else skip=hasRoom && roomId.HasValue && roomId.Value!=0 && roomLevel==level.map.id.ToString();
+        CineBranchSkipped[remoteId]=skip;
+        if(skip)CinePresentationBranchSkips++;
+        return skip;
+    }
+    private static void BindCinematicBranchApi()
+    {
+        if(CineBranchApiLooked)return;
+        CineBranchApiLooked=true;
+        try {
+            Type api=null;int found=0;
+            foreach(var assembly in AppDomain.CurrentDomain.GetAssemblies()){
+                Type type=null;try {type=assembly.GetType("CoopBranchVisibilityApi",false);} catch {}
+                if(type!=null){api=type;found++;}
+            }
+            var hide=found==1?api.GetMethod("PresentationHide",CineStatic,null,new[]{typeof(int),typeof(string),typeof(int),typeof(bool)},null):null;
+            var active=found==1?api.GetProperty("Active",CineStatic)?.GetGetMethod():null;
+            if(hide?.ReturnType==typeof(bool) && active?.ReturnType==typeof(bool)){
+                CineBranchHide=(Func<int,string,int,bool,bool>)Delegate.CreateDelegate(typeof(Func<int,string,int,bool,bool>),hide);
+                CineBranchActive=(Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>),active);
+            }
+            Serilog.Log.Information("[CoopSyncFixes] Cinematic presenter room check uses {Source}",CineBranchHide!=null?"CoopBranchVisibilityFix":"the ROOM marker only");
+        } catch(Exception error){CineBranchHide=null;CineBranchActive=null;Serilog.Log.Warning(error,"[CoopSyncFixes] Cinematic presenter room check uses the ROOM marker only");}
+    }
+    // Issue 6 R1: during an admitted presentation the base mod's hero tick, and with it UpdateGhostHeads, is gated off by
+    // Game.curCine, so the presented partner's head froze at a stale offset while his body moved. Only Kinghead.updateHeadFx
+    // runs here, on the head the base mod built for that avatar (never ModEntry.UpdateGhostHeads: it can rebuild heads in the
+    // middle of a scene). Kinghead swaps the local hero's lastHeadPos and visible and restores them in a finally
+    // (Kinghead.cs:281-314); both are checked after every call, restored if changed, and the head path then stops.
+    private static void PresentCinematicHeads(Game game)
+    {
+        if(CineHeadsOff || CinePresentedGhosts.Count==0)return;
+        var hero=game.hero;
+        foreach(var ghost in CinePresentedGhosts){
+            var head=PresentedHead(ghost);if(head==null)continue;
+            bool visible=hero.visible;var last=hero.lastHeadPos;var lastPointer=last?.HashlinkPointer??IntPtr.Zero;
+            try {head.updateHeadFx(game.ftime);CinePresentationHeads++;}
+            catch(Exception error){CineHeadsOff=true;Serilog.Log.Warning(error,"[CoopSyncFixes] Cinematic partner head update switched off for this session");return;}
+            if(hero.visible!=visible || (hero.lastHeadPos?.HashlinkPointer??IntPtr.Zero)!=lastPointer){
+                hero.visible=visible;hero.lastHeadPos=last;CineHeadsOff=true;
+                Serilog.Log.Warning("[CoopSyncFixes] Cinematic partner head update changed the local hero; restored and switched off for this session");return;
+            }
+        }
+    }
+    private static DeadCellsMultiplayerMod.KingHead.Kinghead PresentedHead(GhostKing ghost)
+    {
+        var clients=ModEntry.clients;var heads=ModEntry.clientHeads;
+        for(int i=0;i<clients.Length && i<heads.Length;i++)
+            if(clients[i]!=null && clients[i].HashlinkPointer==ghost.HashlinkPointer && heads[i]!=null && heads[i].HashlinkPointer!=IntPtr.Zero)return heads[i];
+        return null;
     }
 
     private static object CineRun(NetNode net)=>Coordinator.GetMethod(net.IsHost?"GetCurrentHostDescriptor":"GetCurrentRemoteDescriptor",Flags).Invoke(null,null);

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "ComboProxyFingerprint.cs",
+    "before": "C58C0266A5999E7202BE921EA5508A3323C3FE7A49FA083873A1DE493F4DF039",
+    "after": "A843DC59F3A7646156AA5B438E8BC2C17795BC45240FB2F76000162F38F60299",
+    "edits": [
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1"
+    ]
+  },
+  {
+    "file": "ComboFixPatch.cs",
+    "before": "A5AEBBAC9BC84D5A7C61985D0F9D9206C2CE21F32BE9D7626AB74347FA1006F3",
+    "after": "5B3B63FBE50AF7ADDC2DE854DD6FF4CAF634D9C1E82B63B9D6C61A866530C4A9",
+    "edits": [
+      "S2"
+    ]
+  }
+]

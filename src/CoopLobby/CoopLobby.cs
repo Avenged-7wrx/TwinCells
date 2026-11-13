@@ -7,7 +7,8 @@ using ModCore.Mods;
 // partial build (Build.ps1 -Parts) compiles without the missing parts.
 public sealed class CoopLobby : ModBase
 {
-    static readonly (string Type,string Switch)[] Parts={("LobbyUi","UI"),("LobbyCap","CAP"),("LobbyColor","COLOR")};
+    // VERSION (Alpha2 integration, LobbyVersion.cs): the Twin Cells Alpha2 handshake token and its refusal message.
+    static readonly (string Type,string Switch)[] Parts={("LobbyUi","UI"),("LobbyCap","CAP"),("LobbyColor","COLOR"),("LobbyVersion","VERSION")};
     public CoopLobby(ModInfo info):base(info){}
     public override void Initialize()
     {

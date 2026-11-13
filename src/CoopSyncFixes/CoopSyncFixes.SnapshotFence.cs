@@ -55,7 +55,7 @@ public sealed partial class CoopSyncFixes
         if(net==null)return true;
         if(net.IsHost)
         {
-            lock(Gate)if(Current(hit.Generation) && ((IDictionary)Field("IdToMob")).Contains(hit.MobIndex))return true;
+            lock(Gate)if(Current(hit.Generation) && CsfMobs.IdToMob.ContainsKey(hit.MobIndex))return true;
         }
         else if(SnapshotAllows(hit.Generation,hit.MobIndex))return true;
         __result=null;return false;

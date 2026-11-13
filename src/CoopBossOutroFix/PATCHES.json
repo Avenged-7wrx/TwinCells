@@ -1,0 +1,11 @@
+[
+  {
+    "file": "BossOutroPatch.cs",
+    "before": "DAE3461DEE17FDC8268D530FDDC0E759ACBA816BE25FBD78DF8141DD7775358C",
+    "after": "330B75D56BFC88D39968976DDBB2832D07C52769114EB0D1AAF05FC183778DA4",
+    "edits": [
+      "S2",
+      "S1"
+    ]
+  }
+]

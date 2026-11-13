@@ -1,0 +1,25 @@
+[
+  {
+    "file": "NameplateProxyFingerprint.cs",
+    "before": "F1A71413B4DEFD40F2D6B0A7B5E1F3404F409669CB0A4EFEAC6C17BCC117E17A",
+    "after": "3FD88145A746E0FF4D096DD2EEA0B1DE736E4079B2D5716088FFD5218842864F",
+    "edits": [
+      "S1",
+      "S1",
+      "R10",
+      "S1",
+      "R10",
+      "R10",
+      "S1",
+      "S1"
+    ]
+  },
+  {
+    "file": "NameplatePatch.cs",
+    "before": "5BF73E8B1F2B5287EBE2021B6FE252B57D143473E5D174ED22E33A7B8CBD271C",
+    "after": "95CA006F01DB825E62280EF1AFB324E5CB90605DDA1E506C49D8DA35208534F1",
+    "edits": [
+      "S2"
+    ]
+  }
+]

@@ -3,7 +3,7 @@
   "comment": "CoopPack part table and pins (PACK-DESIGN.md sections 1-4, 7). Paths are relative to this folder unless noted; sourceDir is relative to experimentsRoot; dll.installed is relative to playCopy (read only). Reviewed delta lists per part (gate G4): ilChangedMethods, fieldChanges (compiler-generated closure and lambda-cache fields included), declChanges, nestedTypeChanges; removedStrings (G5). selfRegisteredEvents: DCCM events a part registers itself (design 2.4; must equal the reviewed list in tests\\PackGates.cs, G1b/G7); the host neither forwards them nor reads the field. Row contract for added parts: Build-Pack.ps1 header. This file is anchored by hash in Build-Pack.ps1 (-PartsSha256 default) and Test-Pack.ps1 (reviewed anchors); change all three together.",
   "pack": {
     "name": "CoopPack",
-    "version": "0.1.0-alpha",
+    "version": "0.2.0-alpha",
     "assemblyName": "CoopPack",
     "assemblyVersion": "0.1.0.0",
     "moduleName": "CoopPack.dll",
@@ -13,7 +13,7 @@
     "dependencies": [
       "DeadCellsMultiplayerMod"
     ],
-    "packageSuffix": "Alpha1",
+    "packageSuffix": "Alpha2",
     "releaseKind": "ALPHA"
   },
   "paths": {
@@ -212,7 +212,7 @@
     },
     {
       "name": "PackHost.cs",
-      "sha256": "6AE4281BB8F34F7A1967794AE8E3AF9212EED6F01FE6AF2946E638E33FBF01E3"
+      "sha256": "53BB8121F0947E85F3081163F562B66E06B92BC242DE3F3963B5AB1EB987564D"
     },
     {
       "name": "PackLog.cs",
@@ -248,6 +248,7 @@
     "+csf1.3a",
     "+csfcine1",
     "+csfelev1",
+    "+csfelev2",
     "CSFJOIN1",
     "CSFJ",
     "CSFEPOCH|",
@@ -255,7 +256,11 @@
     "CSFEL1|",
     "CSFCINEANIM1|",
     "CPCOL1|",
-    "[dccoop-cap2]"
+    "[dccoop-cap2]",
+    "+TwinCells-Alpha2",
+    "CCMB1|",
+    "CPTG1|",
+    "CPHUD1|"
   ],
   "configNames": [
     "CoopLobbyColor"
@@ -274,6 +279,8 @@
     "R11",
     "R12",
     "R13",
+    "R14",
+    "R15",
     "S1",
     "S2"
   ],
@@ -304,7 +311,7 @@
       "dll": {
         "name": "CoopCorpseRotationFix.dll",
         "sha256": "14BB493D2A2C6D2261E2F7CE0298BD3CCE80350C02FD05C9A2F5937F95CAC3D3",
-        "installed": "coremod/mods/CoopCorpseRotationFix/CoopCorpseRotationFix.dll"
+        "installed": null
       },
       "modinfoSha256": "BD6F3837B197EEFC771F76C1D321B639FFCC63B2E367C8040B936B694942D9DD",
       "files": [
@@ -623,7 +630,7 @@
       "dll": {
         "name": "CoopDeadCameraFix.dll",
         "sha256": "FBBD9358B6AB32832A2B4C2DB9D587E9316CBD9661A3B8C728F1B6D906C64943",
-        "installed": "coremod/mods/CoopDeadCameraFix/CoopDeadCameraFix.dll"
+        "installed": null
       },
       "modinfoSha256": "2FACC094E8F3F2E8EA46B20F5B4126ADE21423329D44219679359AC4839C9660",
       "files": [
@@ -940,6 +947,148 @@
       "nestedTypeChanges": []
     },
     {
+      "name": "CoopDiag",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopDiag",
+      "switch": "COOP_PACK_DIAG_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-diag/artifacts/build-3d62acaeae1b4d8ca20e1909fc092181",
+      "manifest": {
+        "sha256": "55DAB792663650B6E1609D8707571DDF1AC2839276E948D9B7433B336A404861",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopDiag.dll",
+        "sha256": "51D09C5BADA57FAC7D56F816E2D6A208985789A083968FD74AF0C497A672E4D5",
+        "installed": null
+      },
+      "modinfoSha256": "048AE99F03743F6D9B955E12A5C3ECBD469B06FE7A39882F717EF45C74EEF325",
+      "files": [
+        {
+          "name": "CoopDiagRules.cs",
+          "sha256": "B6293294B18DAF849F9BCFE899A99AAFCA0A2C0A11A218C9F186B3F20F90CC72",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopDiagPinTable.cs",
+          "sha256": "8C54320FCAA1A0F971243058481DABD9A2CBDEE366D95881DE49C9CD8499CCE9",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopDiagProxyFingerprint.cs",
+          "sha256": "22A15A9F0F77A51A86A3EC6DF2CE1E49C1F9FEB8E4220D704A7C3437B2F92E37",
+          "patchedSha256": "F8613117691E64029EC3B3F9576FD5A95CEF5FC1269EF6C0842410FDD5977735"
+        },
+        {
+          "name": "CoopDiagProxyCheck.cs",
+          "sha256": "AD2D33546F12996E63EE9810FE3D9CFC4816DC1A95B1431DD3AC453C650053F1",
+          "patchedSha256": "C87209E209CF861AFDCDA27C8E07F308513F2307D1D921D8E6298886B132A9AD"
+        },
+        {
+          "name": "CoopDiagPins.cs",
+          "sha256": "3155C7C013C16683B00C2DA8ED163FC678AD420C97E07534534BC384DF6FB71A",
+          "patchedSha256": "8DC169FC0E75F51497EAFCFBF77EC938410E6F96BB6073056AA0994377ECAF89"
+        },
+        {
+          "name": "CoopDiagSnapshot.cs",
+          "sha256": "1C6BDA414E8FBD99BDD6530444FE1AF32AC29F12A2C04117897866DF46F62EC1",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopDiagTimers.cs",
+          "sha256": "74CE7F1E1574883001C36AD002912087D46396C4DFC92B128ECCB3C1E8A58FF6",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopDiagWatchdog.cs",
+          "sha256": "7AFDC91E3097C55647A275D04EE09FE5CA9F7ACF53CF07964BA617D908DB416B",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopDiagHooks.cs",
+          "sha256": "C6F28B180A749959DF3945DA0E80D75966A0D95A6D36BDFBF3A80B7847D0076F",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopDiag.cs",
+          "sha256": "9EF12B8B156BD2D0CDE08ECE2D8487B3443903545CF08885DFCB1B167177138E",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopDiag.edits.json",
+        "sha256": "959E03631EED4588EEEB05F88DE5CFCE87879714BFC4115A12D218B397C9D751"
+      },
+      "roots": {
+        "path": "roots/CoopDiag-51D09C5B.txt",
+        "sha256": "C6F16CFB7A715D7E2FDFE483940C706E1020BB3CB9F450EF54522270826F4DA3",
+        "consumerSha256": "51D09C5BADA57FAC7D56F816E2D6A208985789A083968FD74AF0C497A672E4D5",
+        "typesField": "DiagTypes",
+        "methodsField": "DiagMethods"
+      },
+      "fingerprint": {
+        "compatType": "CoopDiagProxyCheck",
+        "fingerprintType": "CoopDiagProxyFingerprint",
+        "pin": "2D99AD0A487B464F6D2DFBB9BBE3EFB87D89EA2200A9E3253661F573B10E8A43",
+        "label": "coop-diag-proxy-symbolic-v1",
+        "file": "CoopDiagProxyFingerprint.cs"
+      },
+      "logPrefix": "[CoopDiag]",
+      "harmonyIds": [
+        "CoopDiag.U13"
+      ],
+      "switches": [
+        "COOP_DIAG_DISABLE",
+        "COOP_DIAG_TIMING_DISABLE",
+        "COOP_DIAG_WATCHDOG_DISABLE",
+        "COOP_DIAG_BOSS_DISABLE",
+        "COOP_DIAG_HEARTBEAT_SECONDS"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "CoopDiagProxyFingerprint/Result CoopDiagProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "F69191A75781B2E3DB72BF41548EC6D60E1D0799F2CA092257485A9942A05050"
+        },
+        {
+          "method": "CoopDiagProxyFingerprint/Result CoopDiagProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage,System.String[],System.String[])",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "568B739690C637AFE15C9FCBBE964F83BEF708F1F366C9A02ECAE505C0AB760B"
+        },
+        {
+          "method": "System.String CoopDiagPins::FileSha256(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "359C86F73D8EC83AE3E8D21D2B7134DE19ABF9A29783DFE3E34FA0264C73DA3A"
+        },
+        {
+          "method": "System.String CoopDiagProxyCheck::Validate(System.Reflection.Assembly,System.String&)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "2FB98A99EBB66F789D3DCC3433CC3B419652C30108F7E0004A79EEDC8EEDBFE7"
+        },
+        {
+          "method": "System.Void CoopDiagProxyFingerprint::.ctor(CoopPackRuntime.PackProxyImage,System.String[],System.String[])",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "EEFBB9051A949F195A14BEB9E0A5D9A15440E0F7D30FB845D8ACEA3FDB5EA09E"
+        }
+      ],
+      "fieldChanges": [],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
       "name": "CoopDialogPresenceFix",
       "version": "0.1.0-candidate",
       "entryType": "CoopDialogPresenceFix",
@@ -950,18 +1099,18 @@
         "DeadCellsMultiplayerMod"
       ],
       "guardTypes": [],
-      "sourceDir": "dialog-presence-20261110/artifacts/build-e649f2d0032842a7868bef2e7d29c733",
+      "sourceDir": "alpha2-dialog-presence/artifacts/build-e9c1da177ffc4da582eeaf6c436405e6",
       "manifest": {
-        "sha256": "6A26E3238DB2DC5CE97E8573C14763FD2A04ECD458C1CDC1813DB73F123AFE33",
+        "sha256": "E166BCFD02B7E3327D3E418CDE8B6D6C388A4E29B8C41B064D2B8A2FBF52853C",
         "dllField": "sha256",
         "sourcesField": "sources"
       },
       "dll": {
         "name": "CoopDialogPresenceFix.dll",
-        "sha256": "BAEBE3FA6669277C3A58F8B12EB3B5E4464C6890253BBFA3F3728BE50986EA9E",
-        "installed": "coremod/mods/CoopDialogPresenceFix/CoopDialogPresenceFix.dll"
+        "sha256": "4F3328F343D041439BB64A08CC19BE3EDD1DECE9A4082D1E1D36BE34ED3D267A",
+        "installed": null
       },
-      "modinfoSha256": "B5CCCBD239823E7A332959A219EF896FB3BE722C20C1E994F4247AC94CCCD1E4",
+      "modinfoSha256": "DD7EB681C2D5C941EAE0A23AC8A69DC2FDD2C6047665760FB414F6AEFC59041B",
       "files": [
         {
           "name": "DialogPresenceRules.cs",
@@ -970,8 +1119,8 @@
         },
         {
           "name": "DialogPresencePatch.cs",
-          "sha256": "15F85652D78B11196FF2BB8919C4B854D0178C4D08C44870F47BBBD63CDAA914",
-          "patchedSha256": "476C728D90AB82396FE796DF8898235682E1C8A67FA04EE5AEAC2B31FBBE34BB"
+          "sha256": "EC9C2B0DDB1AE95AC3B42CF76CDD64897E762A71F60E662E7E405AE69123D2CC",
+          "patchedSha256": "BFF407844989E2B94320948D800F743235E5A2FA86160782DB60CF99D60CE27D"
         },
         {
           "name": "CoopDialogPresenceFix.cs",
@@ -990,7 +1139,8 @@
         "CoopDialogPresenceFix.LivePartner.20261110"
       ],
       "switches": [
-        "COOP_DIALOG_PRESENCE_DISABLE"
+        "COOP_DIALOG_PRESENCE_DISABLE",
+        "COOP_DIALOG_PRESENCE_HEADS_DISABLE"
       ],
       "switchFragments": [],
       "workerLiterals": [],
@@ -1026,7 +1176,7 @@
       "dll": {
         "name": "CoopDownedAnchorFix.dll",
         "sha256": "8314060E0DC2C216EC8F4E5E4B9987F576E61DE889A33EE5C3CF6EC2735400B6",
-        "installed": "coremod/mods/CoopDownedAnchorFix/CoopDownedAnchorFix.dll"
+        "installed": null
       },
       "modinfoSha256": "AF4D9E49ABDC6D3B225ED529DB347E5879E997FFECAC2948A45901EBD8E3C503",
       "files": [
@@ -1093,7 +1243,7 @@
       "dll": {
         "name": "CoopFlintFix.dll",
         "sha256": "F203F5E9E8B510AB5B04935263F2B0419A15C3080169005031EFC736DBD76AB9",
-        "installed": "coremod/mods/CoopFlintFix/CoopFlintFix.dll"
+        "installed": null
       },
       "modinfoSha256": "70F758306395D3840EF359C8D7BC759928312A1BAA2EE2C534F4909648EDC287",
       "files": [
@@ -1143,16 +1293,16 @@
       "guardTypes": [
         "PlayerTint"
       ],
-      "sourceDir": "net-sync-20261110/frame-fix/artifacts/build-0358326acf4d42f7bafbf5137457cf80",
+      "sourceDir": "gc-opt-20261112/frame/artifacts/build-334e161e21f249b18229d7fe7e938ea9",
       "manifest": {
-        "sha256": "F0B8AD500A3752364918660FC6194616E3AE246B255DC38D2950B9878076CB7F",
+        "sha256": "9BE97A6C0669F3573092AEE8D59ECBCE845C18BA4DA5F389C2620BBA8C3B2495",
         "dllField": "sha256",
         "sourcesField": "sources"
       },
       "dll": {
         "name": "CoopFrameFix.dll",
-        "sha256": "A5827F82B9D9D76E04EC96462B4732879B23F72D0A0F9D534A3E443765006D9E",
-        "installed": "coremod/mods/CoopFrameFix/CoopFrameFix.dll"
+        "sha256": "36DDC90F7A7AEE384C00796E191F57AA093FB4D4A809F3D3686EE372A1C8BA7E",
+        "installed": null
       },
       "modinfoSha256": "FE0A72CF3CDA5216AA84D6C66E60748396CE119F63471CC32787874B21EC9A12",
       "files": [
@@ -1173,8 +1323,8 @@
         },
         {
           "name": "HotPaths.cs",
-          "sha256": "2E8D05C793A3E0D0387FC05EE476469294BF677BD6FDD904DA5638527EB4342E",
-          "patchedSha256": "92617ABA38DEDD856754086647873D7B8B7067BFEDE4F039A5772CC017CB422E"
+          "sha256": "A8F589793357B1AAB451D20F1A0884A0B4998529EB7DE867241000F337C944F3",
+          "patchedSha256": "D41A3ED5163C6C657C655F8C949C105A4FE23AE14210345A6E072BC780663699"
         },
         {
           "name": "PositionGate.cs",
@@ -1271,7 +1421,7 @@
       "dll": {
         "name": "CoopInventoryFix.dll",
         "sha256": "9A1561151EF64E2167625096F67138F8EBAF391B09E55DBFBC89D1EEA1557400",
-        "installed": "coremod/mods/CoopInventoryFix/CoopInventoryFix.dll"
+        "installed": null
       },
       "modinfoSha256": "C1B7C3149D5E12CCB903AA6A2FF65B62FD8C4FB7EC7551DA76CFBA7DE9A28438",
       "files": [
@@ -1333,7 +1483,7 @@
       "dll": {
         "name": "CoopLoadFix.dll",
         "sha256": "7E31BDDBAC74A875A1EB691335B2D9485DBECA2F5CD20BF263829433F742D621",
-        "installed": "coremod/mods/CoopLoadFix/CoopLoadFix.dll"
+        "installed": null
       },
       "modinfoSha256": "73ECE4DC59459D0654D47FC2F0EB141F1946C49E818CFF516FFABA4D2F986708",
       "files": [
@@ -1401,22 +1551,22 @@
       "guardTypes": [
         "LobbyColorState"
       ],
-      "sourceDir": "coop-lobby-20261110/artifacts/build-9f67916c44074d35bdad179a22575134",
+      "sourceDir": "alpha2-release-20261113/native-oracle/version-popup-short/part/artifacts/build-fbfeb92993dc4514b16574fad25b685b",
       "manifest": {
-        "sha256": "3370CFB01A4009792C50AD62261CB61F16604938C065AC8428A6CC6F6D89EBC2",
+        "sha256": "7946F4930FF134AAB0F51CB5DF3E834814E92640A38271C94DE2C3B6B4B67AE4",
         "dllField": "sha256",
         "sourcesField": "sources"
       },
       "dll": {
         "name": "CoopLobby.dll",
-        "sha256": "B5526FFA4EEBE7C07A3A55250DB4679ACA922DCD9FF949B8F5501A33E29D58D5",
+        "sha256": "994AB45539AA9D118DB557748CFFC78211DE1EFA5EAE1A27E5B1D0CCEB6547BE",
         "installed": null
       },
       "modinfoSha256": "D8B7964373C1F12FA7D6D810DDD681CF92A64A88CF752E27142D578C764F6E28",
       "files": [
         {
           "name": "CoopLobby.cs",
-          "sha256": "3E88796935835205D2EA68AA378FEF7A9AE22FCADB5AD01FA6C7AE949C16EDCC",
+          "sha256": "FE311070005E39BC4E22D73FC5C669A397352799355259E2B340FD5DE46E27D5",
           "patchedSha256": null
         },
         {
@@ -1485,6 +1635,11 @@
           "patchedSha256": null
         },
         {
+          "name": "LobbyCapRefresh.cs",
+          "sha256": "AFC18049C97B1A7BF3E62554F793DEB4629295EBEE3A3904C3418C7CD10B6F25",
+          "patchedSha256": null
+        },
+        {
           "name": "LobbyCapRules.cs",
           "sha256": "B5F044523447F02D9AB275B5F53538C3D1225F31F557A6C7FC1EE1E93A4C4F59",
           "patchedSha256": null
@@ -1503,6 +1658,26 @@
           "name": "LobbyColorTint.cs",
           "sha256": "BA226A0F633E9767ABD5138DFEE4F4EC7A2D92C7AF3B285C07580717F215431A",
           "patchedSha256": "FE8961D59DCEFEFCE6E0B5E6530609F74CEB5C1238B2827102F705727814241C"
+        },
+        {
+          "name": "LobbyRefresh.cs",
+          "sha256": "997A8ED863881E12C68BFF8F6262D90F62F0CE735A36599D48BAB9151D05A8F4",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyRefreshRules.cs",
+          "sha256": "1DC0B601EDA489A904E57FBB18E9096B43C6EC000A2791DF392791A451F54202",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyVersion.cs",
+          "sha256": "F4C5F3893B2442846C0E1C713CE75FE5C64975615A7A8F018AA70A02FBC5E34F",
+          "patchedSha256": null
+        },
+        {
+          "name": "LobbyVersionRules.cs",
+          "sha256": "4780E72B63AFA76753FFAFD1B41084D8A0FE0DC75DD221C1588E282A79497E52",
+          "patchedSha256": null
         }
       ],
       "edits": {
@@ -1515,7 +1690,9 @@
       "harmonyIds": [
         "CoopLobby.Ui.20261110",
         "CoopLobby.Cap.20261110",
-        "CoopLobby.Color.20261110"
+        "CoopLobby.Color.20261110",
+        "CoopLobby.Refresh.20261112",
+        "CoopLobby.Version.20261112"
       ],
       "switches": [
         "COOP_LOBBY_DISABLE"
@@ -1526,6 +1703,8 @@
         "CAP",
         "COLOR",
         "PAGES",
+        "REFRESH",
+        "VERSION",
         "_DISABLE"
       ],
       "workerLiterals": [],
@@ -1569,7 +1748,7 @@
       "dll": {
         "name": "CoopMobRegistrationFix.dll",
         "sha256": "857C4714B2D9218BD2FF2DB2BD8E9DB6F41B075D54596BB6646F6B523A7791A7",
-        "installed": "coremod/mods/CoopMobRegistrationFix/CoopMobRegistrationFix.dll"
+        "installed": null
       },
       "modinfoSha256": "A1EA85C393DED18C1D28D738F0067718E4D2E0BEB31F977DDDC2E172F26ABAC3",
       "files": [
@@ -1633,7 +1812,7 @@
       "dll": {
         "name": "CoopNetworkFixes.dll",
         "sha256": "C971EFE3C6A948C73C25607A550913BA0DF4974135323DB3FBD5E6CA8EBDB8CC",
-        "installed": "coremod/mods/CoopNetworkFixes/CoopNetworkFixes.dll"
+        "installed": null
       },
       "modinfoSha256": "FEFB44E22F87491C20564D3BBA657B8A85D57176300BD150A8FDCAEEAF7E3D67",
       "files": [
@@ -1685,7 +1864,7 @@
       "dll": {
         "name": "CoopPerfFix.dll",
         "sha256": "76251D8108B561CD37ABCD8E59D5E0760472BC7B99A54B3281C16718D122175F",
-        "installed": "coremod/mods/CoopPerfFix/CoopPerfFix.dll"
+        "installed": null
       },
       "modinfoSha256": "4E35A5F72A047B85A55E8118EC6E6753144E6814DC9C06838660B82AE1B70A92",
       "files": [
@@ -1748,7 +1927,7 @@
       "dll": {
         "name": "CoopReviveFix.dll",
         "sha256": "B87D406C56F29C53EDB26C57F7615C4BB4C73D77A9D9A6933967433500F69129",
-        "installed": "coremod/mods/CoopReviveFix/CoopReviveFix.dll"
+        "installed": null
       },
       "modinfoSha256": "FF9CB33E32B861C5EF5113D56D7E9E8FEC0797AA6D7F721A251C698E0A8C61C5",
       "files": [
@@ -1991,7 +2170,7 @@
       "dll": {
         "name": "CoopRuneDropFix.dll",
         "sha256": "08A445BB7ECDA7BA65FDCF744CB416E2091835ACF2D6894D425A7B6F201C1569",
-        "installed": "coremod/mods/CoopRuneDropFix/CoopRuneDropFix.dll"
+        "installed": null
       },
       "modinfoSha256": "DE225640B7BC8C4F789120113DBA548C025AEB3FC583A05A8DEB432A865D9021",
       "files": [
@@ -2317,7 +2496,7 @@
       "dll": {
         "name": "CoopShrineDeathFix.dll",
         "sha256": "B8933B973A700E48ECCA8EE6900EF85DEE4D739CF6E7EAE670FB5F659053D98B",
-        "installed": "coremod/mods/CoopShrineDeathFix/CoopShrineDeathFix.dll"
+        "installed": null
       },
       "modinfoSha256": "652CD6FF4D0DB6344D5C397E7328E7818C03EE02611F8D5984D72CCEEB91775D",
       "files": [
@@ -2751,7 +2930,7 @@
       "dll": {
         "name": "CoopShrineFix.dll",
         "sha256": "EA0702E0E1C1634BE4543864DA53AD6200ACEDB2FD77EEBA37DA54076CF68E45",
-        "installed": "coremod/mods/CoopShrineFix/CoopShrineFix.dll"
+        "installed": null
       },
       "modinfoSha256": "010F379A7B190A5E14873D70E736005AB61C74CC7A68465B06590B82AE4076B8",
       "files": [
@@ -3147,7 +3326,7 @@
       "dll": {
         "name": "CoopSteamInviteFix.dll",
         "sha256": "A475DB14292BD8CDFEE39F917329236DC384351046D12544960DACF450A39955",
-        "installed": "coremod/mods/CoopSteamInviteFix/CoopSteamInviteFix.dll"
+        "installed": null
       },
       "modinfoSha256": "7D3D9BAB84C5A484CFF901564326A02D95F84C478183D9920EA0CBE19B98EF66",
       "files": [
@@ -3187,27 +3366,27 @@
         "DeadCellsMultiplayerMod"
       ],
       "guardTypes": [],
-      "sourceDir": "community-integration-20261108/artifacts/build-62842b60fc8949be9043eaf34f42c689",
+      "sourceDir": "gc-opt-20261112/csf/artifacts/build-fee0c3e867bd4035b23cf4fd05c7dc4e",
       "manifest": {
-        "sha256": "6D222CF9056C08A50C263C52470280270535325340A4C49331DC935555F2F304",
+        "sha256": "0BD9320A173C123E1F68C6E70C6E58EEB85368F18C9EBD42E5D8014F2ED3867D",
         "dllField": "sha256",
         "sourcesField": "sources"
       },
       "dll": {
         "name": "CoopSyncFixes.dll",
-        "sha256": "FFF00CA3F9297B00EBD7688A9E4D223FD2A14F2D0EC8DFE34801F8490C7342E9",
-        "installed": "coremod/mods/CoopSyncFixes/CoopSyncFixes.dll"
+        "sha256": "AC0371A5C4A87E29C117795EDF27FFC3CF44E2F767A24C017EF24F3CB3737D4D",
+        "installed": null
       },
-      "modinfoSha256": "2D76A9E988D9CF9801C8CF729A47059C47F162112F3A27F47867317068C9A46E",
+      "modinfoSha256": "95B59C874598C94849F94CCA28CDAA94E559420F73E64827FF6DB56A830A7C90",
       "files": [
         {
           "name": "CoopSyncFixes.Activation.cs",
-          "sha256": "4F6DE3C5FF2C0853ACEDFAF0CF01E0A19EF4B9D03B1F5DBBFB8D5DC41CED806E",
+          "sha256": "231078150CF933180575457D6B4E445E5C371200C3CCDCD604B25F88EB0273B2",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.Branches.cs",
-          "sha256": "9B199D71080C4F0884BC85836FE28B106E60AB89926731782840D1B9FF330B95",
+          "sha256": "1E452B04656598446452A63C73E97C9AF3EA7EF8C86A3E9BCBC8D915B49F8CA0",
           "patchedSha256": null
         },
         {
@@ -3222,7 +3401,7 @@
         },
         {
           "name": "CoopSyncFixes.CinematicPresentation.cs",
-          "sha256": "DF58CB15A6473B628D38E3771E3905EA0991634C56B320BAC1CC2344C11E1488",
+          "sha256": "4BD702C1972E7AAAD81DD12FCDD058FE1978342853CE4AE7FBFA3E8AC786351F",
           "patchedSha256": null
         },
         {
@@ -3237,42 +3416,42 @@
         },
         {
           "name": "CoopSyncFixes.cs",
-          "sha256": "3C489ADE4CF7A907E394E8AC60000296774D9CA965A511931C2BA8D5FAF28AAA",
-          "patchedSha256": "1A2156303CC32850C259C3F967AC1CE7C7CA863B17A36A29038BFA1E5CC2E45F"
+          "sha256": "5763C895D7789D545CEE65F7DAEE48959AF5A6B25334F302A95299CAED251BEE",
+          "patchedSha256": "5CA51B6B293E003237F073584DDA65D2A28DA492E46CA4E08C11E4A50D807CF4"
         },
         {
           "name": "CoopSyncFixes.Culled.cs",
-          "sha256": "65E6E8777E45B21E2083E344CE7C067356C5912F9EB40B4D6C8A0BB50D5CE1A8",
+          "sha256": "70FB3AF4AB7BE92B0598C019D485075A89264A361937DFE309BA7796A1D01240",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.DoorsAndDeaths.cs",
-          "sha256": "ABAF13DD92DD0606912F2E072726EF716E9F994EDDB7526F8E17C0FF83BB1AA3",
+          "sha256": "919242F93B21A4BA499240675498F23A5EF8860D17030EAEE559E13E0E24F1EF",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.ElevatorProtocol.cs",
-          "sha256": "008E486FFEABA8019BD70D7AFC4FD35C8471E9127A68DA5CEAD7F65B1F4AA72C",
+          "sha256": "37602222FFA4DE9443DD3BB8A6B8A82EC78B49F8E334CBF951C1EBDAB762487E",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.Elevators.cs",
-          "sha256": "F81CA04167169EF3F01737B9035B946B613BFD91232214DEAAA22911380DE46A",
+          "sha256": "D4D9ACD59DEFD44BBED2E2ADF9BFA73C8FF6BA6FE8A7C7FABCFE5338A20987E8",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.EliteDeaths.cs",
-          "sha256": "D8803431FEBF7D423E8B2ADC4A8FF6CA14C8CA86BA02101F5D973FCC1DE3C1E4",
+          "sha256": "4AA1848423C9906AA419F757E99286D4E8CBE453EA1410D0A249BEAB2693DB74",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.Enemies.cs",
-          "sha256": "D4A48B59CB0F159EC91857AE9981FC0B8BE32358C9EFEA92E0A69CF87559081D",
+          "sha256": "30B2F045B17BB8D1DEB9C976C92BCF4ACED6CF25430851FF9B0C98C7D3754133",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.ExitMembership.cs",
-          "sha256": "8332EB49967016F38AF0E0D4A6F0D7A6F5BF5E2090BEB033E7D6DD3B3CD481A4",
+          "sha256": "06DC158C11616385D5DDE44DDB6DB359D37F9CCD177E50203AE3B69E9B2CA9D2",
           "patchedSha256": null
         },
         {
@@ -3282,22 +3461,22 @@
         },
         {
           "name": "CoopSyncFixes.Join.cs",
-          "sha256": "4C426966C13A050B443091ADA3035AFA2E9B6E3C2B62AD3E96B86A8E8331AB7B",
+          "sha256": "526D2124C07A35D68D32EBB86D2E7E93524C12E9AC452E5C1B549D877AAD21B0",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.JoinLease.cs",
-          "sha256": "E81DAF3D5816CCB067D2E8BC7466740B1F72DACD7ABD5DAC408FF71C171F1A5E",
+          "sha256": "E8C2C0C6F657732D6FDD68E46F450609A23D532DFC0DA3AEB1B804A054D80AF6",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.Lifecycle.cs",
-          "sha256": "370D680A9EF1D4E64BE40077CFF035126FA43A74D1122C7CD34E03E3910177C3",
+          "sha256": "FC462ACFEC2FCDD5B07CA8FACF939FFBC9C95BC3E3FE2E184590D968A156C7B6",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.Manifest.cs",
-          "sha256": "C5777CF1C23E0F74BD400AE2EA703FFCD6693947D9CFB63107587F733C375B5D",
+          "sha256": "E8C4D31BC2F82866068B06713986E681399338E7E9D56F2397C0B5320B6F90D4",
           "patchedSha256": null
         },
         {
@@ -3317,7 +3496,7 @@
         },
         {
           "name": "CoopSyncFixes.RegistryBatches.cs",
-          "sha256": "1348F82DC76BAFF6ADE23957A9D8CEA0696423D2CB5A3F5FBE3AEB652E534469",
+          "sha256": "0F8D6D025EC9F44D3AD06D33A7F3AADA274E6BAC512C9DDCDC41D30989216B76",
           "patchedSha256": null
         },
         {
@@ -3342,12 +3521,12 @@
         },
         {
           "name": "CoopSyncFixes.SleepMotion.cs",
-          "sha256": "CDA75D0AB1A218780D758666E16595379CB8E25642556F583F9EC3F2CBA542FF",
+          "sha256": "9EA2834B5BC570909B3F491568CF34FDE756BE52BF88DF256FF48142B0536603",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.SnapshotFence.cs",
-          "sha256": "4E30865F716A3FFACC2A68B4EEB0C6AD4E7DE3C89C458D22E5FCFE7F3AF0B0E4",
+          "sha256": "385B35147CA92B83F8EFC1782247A107C11D677468CAFBCE0255DD26014DF043",
           "patchedSha256": null
         },
         {
@@ -3367,12 +3546,12 @@
         },
         {
           "name": "CoopSyncFixes.WireEpoch.cs",
-          "sha256": "51901E9FA7B30615E97FDCF92EB5181F8EAD1CA242DC855BD261FEF7E429E53F",
+          "sha256": "B0AD8AEE7C0EC8D415226B57E3D491DCC662C09FE9168A4D52960CEBF63D1DD2",
           "patchedSha256": null
         },
         {
           "name": "CoopSyncFixes.WirePayloads.cs",
-          "sha256": "B146388BD9778923922FD4B6FEC399E03F4C524FD781BA0758001E8D84E3439C",
+          "sha256": "D5ABFC7CD2FA21A8939106AB53FA6EBEB812AEBFB7554AA9F83B7A8F02C4B89E",
           "patchedSha256": null
         },
         {
@@ -3412,6 +3591,9 @@
         "BATCH",
         "BRANCHES",
         "CATCHUP",
+        "CINEGATE",
+        "CINEMATIC_BRANCH",
+        "CINEMATIC_HEADS",
         "CINEMATIC_PRESENTATION",
         "COLORS",
         "CULLED",
@@ -3420,6 +3602,8 @@
         "DOORS",
         "DUPLICATES",
         "ELEVATORS",
+        "ELEVATOR_DEADBAND",
+        "ELEVATOR_RIDE",
         "ELITE_DEATH",
         "EXACTBIRTH",
         "EXIT_MEMBERSHIP",
@@ -3475,15 +3659,15 @@
       "guardTypes": [
         "OptHost"
       ],
-      "sourceDir": "opt-20261111/artifacts/build-f0ecd78bea854c86a2989c7c12f60948",
+      "sourceDir": "alpha2-opt/artifacts/build-11a7bf299b7f42b48b6a4aab553237af",
       "manifest": {
-        "sha256": "C101AEA48198F9F801CC08014DC14367FDE8344C41961DB278534CC5DF08F822",
+        "sha256": "C3997BE55780B092C76BCB1FA8B49283FE533F9802BE47E1BF8B6145C8098EAC",
         "dllField": "sha256",
         "sourcesField": "sources"
       },
       "dll": {
         "name": "CoopOpt.dll",
-        "sha256": "B9611C93336D39F4A996A23F3A9C3C04152FDF785EA5C24E40E1AAB392159932",
+        "sha256": "A6D70D1552F01626FA2F3DB06F8648FC93092E4976901940F44A601D14502546",
         "installed": null
       },
       "modinfoSha256": "7E864237F9A0C8D6CCA665A3C87BFD7AAAEB08F014B79F9848368EEAD84E0889",
@@ -3514,8 +3698,13 @@
           "patchedSha256": null
         },
         {
+          "name": "OptHostT3Proxy.cs",
+          "sha256": "0A7CE7BAF2CEB0E476F4C05C0C3C99DB82E8371CE44B1927ECB3F0B0ECACC401",
+          "patchedSha256": null
+        },
+        {
           "name": "OptHostTargets.cs",
-          "sha256": "9681A33C4A01C6233E534FAC9D580EBE97962BF9D87F914C7A8383C2A8B2C693",
+          "sha256": "AF41AA286FCA9EE391ED47A235777D32FCA394D47B0B43934FA5F6AE16B7D373",
           "patchedSha256": null
         },
         {
@@ -3556,7 +3745,8 @@
         "COOP_OPT_SHADOW",
         "COOP_OPT_STATS",
         "COOP_OPT_MINIMAP_MEMO_DISABLE",
-        "COOP_SYNC_DISABLE_BRANCHES"
+        "COOP_SYNC_DISABLE_BRANCHES",
+        "COOP_QA_OPT_T3_SYMBOLIC"
       ],
       "switchFragments": [
         "COOP_OPT_",
@@ -3620,6 +3810,1969 @@
       "removedStrings": [
         "FFF00CA3F9297B00EBD7688A9E4D223FD2A14F2D0EC8DFE34801F8490C7342E9"
       ],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopBossOutroFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopBossOutroFix",
+      "switch": "COOP_PACK_BOSSOUTRO_DISABLE",
+      "events": [
+        "IOnFrameUpdate"
+      ],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-boss-outro/artifacts/build-27e93fb546a64ac9b3aa9bbe2fd042a1",
+      "manifest": {
+        "sha256": "2822C8C4288EFDBF4898DAFD28FE3BDFB08EBEE441C9B7D1318A02BB54074E36",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopBossOutroFix.dll",
+        "sha256": "E81299D3555270A6E8B729242A9DD15E3F35C4AECAF54CB085EE2E606E454D27",
+        "installed": null
+      },
+      "modinfoSha256": "A4D0290AFF638A1E08DCA6E6A42B13CAB7ED908F7CC5CEA8AC89F09E4B015CBF",
+      "files": [
+        {
+          "name": "BossOutroRules.cs",
+          "sha256": "6980F7DE1E8D4689A9D772CC9A55BDFD7E262AEF487C6973C515817D8AE57B2A",
+          "patchedSha256": null
+        },
+        {
+          "name": "BossOutroProxyFingerprint.cs",
+          "sha256": "3260F3CDFBE56DDF0F1416108132BD2BAEE0A3B6B9ABB9664992209254CE7FEB",
+          "patchedSha256": null
+        },
+        {
+          "name": "BossOutroPatch.cs",
+          "sha256": "DAE3461DEE17FDC8268D530FDDC0E759ACBA816BE25FBD78DF8141DD7775358C",
+          "patchedSha256": "330B75D56BFC88D39968976DDBB2832D07C52769114EB0D1AAF05FC183778DA4"
+        },
+        {
+          "name": "CoopBossOutroFix.cs",
+          "sha256": "C27E47E4E8B5D81FA1EB41CF1BCF49C93C3D2C180E1960D481DF574A171F92DF",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopBossOutroFix.edits.json",
+        "sha256": "290D0B4E207BCF22C4C1260115DC46C7F0AF83F9C48483751A1478D82273E0DD"
+      },
+      "roots": null,
+      "fingerprint": null,
+      "logPrefix": "[CoopBossOutroFix]",
+      "harmonyIds": [
+        "CoopBossOutroFix.Outro.20261112"
+      ],
+      "switches": [
+        "COOP_BOSS_OUTRO_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "System.String BossOutroPatch::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        },
+        {
+          "method": "System.String BossOutroPatch::ValidateProxy(System.Reflection.Assembly)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "2C4ABB4729388EB6A6B2CE31B818CEBD0555F4F5EF08B61291A54C3F018B5A9F"
+        }
+      ],
+      "fieldChanges": [],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopBossTargetFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopBossTargetFix",
+      "switch": "COOP_PACK_BOSS_TARGET_DISABLE",
+      "events": [
+        "IOnFrameUpdate"
+      ],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-boss-target/artifacts/build-9fe8ef12022f44529288bb5b3a9a06f1",
+      "manifest": {
+        "sha256": "EA93F056390B691DC1AC14047355B60A003511B07F9E105C2F57710CB8CBE20B",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopBossTargetFix.dll",
+        "sha256": "CF7BD94ACCFC3FCF2EE0B35D28E79A4050A0CD99F09D9EED60A9A2A868EABAC5",
+        "installed": null
+      },
+      "modinfoSha256": "356ECA1A901B98A51843036A1A5378412FA7919B63E71A424B54F90C9FE14E4A",
+      "files": [
+        {
+          "name": "CoopBossTargetRules.cs",
+          "sha256": "AA1BCCCBB6D3DC53949265DAC6E3E4A833E4F9E1D09E8B6B9131C2BE4EB62027",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopBossTargetProxyFingerprint.cs",
+          "sha256": "3BBFD00B5D809DB0FF5AFB14B483826D2BCE244BC1593ABCBED4C2736D2928C7",
+          "patchedSha256": "C8C5EDA1B6C9FE9861B5627A33E60B7457F1D3B5B2E1BBE34132BB36E7B5F03B"
+        },
+        {
+          "name": "CoopBossTargetPatch.cs",
+          "sha256": "270BC557A9378BEBE78970F09CFFF42B6E9759300DC45D098A4B848E41F3E09E",
+          "patchedSha256": "1E6369FB9C44303525E9A84EC00B1B9D9E72A9727C4A163C07F502E38100EC0F"
+        },
+        {
+          "name": "CoopBossTargetFix.cs",
+          "sha256": "9C5E7A22B1076A5191228005C454CBF8754E3922C850EA3239243CFDBCBD5239",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopBossTargetFix.edits.json",
+        "sha256": "A79D887E65C393E89B8D52F6E5B951242917383E81C6A77B3043A4461FDE30F5"
+      },
+      "roots": null,
+      "fingerprint": {
+        "compatType": "CoopBossTargetProxyCompatibility",
+        "fingerprintType": "CoopBossTargetProxyFingerprint",
+        "pin": "45F78E82E9F1BC3BFE3B5B4A9DCDBDD43849687CF2E197227CCB684DC8670778",
+        "label": "boss-target-proxy-symbolic-v1",
+        "file": "CoopBossTargetProxyFingerprint.cs"
+      },
+      "logPrefix": "[CoopBossTargetFix]",
+      "harmonyIds": [
+        "CoopBossTargetFix.Nemesis.20261112"
+      ],
+      "switches": [
+        "COOP_BOSS_TARGET_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "CoopBossTargetProxyFingerprint/Result CoopBossTargetProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "AD464CDEF0A6099E0D47B2EAE0FE6916B8C3865832AD6D1FC9AFCA6B66712264"
+        },
+        {
+          "method": "CoopBossTargetProxyFingerprint/Result CoopBossTargetProxyFingerprint::Compute(Mono.Cecil.AssemblyDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "CoopBossTargetProxyFingerprint/Result CoopBossTargetProxyFingerprint::Compute(System.Byte[])",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "BEFAEBCAC2E3A6B020D3C10E294955F9734D7442384355CE6C4343CB2522D0BF"
+        },
+        {
+          "method": "CoopBossTargetProxyFingerprint/Result CoopBossTargetProxyFingerprint::Run()",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "B185760E5FFFD054ECA8B92D5A78B7096E368266A97D7B82B9CE8AFEDE665262"
+        },
+        {
+          "method": "Mono.Cecil.TypeDefinition[] CoopBossTargetProxyFingerprint/<>c::<.ctor>b__11_2(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean CoopBossTargetProxyFingerprint/<>c::<.ctor>b__11_3(Mono.Cecil.CustomAttribute)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean CoopBossTargetProxyFingerprint/<>c__DisplayClass19_0::<Run>b__2(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "33FA6CB9C363BE8ADCDE039895FF8E88D18611350DE7F630FB6EB92B4061BEAD"
+        },
+        {
+          "method": "System.Boolean CoopBossTargetProxyFingerprint/<>c__DisplayClass19_0::<Run>b__4(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.MethodDefinition> CoopBossTargetProxyFingerprint/<>c::<Run>b__19_3(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.TypeDefinition> CoopBossTargetProxyFingerprint/<>c::<Run>b__19_2(Mono.Cecil.TypeDefinition[])",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopBossTargetPatch::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyCompatibility::ValidateLoaded(System.Reflection.Assembly)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "8A6CC68F6C30115B6B738494940431D993C1D214594D7D0935AF476DB785F016"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyFingerprint/<>c::<.ctor>b__11_0(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyFingerprint/<>c::<.ctor>b__11_1(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyFingerprint/<>c::<Run>b__19_3(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyFingerprint/<>c::<Run>b__19_4(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyFingerprint/<>c::<Run>b__19_6(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopBossTargetProxyFingerprint/<>c::<Run>b__19_7(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void CoopBossTargetProxyCompatibility::ValidateImage(CoopPackRuntime.PackProxyImage,System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>,System.Boolean)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "147919F106CDF5F8B16BEFBE75509FB242536A4F4277363D2C8FF4C6F266299A"
+        },
+        {
+          "method": "System.Void CoopBossTargetProxyCompatibility::ValidateImage(System.Byte[],System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>,System.Boolean)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "B5669D7FCCC051F18A11E063B39527CEC30FB7DC34F4DF38469876A7304B5A4B"
+        },
+        {
+          "method": "System.Void CoopBossTargetProxyFingerprint::.ctor(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "99D5DD2ECA5BE6F602738F512B2981E88585A92AF4DE040BC327178420ED7BC8"
+        },
+        {
+          "method": "System.Void CoopBossTargetProxyFingerprint::.ctor(Mono.Cecil.AssemblyDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        }
+      ],
+      "fieldChanges": [
+        {
+          "type": "CoopBossTargetProxyFingerprint",
+          "field": "image",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__11_0",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__11_1",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__11_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__11_3",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__19_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__19_3",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__19_4",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__19_6",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopBossTargetProxyFingerprint/<>c",
+          "field": "<>9__19_7",
+          "change": "removed",
+          "edit": "S1"
+        }
+      ],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopBranchVisibilityFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopBranchVisibilityFix",
+      "switch": "COOP_PACK_BRANCH_VISIBILITY_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [
+        "CoopBranchVisibilityApi"
+      ],
+      "sourceDir": "alpha2-partner-presence/artifacts/build-21ec14d103294d5899d44cedc982b759",
+      "manifest": {
+        "sha256": "3CBC9DAAAB65CCFCD5E2B8C7C7F8A077F0CD78D06AD2AE8B764FFE6776410334",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopBranchVisibilityFix.dll",
+        "sha256": "FFC9D72384B18E747EB9C2CFBFBEF4888FCA94116E376F2F0BF70AE4C3246222",
+        "installed": null
+      },
+      "modinfoSha256": "3F751A0A47514CF862235BF5A20CCA5D5B0169F99790B105883A7E84C12E9FFF",
+      "files": [
+        {
+          "name": "CoopBranchVisibilityRules.cs",
+          "sha256": "80236FB46F7EEEF1C89E7F484C464DA92B0DE2FFB368BE7756452974C106D111",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopBranchVisibilityPins.cs",
+          "sha256": "C168309D37D73A7539D49D38655E6A6FBC2CDC01F461546D555039391854FF72",
+          "patchedSha256": "784F50CEE8EEFFE5021D9FA7860083F03879F5EB8FB8BFE8778FFBB69F469FE1"
+        },
+        {
+          "name": "CoopBranchVisibilityMarker.cs",
+          "sha256": "5751E965882AF8E11E9BC7787B71C42665072DE08A64A5CBC63A862FBE91346F",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopBranchVisibilityPatch.cs",
+          "sha256": "4578D194470720D6C632A5548008591965859011BB9939AC58CA63978872F11C",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopBranchVisibilityApi.cs",
+          "sha256": "3892873E83400C397472581D73316BC316EFB77B25B6B5797B2ADC4334CF0FEF",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopBranchVisibilityFix.cs",
+          "sha256": "4B5B30952B5951EEB48ACA41B5F03E1EA9C4B5AEFBA8321F9BEF016153273EDD",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopBranchVisibilityFix.edits.json",
+        "sha256": "FD317AC7CF9873F3FA02B073E8848520B096A85AB56657FB43A5B19B4390FD7B"
+      },
+      "roots": null,
+      "fingerprint": null,
+      "logPrefix": "[CoopBranchVisibilityFix]",
+      "harmonyIds": [
+        "CoopBranchVisibilityFix.Branch.20261112"
+      ],
+      "switches": [
+        "COOP_BRANCH_VISIBILITY_DISABLE",
+        "COOP_BRANCH_VISIBILITY_MARKER_DISABLE",
+        "COOP_BRANCH_VISIBILITY_HEAD_DISABLE",
+        "COOP_BRANCH_VISIBILITY_CORPSE_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "System.String CoopBranchVisibilityPins::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        }
+      ],
+      "fieldChanges": [],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopComboFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopComboFix",
+      "switch": "COOP_PACK_COMBO_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-combo/artifacts/build-653f9135a47f474eb21c12ddede6d30b",
+      "manifest": {
+        "sha256": "3BA9D278FB4C45E8EE14F1C1EB54C1C4D5260D9A87400E305B9B52D201D30560",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopComboFix.dll",
+        "sha256": "E9B1CDF76392087AD87C9D89DEA7E525A5700B7DA3918B191D9B196DF4D31635",
+        "installed": null
+      },
+      "modinfoSha256": "35F8E9C73752DD0B27860F17D20CB21C4B45E8801428DA01EFA99731A7A0D206",
+      "files": [
+        {
+          "name": "ComboFixRules.cs",
+          "sha256": "B4C588F07A55ABBE3737B4C1B4035EE7CCCC56165A87B77D16867EE2278FFB57",
+          "patchedSha256": null
+        },
+        {
+          "name": "ComboProxyFingerprint.cs",
+          "sha256": "C58C0266A5999E7202BE921EA5508A3323C3FE7A49FA083873A1DE493F4DF039",
+          "patchedSha256": "A843DC59F3A7646156AA5B438E8BC2C17795BC45240FB2F76000162F38F60299"
+        },
+        {
+          "name": "ComboFixPatch.cs",
+          "sha256": "A5AEBBAC9BC84D5A7C61985D0F9D9206C2CE21F32BE9D7626AB74347FA1006F3",
+          "patchedSha256": "5B3B63FBE50AF7ADDC2DE854DD6FF4CAF634D9C1E82B63B9D6C61A866530C4A9"
+        },
+        {
+          "name": "ComboFixWire.cs",
+          "sha256": "52EC25E70F33873B707DF789CFF783430971CDB0B9265EA760D61906AB3E7578",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopComboFix.cs",
+          "sha256": "2AC1718CA61C10A616D9824ED391D54C7ADFC9D6D184B3F7296FA77F72D853F6",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopComboFix.edits.json",
+        "sha256": "185FD1C4C5C958D13AA515617BBD5E21E239D3EAC3DFE8A639FEFC2D663B58FD"
+      },
+      "roots": null,
+      "fingerprint": {
+        "compatType": "ComboProxyCompatibility",
+        "fingerprintType": "ComboProxyFingerprint",
+        "pin": "D9D5D8CBA45406D2FDE93EFA544816E070877204E0286B0221C2EA96065E64EB",
+        "label": "combo-proxy-symbolic-v1",
+        "file": "ComboProxyFingerprint.cs"
+      },
+      "logPrefix": "[CoopComboFix]",
+      "harmonyIds": [
+        "CoopComboFix.20261112"
+      ],
+      "switches": [
+        "COOP_COMBO_DISABLE",
+        "COOP_COMBO_PARTB_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "ComboProxyFingerprint/Result ComboProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "70A742990AB8C4667943EB7021D3FADB2D6891792D343103E1D859FAE9A29CF5"
+        },
+        {
+          "method": "ComboProxyFingerprint/Result ComboProxyFingerprint::Compute(Mono.Cecil.AssemblyDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "ComboProxyFingerprint/Result ComboProxyFingerprint::Compute(System.Byte[])",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "9F94CABF6836D93503D5BBE336977E7E4ECB962BD5CA3540C7BE99270509CACD"
+        },
+        {
+          "method": "ComboProxyFingerprint/Result ComboProxyFingerprint::Run()",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "7A45D8E3457A0E0F002F96466460E076502EB48704A984A5CBD09B52949D5C80"
+        },
+        {
+          "method": "Mono.Cecil.TypeDefinition[] ComboProxyFingerprint/<>c::<.ctor>b__12_2(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c::<.ctor>b__12_3(Mono.Cecil.CustomAttribute)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c::<Run>b__20_4(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "F56A4F0F315D833D877560FD10AFDD62B46474694C6F7C6EC6FD126CA0B664E5"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c::<Run>b__20_5(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "F56A4F0F315D833D877560FD10AFDD62B46474694C6F7C6EC6FD126CA0B664E5"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c::<Run>b__20_6(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c::<Run>b__20_7(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c__DisplayClass20_0::<Run>b__2(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "9000E6DCE7AC2D08914BBFB325BAAE00C4692E0D755329CEE2EC6FF2C3A472B1"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c__DisplayClass20_0::<Run>b__4(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c__DisplayClass20_1::<Run>b__3(Mono.Cecil.EventDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "ADDA78EF104114B02F0B6AAC75AA1407B0279B99AA8837E431B69215C0DAE6F8"
+        },
+        {
+          "method": "System.Boolean ComboProxyFingerprint/<>c__DisplayClass20_1::<Run>b__5(Mono.Cecil.EventDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.MethodDefinition> ComboProxyFingerprint/<>c::<Run>b__20_3(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.TypeDefinition> ComboProxyFingerprint/<>c::<Run>b__20_2(Mono.Cecil.TypeDefinition[])",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String ComboFixPatch::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        },
+        {
+          "method": "System.String ComboProxyCompatibility::ValidateLoaded(System.Reflection.Assembly)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "8AE43F1FF3D4E149D2FF37D8D4D09FC2018A64BA2FDE3225E322D5C4257AE45B"
+        },
+        {
+          "method": "System.String ComboProxyFingerprint/<>c::<.ctor>b__12_0(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String ComboProxyFingerprint/<>c::<.ctor>b__12_1(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String ComboProxyFingerprint/<>c::<Run>b__20_10(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String ComboProxyFingerprint/<>c::<Run>b__20_6(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String ComboProxyFingerprint/<>c::<Run>b__20_7(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String ComboProxyFingerprint/<>c::<Run>b__20_9(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void ComboProxyCompatibility::ValidateImage(CoopPackRuntime.PackProxyImage,System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "8FDEF2CA91335763A499092F0E2EAEA38BD91F57E406F75CA580A8818B4798CB"
+        },
+        {
+          "method": "System.Void ComboProxyCompatibility::ValidateImage(System.Byte[],System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void ComboProxyFingerprint::.ctor(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "10F365BD05BAA5471B8DA5053F25BC640646CF0870A22940A7DE607F7B1EDE73"
+        },
+        {
+          "method": "System.Void ComboProxyFingerprint::.ctor(Mono.Cecil.AssemblyDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        }
+      ],
+      "fieldChanges": [
+        {
+          "type": "ComboProxyFingerprint",
+          "field": "image",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__12_0",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__12_1",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__12_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__12_3",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_10",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_3",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_4",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_5",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_6",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_7",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "ComboProxyFingerprint/<>c",
+          "field": "<>9__20_9",
+          "change": "removed",
+          "edit": "S1"
+        }
+      ],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopDeathSoundFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopDeathSoundFix",
+      "switch": "COOP_PACK_DEATH_SOUND_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-death-sound/artifacts/build-9cc6ba09dfa349d5a774e5c2ae1ed712",
+      "manifest": {
+        "sha256": "1435B754BCE0D3F3B1469A0CB8F2682529DE8FB617C5B895B25234AB7732D981",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopDeathSoundFix.dll",
+        "sha256": "CE4AF2258E91A8FCC63F94437E3B910D8E4B73E2DD9CAEA3AD6E7C53748DE395",
+        "installed": null
+      },
+      "modinfoSha256": "511FA9B87768453E0089E2D06E54045D21E1F24FDADEAA8C97494E8D155024D7",
+      "files": [
+        {
+          "name": "DeathSoundRules.cs",
+          "sha256": "3115566D06B215933A71115B5E244C3BA398A3DED1970E873077C48A7B1E6396",
+          "patchedSha256": null
+        },
+        {
+          "name": "DeathSoundProxyPin.cs",
+          "sha256": "2AEFBE6858C7779BFC24D79B5990B4ED3FC9666DD8C6F79C3702346DE3F65C88",
+          "patchedSha256": null
+        },
+        {
+          "name": "DeathSoundPatch.cs",
+          "sha256": "029EAA30C993AB229295C106E519F6B3627DC0A12535E2B703F1F0B7E3F1E224",
+          "patchedSha256": "D1EE7C839C3EC02D9E033BD55C1B969F4689D80F2B8AEE6D47D90DE75A920831"
+        },
+        {
+          "name": "CoopDeathSoundFix.cs",
+          "sha256": "28E31B5515D7DB03807BDFC9A2D50F741052B4F4DB3A88F61E72714A8E046592",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopDeathSoundFix.edits.json",
+        "sha256": "35CCEF1E3CF65726CA61A67EA707923C34D2BA6015267A093E4409340622CD9A"
+      },
+      "roots": null,
+      "fingerprint": null,
+      "logPrefix": "[CoopDeathSoundFix]",
+      "harmonyIds": [
+        "CoopDeathSoundFix.NetworkDeathSound.20261112"
+      ],
+      "switches": [
+        "COOP_DEATH_SOUND_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "System.String DeathSoundPatch::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        }
+      ],
+      "fieldChanges": [],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopNameplateFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopNameplateFix",
+      "switch": "COOP_PACK_NAMEPLATE_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-nameplate/artifacts/build-c114f3e8a6934cbe986383dff557598c",
+      "manifest": {
+        "sha256": "A5AA24CA650B280D75452BE10DA62A12991F07FA349B432113BACB6E33D8201C",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopNameplateFix.dll",
+        "sha256": "652BB025DFC533D6764EA0BD21CF1E01EFB8AB9F8AD52ABCB9D3A2CE01D75965",
+        "installed": null
+      },
+      "modinfoSha256": "EF24920BB10040D76BF641E6AF8964502D8D7E05CDC7110F2A71C887C93C68DC",
+      "files": [
+        {
+          "name": "CoopNameplateFix.cs",
+          "sha256": "5F2A73781F6550E32618D733415679D7F2ED8E6768C40F6D0653F071424CB75A",
+          "patchedSha256": null
+        },
+        {
+          "name": "NameplateRules.cs",
+          "sha256": "864846B1517B583E41361D8929E9007DFA98F40915F959EC8282549AD41F293B",
+          "patchedSha256": null
+        },
+        {
+          "name": "NameplateProxyFingerprint.cs",
+          "sha256": "F1A71413B4DEFD40F2D6B0A7B5E1F3404F409669CB0A4EFEAC6C17BCC117E17A",
+          "patchedSha256": "3FD88145A746E0FF4D096DD2EEA0B1DE736E4079B2D5716088FFD5218842864F"
+        },
+        {
+          "name": "NameplatePatch.cs",
+          "sha256": "5BF73E8B1F2B5287EBE2021B6FE252B57D143473E5D174ED22E33A7B8CBD271C",
+          "patchedSha256": "95CA006F01DB825E62280EF1AFB324E5CB90605DDA1E506C49D8DA35208534F1"
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopNameplateFix.edits.json",
+        "sha256": "5B032956B73DFC3D250E89D4158BA81AC26FBED4B74B9F65DFCD23DC00BFAE4F"
+      },
+      "roots": {
+        "path": "roots/CoopNameplateFix-652BB025.txt",
+        "sha256": "81EBB49A2471277434CEAFAE908FB3AB6D0D38D8822DF700E316C06D9BA17846",
+        "consumerSha256": "652BB025DFC533D6764EA0BD21CF1E01EFB8AB9F8AD52ABCB9D3A2CE01D75965",
+        "typesField": "NameplateTypes",
+        "methodsField": "NameplateMethods"
+      },
+      "fingerprint": {
+        "compatType": "NameplateProxyCompatibility",
+        "fingerprintType": "NameplateProxyFingerprint",
+        "pin": "4730817F55DB4BF61E3E8976AFA9F95FF876291B25DD238518DAC66B7202ED5D",
+        "label": "nameplate-proxy-symbolic-v1",
+        "file": "NameplateProxyFingerprint.cs"
+      },
+      "logPrefix": "[CoopNameplateFix]",
+      "harmonyIds": [
+        "CoopNameplateFix.Nameplate.20261112"
+      ],
+      "switches": [
+        "COOP_NAMEPLATE_DISABLE",
+        "COOP_NAMEPLATE_SCALE",
+        "COOP_NAMEPLATE_ALPHA"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "Mono.Cecil.TypeDefinition[] NameplateProxyFingerprint/<>c::<.ctor>b__13_2(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "NameplateProxyFingerprint/Result NameplateProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "R10",
+          "ilSha256": "BA44E84023E96526600C615B5ECE286BAD0B09EB04743D75357F6A40A7758F25"
+        },
+        {
+          "method": "NameplateProxyFingerprint/Result NameplateProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage,System.String[],System.String[])",
+          "change": "added",
+          "edit": "R10",
+          "ilSha256": "71F802E95A5C0E727EDE0FC26FFA0595495DCE28187767CC2E7C99610268616F"
+        },
+        {
+          "method": "NameplateProxyFingerprint/Result NameplateProxyFingerprint::Compute(Mono.Cecil.AssemblyDefinition,System.String)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "NameplateProxyFingerprint/Result NameplateProxyFingerprint::Compute(System.Byte[],System.String)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "NameplateProxyFingerprint/Result NameplateProxyFingerprint::Run()",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "D81C7A2BCD03AB2D01DEE5B295EF965867649850D4835D51B29CEBEE681DB74F"
+        },
+        {
+          "method": "System.Boolean NameplateProxyFingerprint/<>c::<.ctor>b__13_10(Mono.Cecil.CustomAttribute)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean NameplateProxyFingerprint/<>c::<.ctor>b__13_4(Mono.Cecil.MethodReference)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.Boolean NameplateProxyFingerprint/<>c__DisplayClass21_0::<Run>b__2(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "14980D1FA41D4257D72609D8E527A76B54296D2B9FE6FFB8D265369A6E1603F6"
+        },
+        {
+          "method": "System.Boolean NameplateProxyFingerprint/<>c__DisplayClass21_0::<Run>b__4(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean NameplateProxyFingerprint::<.ctor>g__Native|13_3(Mono.Cecil.TypeReference)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.MethodDefinition> NameplateProxyFingerprint/<>c::<Run>b__21_3(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.TypeDefinition> NameplateProxyFingerprint/<>c::<Run>b__21_2(Mono.Cecil.TypeDefinition[])",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String NameplatePatch::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_0(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_0(System.String)",
+          "change": "added",
+          "edit": "R10",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_1(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_5(Mono.Cecil.MethodReference)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_6(System.String)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_7(System.String)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_8(Mono.Cecil.TypeReference)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<.ctor>b__13_9(System.String)",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<Run>b__21_3(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<Run>b__21_4(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<Run>b__21_6(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String NameplateProxyFingerprint/<>c::<Run>b__21_7(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void NameplateProxyCompatibility::ValidateImage(CoopPackRuntime.PackProxyImage,System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "added",
+          "edit": "S1+R10",
+          "ilSha256": "90AC1F29E8E1FE57F49997EE682EF5D0AAE705EA85A1626D42B4A63278C19B90"
+        },
+        {
+          "method": "System.Void NameplateProxyCompatibility::ValidateImage(System.Byte[],System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "removed",
+          "edit": "S1+R10"
+        },
+        {
+          "method": "System.Void NameplateProxyCompatibility::ValidateLoaded(System.Reflection.Assembly)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "E3452DCC2C664C1550AE2DC2DB44BC64F9E80CBD6A89AEEDF31D48EF9B16CB89"
+        },
+        {
+          "method": "System.Void NameplateProxyFingerprint::.ctor(CoopPackRuntime.PackProxyImage,System.String[],System.String[])",
+          "change": "added",
+          "edit": "R10+S1",
+          "ilSha256": "33B87A114D32090C77FC6D1197F45C20142D5CA9449D38C28B2CAD4310FA1906"
+        },
+        {
+          "method": "System.Void NameplateProxyFingerprint::.ctor(Mono.Cecil.AssemblyDefinition,System.String)",
+          "change": "removed",
+          "edit": "R10+S1"
+        }
+      ],
+      "fieldChanges": [
+        {
+          "type": "NameplateProxyFingerprint",
+          "field": "image",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_4",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_5",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_6",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_7",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_8",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_9",
+          "change": "removed",
+          "edit": "R10"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_0",
+          "change": "changed",
+          "edit": "R10+S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_1",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__13_10",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__21_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__21_3",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__21_6",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__21_7",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "NameplateProxyFingerprint/<>c",
+          "field": "<>9__21_4",
+          "change": "added",
+          "edit": "S1"
+        }
+      ],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopPadFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopPadFix",
+      "switch": "COOP_PACK_PAD_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-pad/artifacts/build-b9a037bbfaa9420586c91aa13e9703e2",
+      "manifest": {
+        "sha256": "377FCCB2D84DD79993030FF381CA2C188E57B9407829C54E6D8FB42CC0257760",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopPadFix.dll",
+        "sha256": "FE60BEB2FE53E6C11DBE29E7C22EC046989B9E9871FE1003C8C7A72D111FA607",
+        "installed": null
+      },
+      "modinfoSha256": "2E8068F2521805640EE94080BDD599DDAED1E424A088352179545ADC5285C0A6",
+      "files": [
+        {
+          "name": "CoopPadFix.cs",
+          "sha256": "2D834F648A537E02ADF8BF371AEF75833C1319680974EB2D707AA34BBA15138C",
+          "patchedSha256": "C547C3FAAFF59E98ECF760AB2EC6EB8FB09BE07BC05C329E59232E86C8153F44"
+        },
+        {
+          "name": "PadFixRules.cs",
+          "sha256": "4090170449937568D21521C48B5447293D8769AE95A3267E2F5B8D500E62F61A",
+          "patchedSha256": null
+        },
+        {
+          "name": "PadFixNativeAbi.cs",
+          "sha256": "931A1FE289D353E8A0DB2E09B7B7EDCB049808B1F40BF8B8A6ACFADAF071F983",
+          "patchedSha256": null
+        },
+        {
+          "name": "PadFixHooks.cs",
+          "sha256": "6F6FF1C830FA2D54A06EC12882F292AAF75CBA1154A28EA476C62DB30804CC9F",
+          "patchedSha256": null
+        },
+        {
+          "name": "PadProxyFingerprint.cs",
+          "sha256": "A9507C9231B60B8D4B1FEA0268B13E40E9BAA1774ECAA8C4137FCDBACFA36BBB",
+          "patchedSha256": "1E4FFF9843CDB77996D5BE3C9FEB3640D985F03FD72F42E04C5F476EBC40FCED"
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopPadFix.edits.json",
+        "sha256": "4B8412FAE72E9ECA9CAEFF4CD1951934C398854726A23144B2EFF620599876C9"
+      },
+      "roots": null,
+      "fingerprint": {
+        "compatType": "PadProxyCompatibility",
+        "fingerprintType": "PadProxyFingerprint",
+        "pin": "40C2BBD3F42007FD9213AB1CECA9F21D4EE1778A20A11EC35391C97307A6DAF9",
+        "label": "pad-proxy-symbolic-v1",
+        "file": "PadProxyFingerprint.cs",
+        "harnessStubs": [
+          "public static class PadFixStatus{public static string ProxyCheck;}"
+        ]
+      },
+      "logPrefix": "[CoopPadFix]",
+      "harmonyIds": [],
+      "switches": [
+        "COOP_PAD_DISABLE",
+        "COOP_PAD_DPAD_DISABLE",
+        "COOP_PAD_GLYPHS_DISABLE",
+        "COOP_QA_PAD_STATE",
+        "COOP_PROBE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "Mono.Cecil.TypeDefinition[] PadProxyFingerprint/<>c::<.ctor>b__13_2(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "PadProxyFingerprint/Result PadProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "A46774AB98A383A0D7C4066E7B80D54F8DC187BA34C29A3CDF7C66004FA48CAE"
+        },
+        {
+          "method": "PadProxyFingerprint/Result PadProxyFingerprint::Compute(Mono.Cecil.AssemblyDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "PadProxyFingerprint/Result PadProxyFingerprint::Compute(System.Byte[])",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "A40957669041116D27852403446A60B9E792F00A07517BC39A3AA3B0E74B655C"
+        },
+        {
+          "method": "PadProxyFingerprint/Result PadProxyFingerprint::Run()",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "BD4B328EE1777D7EE323E28D6612A81862EE0BEECB917B95D87DAF708F38BD13"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c::<.ctor>b__13_3(Mono.Cecil.CustomAttribute)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c::<Run>b__21_4(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "F56A4F0F315D833D877560FD10AFDD62B46474694C6F7C6EC6FD126CA0B664E5"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c::<Run>b__21_5(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "F56A4F0F315D833D877560FD10AFDD62B46474694C6F7C6EC6FD126CA0B664E5"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c::<Run>b__21_6(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c::<Run>b__21_7(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c__DisplayClass21_0::<Run>b__2(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "9D122F903D9F4E8A2937A46C40E111F437E6290EA26237CD98F40EABBDE0A05F"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c__DisplayClass21_0::<Run>b__4(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c__DisplayClass21_1::<Run>b__3(Mono.Cecil.EventDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "3E4F1DDED1AB20C0144427B9B68BA8542E7880F16AD061B260333F98CAF8F979"
+        },
+        {
+          "method": "System.Boolean PadProxyFingerprint/<>c__DisplayClass21_1::<Run>b__5(Mono.Cecil.EventDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.MethodDefinition> PadProxyFingerprint/<>c::<Run>b__21_3(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.TypeDefinition> PadProxyFingerprint/<>c::<Run>b__21_2(Mono.Cecil.TypeDefinition[])",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopPadFix::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        },
+        {
+          "method": "System.String PadProxyFingerprint/<>c::<.ctor>b__13_0(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String PadProxyFingerprint/<>c::<.ctor>b__13_1(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String PadProxyFingerprint/<>c::<Run>b__21_10(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String PadProxyFingerprint/<>c::<Run>b__21_6(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String PadProxyFingerprint/<>c::<Run>b__21_7(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String PadProxyFingerprint/<>c::<Run>b__21_9(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void PadProxyCompatibility::ValidateImage(CoopPackRuntime.PackProxyImage,System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C4EB2C0F9ACA987BB4AED33ED4C7F2BC847E7CFC5594D4284C93F8A467D100E0"
+        },
+        {
+          "method": "System.Void PadProxyCompatibility::ValidateImage(System.Byte[],System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void PadProxyCompatibility::ValidateLoaded(System.Reflection.Assembly)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "8C09CB9561948012E57136984CB537BB7287E9E73693A382108605CB622E7CFB"
+        },
+        {
+          "method": "System.Void PadProxyCompatibility::ValidateSymbolic(CoopPackRuntime.PackProxyImage,System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "D39B76E122AF97F56B9E78EF5F24C90699BD21685096869C8D45F62FA8DD8E56"
+        },
+        {
+          "method": "System.Void PadProxyCompatibility::ValidateSymbolic(System.Byte[],System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void PadProxyFingerprint::.ctor(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "4C2D9A05ED2C5F332E7379545D89AE10998F1EEE7529F919F35991B3D907FBEA"
+        },
+        {
+          "method": "System.Void PadProxyFingerprint::.ctor(Mono.Cecil.AssemblyDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        }
+      ],
+      "fieldChanges": [
+        {
+          "type": "PadProxyFingerprint",
+          "field": "image",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__13_0",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__13_1",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__13_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__13_3",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_3",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_6",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_7",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_9",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_10",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_4",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "PadProxyFingerprint/<>c",
+          "field": "<>9__21_5",
+          "change": "added",
+          "edit": "S1"
+        }
+      ],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopPartyHud",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopPartyHud",
+      "switch": "COOP_PACK_PARTY_HUD_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-party-hud/artifacts/build-6bbd1f62d354491fb514fcdcbc5b29dd",
+      "manifest": {
+        "sha256": "F2F74BF95E998714ED16024A02C4519A80E61FF5DBD29EC9BAF078B5BDC38D18",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopPartyHud.dll",
+        "sha256": "ED7CA881D5E643AFEAE7AFAD10E1E115B16CA36E4764A73F688AAB50DA24E9A7",
+        "installed": null
+      },
+      "modinfoSha256": "10A72BA05BA5C99E41A85517708D807CF5FAE647C7A12BF3BD84AC207389FDC2",
+      "files": [
+        {
+          "name": "CoopPartyHudRules.cs",
+          "sha256": "1A4C08076EE2D9A8CC9DD5C6DA56268A6F88C9173001577D8A0920B1A87E9843",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopPartyHudPins.cs",
+          "sha256": "1F6E48C605A0A24635297ECA9B726751AE03DC0EC37A2ACAC255DD81347B5358",
+          "patchedSha256": "7116457059581C32264E9115173B64B525657FE11FE38E3F8B6E5D2C4F9E93D3"
+        },
+        {
+          "name": "CoopPartyHudWire.cs",
+          "sha256": "3DC6AB43E810B58C157D572C50FCA16CE2DA2842232AD0404D45C53880B91B16",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopPartyHudPatch.cs",
+          "sha256": "EF3D428DDC0C3593A206CC1BD0633BBEB0599140520A78EB598506D111E68F1F",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopPartyHud.cs",
+          "sha256": "9A7085FBA40BCA0D0E9A3D5685784BAC65360A5117AE91AA66B0743885398A13",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopPartyHud.edits.json",
+        "sha256": "D76470A4E9F671E975346353140DA704EAED0603E4006EECBE0F420745967B06"
+      },
+      "roots": null,
+      "fingerprint": null,
+      "logPrefix": "[CoopPartyHud]",
+      "harmonyIds": [
+        "CoopPartyHud.Panel.20261112"
+      ],
+      "switches": [
+        "COOP_PARTY_HUD_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "System.String CoopPartyHudPins::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        }
+      ],
+      "fieldChanges": [],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopReviveCostFix",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopReviveCostFix",
+      "switch": "COOP_PACK_REVIVE_COST_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-revive-cost/artifacts/build-0f81436f1d084de4b86d84f426db5066",
+      "manifest": {
+        "sha256": "D958E1B9E96D23C290805DF1BACD74C5D684BF010259E0CBBDCBA30B87AD83D5",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopReviveCostFix.dll",
+        "sha256": "4F478CA015B49176CF75A95F2157F481A9888798F8B60874F792572994D88536",
+        "installed": null
+      },
+      "modinfoSha256": "6E74C2F0D5105356113679C5B60A63CA66B3B03A3A159227112576C5B2749FD3",
+      "files": [
+        {
+          "name": "CoopReviveCostRules.cs",
+          "sha256": "CD8393BA44265D14B9CBCCC0485DF9D9BBBD4B6C7F009F3DC1F973BE43DCC376",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopReviveCostProxyFingerprint.cs",
+          "sha256": "06D801B188EA1E5C8021D55C7B88F5B9CDA031AEF2181F6520A04A31F7F784ED",
+          "patchedSha256": "9D2D38F675F9C1B7403F855F690CDFBB5165A8A20BBD31E0B9C1965D3F4A58B2"
+        },
+        {
+          "name": "CoopReviveCostPatch.cs",
+          "sha256": "00C8F67742651E5D844B1A3663D94DF8677BB56AA7814E5EB5EBBC1581A6E4B9",
+          "patchedSha256": "0CA718D7821AE039C318B0F80B537AB2E16F3DBEF5FC05F2B654AC21A2B78D46"
+        },
+        {
+          "name": "CoopReviveCostFix.cs",
+          "sha256": "B1F28BE8B527D6794ADABBD7981CE9E987D6441C74055150AC6ECD6FBFBCD2BA",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopReviveCostFix.edits.json",
+        "sha256": "170174C639A351AF80DDA735B2659BED6B135C40CB35C252C3D1720453B9A8DF"
+      },
+      "roots": {
+        "path": "roots/CoopReviveCostFix-4F478CA0.txt",
+        "sha256": "A32348B4CFB4798579E9EC8B19EE1879316E646A10388619B87A79B8E0C31717",
+        "consumerSha256": "4F478CA015B49176CF75A95F2157F481A9888798F8B60874F792572994D88536",
+        "typesField": "ReviveCostTypes",
+        "methodsField": "ReviveCostMethods"
+      },
+      "fingerprint": {
+        "compatType": "CoopReviveCostProxyCompatibility",
+        "fingerprintType": "CoopReviveCostProxyFingerprint",
+        "pin": "9036AAB167C39B56DD708DEED65D6D014FC18E6591B356310101D1ED6AEED1CC",
+        "label": "revive-cost-proxy-symbolic-v1",
+        "file": "CoopReviveCostProxyFingerprint.cs"
+      },
+      "logPrefix": "[CoopReviveCostFix]",
+      "harmonyIds": [
+        "CoopReviveCostFix.ReviveCost.20261112"
+      ],
+      "switches": [
+        "COOP_REVIVE_COST_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "CoopReviveCostProxyFingerprint/Result CoopReviveCostProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage,System.String[],System.String[])",
+          "change": "added",
+          "edit": "R9",
+          "ilSha256": "F9A3A67C7552A760F99CA4AEE52E3E17F30A16C423319D4ADDEBF30A30D6ADC6"
+        },
+        {
+          "method": "CoopReviveCostProxyFingerprint/Result CoopReviveCostProxyFingerprint::Compute(CoopPackRuntime.PackProxyImage)",
+          "change": "added",
+          "edit": "R9",
+          "ilSha256": "FA6544E8A88EB0A72EC51298D90363ED16A00058860813CF1606D130E608D8BD"
+        },
+        {
+          "method": "CoopReviveCostProxyFingerprint/Result CoopReviveCostProxyFingerprint::Compute(Mono.Cecil.AssemblyDefinition,System.String)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "CoopReviveCostProxyFingerprint/Result CoopReviveCostProxyFingerprint::Compute(System.Byte[],System.String)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "CoopReviveCostProxyFingerprint/Result CoopReviveCostProxyFingerprint::Run()",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "E1AE81B3012B522D1CA4E0885977B4D75436ED21664060E0ECC9A68781DFF5C9"
+        },
+        {
+          "method": "Mono.Cecil.TypeDefinition[] CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_2(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean CoopReviveCostProxyFingerprint::<.ctor>g__Native|11_3(Mono.Cecil.TypeReference)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "System.Boolean CoopReviveCostProxyFingerprint/<>c__DisplayClass19_0::<Run>b__2(Mono.Cecil.MethodDefinition)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "6339972E028E1F0A12806063FFE5C0E1C6FDB35B01882158CD4D7277A0DD8913"
+        },
+        {
+          "method": "System.Boolean CoopReviveCostProxyFingerprint/<>c__DisplayClass19_0::<Run>b__4(Mono.Cecil.MethodDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Boolean CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_4(Mono.Cecil.MethodReference)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "System.Boolean CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_9(Mono.Cecil.CustomAttribute)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.MethodDefinition> CoopReviveCostProxyFingerprint/<>c::<Run>b__19_3(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Collections.Generic.IEnumerable`1<Mono.Cecil.TypeDefinition> CoopReviveCostProxyFingerprint/<>c::<Run>b__19_2(Mono.Cecil.TypeDefinition[])",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopReviveCostPatch::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_0(Mono.Cecil.TypeDefinition)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_1(System.Linq.IGrouping`2<System.String,Mono.Cecil.TypeDefinition>)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_5(Mono.Cecil.MethodReference)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_6(System.String)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_7(Mono.Cecil.TypeReference)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<.ctor>b__11_8(System.String)",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<Run>b__19_3(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<Run>b__19_4(System.String)",
+          "change": "added",
+          "edit": "S1",
+          "ilSha256": "C5BF84EBBA5BA9AADED65D09F99F157C9E07D486EA0F8F3D3FA328764EF801C8"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<Run>b__19_6(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.String CoopReviveCostProxyFingerprint/<>c::<Run>b__19_7(System.String)",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "method": "System.Void CoopReviveCostProxyCompatibility::ValidateImage(CoopPackRuntime.PackProxyImage,System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "added",
+          "edit": "S1+R9",
+          "ilSha256": "66C6A49FE33BD918A5F68BB6A85678D75EBFC49C489B6EF2027AEC367AECFA10"
+        },
+        {
+          "method": "System.Void CoopReviveCostProxyCompatibility::ValidateImage(System.Byte[],System.Guid,System.String,System.Collections.Generic.IReadOnlyDictionary`2<System.String,System.String>)",
+          "change": "removed",
+          "edit": "S1+R9"
+        },
+        {
+          "method": "System.Void CoopReviveCostProxyCompatibility::ValidateLoaded(System.Reflection.Assembly)",
+          "change": "changed",
+          "edit": "S1",
+          "ilSha256": "FE4119F8E1A4D03AFE4F805EFAE052857D1E220A5ED524E47C8A8C4D007AF9E6"
+        },
+        {
+          "method": "System.Void CoopReviveCostProxyFingerprint::.ctor(CoopPackRuntime.PackProxyImage,System.String[],System.String[])",
+          "change": "added",
+          "edit": "R9+S1",
+          "ilSha256": "308535D846DB9003B1B075D538AC1428B99FF5737E7D8E5378774E4D5F7FC907"
+        },
+        {
+          "method": "System.Void CoopReviveCostProxyFingerprint::.ctor(Mono.Cecil.AssemblyDefinition,System.String)",
+          "change": "removed",
+          "edit": "R9+S1"
+        }
+      ],
+      "fieldChanges": [
+        {
+          "type": "CoopReviveCostProxyFingerprint",
+          "field": "image",
+          "change": "added",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_4",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_5",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_6",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_7",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_8",
+          "change": "removed",
+          "edit": "R9"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_0",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_1",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__11_9",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__19_2",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__19_3",
+          "change": "changed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__19_6",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__19_7",
+          "change": "removed",
+          "edit": "S1"
+        },
+        {
+          "type": "CoopReviveCostProxyFingerprint/<>c",
+          "field": "<>9__19_4",
+          "change": "added",
+          "edit": "S1"
+        }
+      ],
+      "removedStrings": [],
+      "nestedTypeChanges": []
+    },
+    {
+      "name": "CoopTransitionGate",
+      "version": "0.2.0-alpha",
+      "entryType": "CoopTransitionGate",
+      "switch": "COOP_PACK_TRANSITION_GATE_DISABLE",
+      "events": [],
+      "rollback": null,
+      "dependencies": [
+        "DeadCellsMultiplayerMod"
+      ],
+      "guardTypes": [],
+      "sourceDir": "alpha2-transition-gate/artifacts/build-80127a1e9512477aba4c64dbdca8239a",
+      "manifest": {
+        "sha256": "4B4FF1C8B650A4A0B867292F9D8368D4261D20A824557504F4751522197C6572",
+        "dllField": "sha256",
+        "sourcesField": "sources"
+      },
+      "dll": {
+        "name": "CoopTransitionGate.dll",
+        "sha256": "60C3E1B40CA8486172E3105C82047F8B385C2A49AA3F310D76870A5E9F8337C4",
+        "installed": null
+      },
+      "modinfoSha256": "AD685BEB42F8BF9B6CA1392ABA626ADE7F319AEB71E727A26880D678A8FB447D",
+      "files": [
+        {
+          "name": "CoopTransitionGateRules.cs",
+          "sha256": "DD17E648C0B5FD6DF0CDB265DEF6FD38E64547F1CD2C793F0B7C20C3D91271BA",
+          "patchedSha256": null
+        },
+        {
+          "name": "CoopTransitionGatePins.cs",
+          "sha256": "57388AD1E32D3220789F3305CD5D8903A9FAD383A5AEABE26D3DB88A38F811A5",
+          "patchedSha256": "9DA1714008AFA2ED76A3DB0F3602D9EC22C29E73E7CE5B279AA77AEB98ADA1C3"
+        },
+        {
+          "name": "CoopTransitionGateWire.cs",
+          "sha256": "1794F6EF3FD2ACC263CEFFCA00F73EDBA5B82C97AC63DA24BFFCAF9BE34B5140",
+          "patchedSha256": "2953F3057C19D8BEECADA3A3EB171A01C6A5B87D398462224E437520EBED73D6"
+        },
+        {
+          "name": "CoopTransitionGatePatch.cs",
+          "sha256": "F74E16445310C698BF1869E977A40B9AC115109D8162C4C21D1E85FFF8A43A05",
+          "patchedSha256": "700C20B76F0095ED431649CD81659FE1054FAFA66C04FF9B53ECE0FA9AF93EBC"
+        },
+        {
+          "name": "CoopTransitionGate.cs",
+          "sha256": "A9848DCBBF7608E0A98AED3577974B1AD8DDF8A2EC5EFD8ED2C0502D04248DD9",
+          "patchedSha256": null
+        }
+      ],
+      "edits": {
+        "path": "patches/CoopTransitionGate.edits.json",
+        "sha256": "622380D9427A5B648974EDB121E0A9A890D7614C4834C2110FAEE60EC9650BD9"
+      },
+      "roots": null,
+      "fingerprint": null,
+      "logPrefix": "[CoopTransitionGate]",
+      "harmonyIds": [
+        "CoopTransitionGate.Doors.20261112"
+      ],
+      "switches": [
+        "COOP_TRANSITION_GATE_DISABLE"
+      ],
+      "switchFragments": [],
+      "workerLiterals": [],
+      "ilChangedMethods": [
+        {
+          "method": "System.Boolean CoopTransitionGateWire::Rejected(NetNode)",
+          "change": "changed",
+          "edit": "R15",
+          "ilSha256": "765ED6989D04BE4C999AB169F044E80FF0CE3B1396CDBBBEADA20BF29AA627C8"
+        },
+        {
+          "method": "System.String CoopTransitionGatePatch::BranchOf(dc.pr.Level)",
+          "change": "changed",
+          "edit": "R14",
+          "ilSha256": "C833F08101D04983F6F4C34635549142DA2A5D51F4EBB4F043A0B392E8D38F2C"
+        },
+        {
+          "method": "System.String CoopTransitionGatePins::Hash(System.String)",
+          "change": "changed",
+          "edit": "S2",
+          "ilSha256": "A4ADD7271F402BAA06DE067407FC0795A6CD442B445DDB909172ADD7A1F5B83C"
+        }
+      ],
+      "fieldChanges": [],
+      "removedStrings": [],
       "nestedTypeChanges": []
     }
   ]

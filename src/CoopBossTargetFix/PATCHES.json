@@ -1,0 +1,25 @@
+[
+  {
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "before": "3BBFD00B5D809DB0FF5AFB14B483826D2BCE244BC1593ABCBED4C2736D2928C7",
+    "after": "C8C5EDA1B6C9FE9861B5627A33E60B7457F1D3B5B2E1BBE34132BB36E7B5F03B",
+    "edits": [
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1"
+    ]
+  },
+  {
+    "file": "CoopBossTargetPatch.cs",
+    "before": "270BC557A9378BEBE78970F09CFFF42B6E9759300DC45D098A4B848E41F3E09E",
+    "after": "1E6369FB9C44303525E9A84EC00B1B9D9E72A9727C4A163C07F502E38100EC0F",
+    "edits": [
+      "S2"
+    ]
+  }
+]

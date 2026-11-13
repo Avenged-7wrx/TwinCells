@@ -249,8 +249,9 @@ public static partial class OptHost
     // set (else HL would raise NullCheck). Armed only while nothing patches the proxy members the stand-ins use,
     // IsAcquirable, the two handlers or anything they can run (IsEntityDownedForCombat with the downed state,
     // GetCurrentLevelId, IsModFakeDeathCine, the getters they read), and while the hook dispatcher HookEntry carries no
-    // patch but CoopLoadFix's chain cache and CoopNetMeter's meter (checked every 2 s), with the pinned hlboot, framework
-    // and generated proxy. Any exception of the fast route falls back to the real call (the handlers only read; with no
+    // patch but CoopLoadFix's chain cache and CoopNetMeter's meter (checked every 2 s), with the pinned hlboot and framework
+    // and a generated proxy that is the pinned file or passes the T3 symbolic check (Alpha2, VerifyT3Proxy below). Any
+    // exception of the fast route falls back to the real call (the handlers only read; with no
     // foreign patch on them or their callees, running them again changes nothing).
     // Shadow: the fast route, then the real dispatched call; the real outcome (value or exception) is returned.
     // Dropped: two HookEntry dispatches (HookOrigClosure/HlCallback objects, GC handles, CoopLoadFix and CoopNetMeter
@@ -278,7 +279,7 @@ public static partial class OptHost
     static void BindT3()
     {
         BindAcquirable();
-        PinFile(typeof(Hero).Assembly,GameProxyPin);
+        VerifyT3Proxy();
         if(typeof(Hero).BaseType!=typeof(Entity)||typeof(Hero).GetMethod("canBeHit",OptCore.I,null,Type.EmptyTypes,null)!=null)
             throw new InvalidOperationException("proxy en.Hero no longer inherits Entity.canBeHit");
         var members=new List<MethodBase>
@@ -315,6 +316,30 @@ public static partial class OptHost
         members.Add(AcquirableMethod);
         T3Proxy=NewGuard(members,new MethodBase[]{HookHeroMethod,HookGameMethod});
         foreach(var m in new MethodBase[]{fakeDeath,downed})if(!T3Proxy.Keys.Contains(Key(m)))throw new InvalidOperationException("T3 guard misses "+m.Name);
+    }
+    // Alpha2 (unit U12, PLAN-ALPHA2.md issue 14; OptHostT3Proxy.cs): the GameProxy check of T3. Alpha1 required the raw
+    // file 2A1803BA (PinFile), which a regenerated DCCM cache never matches, so T3 stayed off on every other PC. The raw
+    // pin still decides first (same file: same route, no new line); any other file must pass the symbolic check of
+    // exactly what T3 uses (generator pins, loaded identity, hero subclasses, T3 fingerprint), else T3 is not installed
+    // with the reason. COOP_QA_OPT_T3_SYMBOLIC=1 (QA only) forces the symbolic route on the pinned file too; it can only
+    // refuse more. The loaded hero subclasses are checked on every route: T3's receiver whitelist (HitMode) relies on
+    // Beheaded / Richter declaring no canBeHitBy / canBeHit / canBeDetected of their own.
+    static void VerifyT3Proxy()
+    {
+        var proxy=typeof(Hero).Assembly;
+        if(string.IsNullOrEmpty(proxy.Location))throw new InvalidOperationException("pinned file changed: GameProxy (no file location)");
+        foreach(var sub in new[]{typeof(dc.en.hero.Beheaded),typeof(dc.en.hero.Richter)})
+        {
+            if(sub.BaseType!=typeof(Hero))throw new InvalidOperationException("proxy "+sub.FullName+" no longer derives from en.Hero");
+            foreach(var slot in OptHostT3Proxy.HeroSlots)
+                if(sub.GetMember(slot,MemberTypes.Method,OptCore.I|BindingFlags.Static).Length!=0)throw new InvalidOperationException("proxy "+sub.FullName+" declares "+slot);
+        }
+        string raw=Hash(proxy.Location);
+        bool qa=R.SwitchSet(Environment.GetEnvironmentVariable(OptHostT3Proxy.QaSymbolicSwitch));
+        if(OptHostT3Proxy.RawAccepted(raw,GameProxyPin,qa))return;
+        var o=OptHostT3Proxy.Verify(proxy,raw);      // throws with the reason when refused
+        OptCore.Info("host T3 GameProxy accepted by its symbolic fingerprint: raw={Raw} symbolic={Symbolic} image={Image} members={Types}/{Methods}/{Fields} ms={Ms}{Qa}",
+            o.Raw,o.Symbolic,o.Image,o.Types,o.Methods,o.Fields,o.Ms,qa?" (QA: "+OptHostT3Proxy.QaSymbolicSwitch+"=1"+(raw==GameProxyPin?", the raw pin matches too)":")"):"");
     }
     static void DelegateShape(Type d,params Type[] args)
     {

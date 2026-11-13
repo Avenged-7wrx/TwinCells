@@ -24,9 +24,18 @@ public sealed partial class CoopSyncFixes
         public long RunId;
         public int Sequence;
         public bool Armed;
-        public bool Matches(object descriptor) => descriptor != null &&
-            Equals(SessionId, Property(descriptor, "SessionId")) &&
-            Equals(RunId, Property(descriptor, "RunId")) && Equals(Sequence, Property(descriptor, "Sequence"));
+        public bool Matches(object descriptor) => SameRun(SessionId, RunId, Sequence, descriptor);
+        // The run test of Matches for any three values (gc-opt call sites): the descriptor's three record properties are read
+        // through typed getters (CsfRun), in the same order and with the same short-circuit, so nothing is boxed.
+        internal static bool SameRun(Guid sessionId, long runId, int sequence, object descriptor) => descriptor != null &&
+            sessionId == CsfRun.SessionId(descriptor) && runId == CsfRun.RunId(descriptor) && sequence == CsfRun.Sequence(descriptor);
+        // ActivationContext(connection, request).Matches(descriptor) without the temporary context: connection is read first,
+        // as the object initializer read connection.Nonce first (a missing connection throws there, as before).
+        internal static bool RequestMatches(JoinContext connection, ActivationRequest request, object descriptor)
+        {
+            _ = connection.Nonce;
+            return SameRun(request.SessionId, request.RunId, request.Sequence, descriptor);
+        }
     }
     private static void InitializeJoinProtocol(Harmony harmony)
     {

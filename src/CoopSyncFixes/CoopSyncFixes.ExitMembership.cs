@@ -48,8 +48,9 @@ public sealed partial class CoopSyncFixes
         lock(NetField(net,"_clientsLock"))
         {
             net.CopyConnectedClientIdsTo(peers.Ids);
-            foreach(var name in new[]{"_clients","_steamClients"})foreach(DictionaryEntry pair in (IDictionary)NetField(net,name))
-                if(peers.Ids.Contains((int)pair.Key))peers.Connections[(int)pair.Key]=pair.Value;
+            // "_clients" then "_steamClients", each table in its own order, as before; without a boxed entry per client.
+            CsfExitTables.Collect(NetField(net,"_clients"),peers.Ids,peers.Connections);
+            CsfExitTables.Collect(NetField(net,"_steamClients"),peers.Ids,peers.Connections);
         }
         if(net.id>0)peers.Ids.Add(net.id);
         return peers;
@@ -57,8 +58,10 @@ public sealed partial class CoopSyncFixes
     private static bool ApplyExitPeers(object owner,ExitPeers peers)
     {
         var active=(HashSet<int>)ExitField(owner,"_activePlayerIds");var scratch=(HashSet<int>)ExitField(owner,"_activePlayerScratchIds");
-        scratch.Clear();scratch.UnionWith(peers.Ids);var changed=!active.SetEquals(scratch);
-        if(changed){active.Clear();active.UnionWith(scratch);}
+        // UnionWith / SetEquals of the same sets, written as typed loops (no boxed enumerator): the same additions in the same
+        // order, and the same answer (both sets use the default comparer).
+        scratch.Clear();CsfExitTables.AddAll(scratch,peers.Ids);var changed=!CsfExitTables.SameSet(active,scratch);
+        if(changed){active.Clear();CsfExitTables.AddAll(active,scratch);}
         var states=(IDictionary)ExitField(owner,"_playerStates");
         var observed=LastExitPeers.TryGetValue(owner,out var previous);
         foreach(var pair in peers.Connections)
@@ -71,8 +74,39 @@ public sealed partial class CoopSyncFixes
             }
             else peers.Downed[pair.Key]=previous.Downed[pair.Key];
         }
-        LastExitPeers.Remove(owner);LastExitPeers.Add(owner,peers);
+        LastExitPeers.AddOrUpdate(owner,peers);   // = Remove + Add, in place
         return changed;
+    }
+    // The connection tables of NetNode (Dictionary<int, private connection class>) walked with their own typed enumerator.
+    private static class CsfExitTables
+    {
+        private static readonly MethodInfo WalkTyped=typeof(CsfExitTables).GetMethod(nameof(Walk),BindingFlags.Static|BindingFlags.NonPublic);
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<Type,Action<object,HashSet<int>,Dictionary<int,object>>> Walkers=new();
+        // For every entry of map, in its order, whose key is in ids: into[key] = value. A table of another shape takes the
+        // non-generic walk the call site had before.
+        internal static void Collect(object map,HashSet<int> ids,Dictionary<int,object> into)
+        {
+            var type=map.GetType();
+            if(!Walkers.TryGetValue(type,out var walk))walk=Walkers.GetOrAdd(type,Bind(type));
+            if(walk!=null){walk(map,ids,into);return;}
+            foreach(DictionaryEntry pair in (IDictionary)map)if(ids.Contains((int)pair.Key))into[(int)pair.Key]=pair.Value;
+        }
+        private static Action<object,HashSet<int>,Dictionary<int,object>> Bind(Type type)
+        {
+            if(!type.IsGenericType || type.GetGenericTypeDefinition()!=typeof(Dictionary<,>))return null;
+            var arguments=type.GetGenericArguments();
+            if(arguments[0]!=typeof(int) || arguments[1].IsValueType)return null;
+            return WalkTyped.MakeGenericMethod(arguments[1]).CreateDelegate<Action<object,HashSet<int>,Dictionary<int,object>>>();
+        }
+        private static void Walk<T>(object map,HashSet<int> ids,Dictionary<int,object> into) where T:class
+        {foreach(var pair in (Dictionary<int,T>)map)if(ids.Contains(pair.Key))into[pair.Key]=pair.Value;}
+        internal static void AddAll(HashSet<int> target,HashSet<int> source){foreach(var id in source)target.Add(id);}
+        internal static bool SameSet(HashSet<int> a,HashSet<int> b)
+        {
+            if(a.Count!=b.Count)return false;
+            foreach(var id in b)if(!a.Contains(id))return false;
+            return true;
+        }
     }
     private static bool RefreshHostExitPeers(object __instance,NetNode net,ref bool __result)
     {

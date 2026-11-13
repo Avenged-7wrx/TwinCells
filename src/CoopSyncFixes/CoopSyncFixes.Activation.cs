@@ -21,9 +21,9 @@ public sealed partial class CoopSyncFixes
         Nonce=connection.Nonce,SessionId=request.SessionId,RunId=request.RunId,Sequence=request.Sequence};
     private static bool ActivationRunMatches(WorldJoin state,JoinContext connection,object descriptor)
     {
-        if(state.ActivationOnly)return state.Request!=null && ActivationContext(connection,state.Request).Matches(descriptor);
+        if(state.ActivationOnly)return state.Request!=null && JoinContext.RequestMatches(connection,state.Request,descriptor);
         if(state.Header==null)return connection.Matches(descriptor);
-        return new JoinContext {SessionId=state.Header.SessionId,RunId=state.Header.RunId,Sequence=state.Header.Sequence}.Matches(descriptor);
+        return JoinContext.SameRun(state.Header.SessionId,state.Header.RunId,state.Header.Sequence,descriptor);
     }
     private static void EnsureClientActivation(NetNode net)
     {

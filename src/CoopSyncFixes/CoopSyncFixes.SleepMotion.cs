@@ -15,12 +15,12 @@ public sealed partial class CoopSyncFixes
     private static void SendSleepBoundary(Mob mob,int mobSyncId,ref bool forceFullState)
     {
         if(ModEntry._net?.IsHost!=true || mob==null || mob.destroyed || !SentSleepStates.TryGetValue(mob,out var prior))return;
-        if(prior.Id==mobSyncId && Current(prior.Generation) && prior.Sleeping!=(bool)Invoke("IsMobCulledLocally",mob))forceFullState=true;
+        if(prior.Id==mobSyncId && Current(prior.Generation) && prior.Sleeping!=CsfMobCalls.MobCulledLocally(mob))forceFullState=true;
     }
     private static void StopSleepingVelocity(Mob mob,bool __result,bool sendStateSnapshot,ref NetNode.MobStateSnapshot stateSnapshot,ref NetNode.MobMoveSnapshot moveSnapshot)
     {
         if(!__result || ModEntry._net?.IsHost!=true || mob==null || mob.destroyed)return;
-        var sleeping=(bool)Invoke("IsMobCulledLocally",mob);
+        var sleeping=CsfMobCalls.MobCulledLocally(mob);
         var sent=SentSleepStates.GetValue(mob,_=>new SentSleepState());
         sent.Id=sendStateSnapshot?stateSnapshot.Index:moveSnapshot.Index;sent.Generation=sendStateSnapshot?stateSnapshot.Generation:moveSnapshot.Generation;sent.Sleeping=sleeping;
         if(!sleeping)return;

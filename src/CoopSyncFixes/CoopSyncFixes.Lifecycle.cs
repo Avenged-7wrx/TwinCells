@@ -26,6 +26,22 @@ public sealed partial class CoopSyncFixes
     private sealed class IntentLedger
     {
         public string Run;public readonly Dictionary<long,DeathStamp> Ids=new();public readonly Dictionary<IntPtr,DeathStamp> Pointers=new();
+        // The descriptor values Run was last built from (gc-opt call sites), replaced as one object, never changed in place.
+        internal CsfIntentRun Key;
+    }
+    // Values of one run descriptor (or of none). Equal values build an equal run text "SessionId:RunId:Sequence", and a
+    // different triple builds a different text (a Guid text has a fixed form and no ':'), so CurrentIntents may compare these
+    // instead of building the text. The three properties are pure getters of an immutable record. Only a run id and a
+    // sequence that are not negative are compared: their text is the same in every culture (a negative number's text
+    // carries the current culture's NegativeSign), so for them the text is built again, as before.
+    private sealed class CsfIntentRun
+    {
+        private readonly bool none;private readonly Guid session;private readonly long run;private readonly int sequence;
+        private CsfIntentRun(bool none,Guid session,long run,int sequence){this.none=none;this.session=session;this.run=run;this.sequence=sequence;}
+        internal static CsfIntentRun Of(object descriptor)=>descriptor==null?new CsfIntentRun(true,Guid.Empty,0,0):
+            new CsfIntentRun(false,CsfRun.SessionId(descriptor),CsfRun.RunId(descriptor),CsfRun.Sequence(descriptor));
+        internal bool Same(object descriptor)=>descriptor==null?none:
+            !none && run>=0 && sequence>=0 && session==CsfRun.SessionId(descriptor) && run==CsfRun.RunId(descriptor) && sequence==CsfRun.Sequence(descriptor);
     }
     private static readonly ConditionalWeakTable<NetNode,IntentLedger> DeathIntents=new();
     private static IntentLedger CurrentIntents()
@@ -33,8 +49,12 @@ public sealed partial class CoopSyncFixes
         var net=ModEntry._net;if(net==null || net.IsHost)return null;
         var ledger=DeathIntents.GetValue(net,_=>new IntentLedger());
         var descriptor=Coordinator.GetMethod("GetCurrentRemoteDescriptor",Flags).Invoke(null,null);
+        // While the descriptor has the values Run was built from, the text below would equal Run: nothing to build or clear.
+        var key=ledger.Key;
+        if(key!=null && key.Same(descriptor))return ledger;
         var run=descriptor==null?"":Property(descriptor,"SessionId")+":"+Property(descriptor,"RunId")+":"+Property(descriptor,"Sequence");
         if(ledger.Run!=run){ledger.Ids.Clear();ledger.Pointers.Clear();ledger.Run=run;}
+        ledger.Key=CsfIntentRun.Of(descriptor);
         return ledger;
     }
     private static bool HasDeathIntent(int generation,int id)
@@ -80,11 +100,14 @@ public sealed partial class CoopSyncFixes
     {
         if(ModEntry._net==null || ModEntry._net.IsHost)return true;
         if((bool)Invoke("IsSyncQuiescedForTransition"))return false;
-        List<Mob> pending;
+        List<Mob> pending=null;
         lock(Gate)
         {
-            pending=new List<Mob>();foreach(Mob mob in (IEnumerable)Field("s_pendingCulledMobDeaths"))pending.Add(mob);
+            // An empty pending set (the usual frame) leaves the loop below with nothing to do: no copy is made then.
+            var set=CsfMobExtras.PendingCulledMobDeaths;
+            if(set.Count>0){pending=new List<Mob>();foreach(var mob in set)pending.Add(mob);}
         }
+        if(pending==null)return false;
         foreach(var mob in pending)
         {
             if(mob==null)continue;

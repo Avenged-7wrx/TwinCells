@@ -1,0 +1,11 @@
+{
+  "schema": "alpha2-maintainer-release-1",
+  "kind": "direct-user-request",
+  "approved": true,
+  "requestSummary": "Publish the exact Twin Cells Alpha2 update as a GitHub prerelease.",
+  "requestSha256": "094144695E2E4742AADCE9BF6AA6E28C43B67EA909BEB568A00FB7EB2AC6896E",
+  "recordedUtc": "2026-11-13T13:50:48.414925+00:00",
+  "source": "Repository maintainer publication request",
+  "scope": "Publish the existing Alpha1-to-Alpha2 delta; game binaries unchanged",
+  "fullNativeValidated": false
+}

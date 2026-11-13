@@ -1,0 +1,74 @@
+[
+  {
+    "id": "S2",
+    "file": "CoopBossTargetPatch.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "S2: memoized file SHA-256 (PackPins) for the base mod and hlboot pins; same value, same exception on a failed read"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "        byte[] bytes=File.ReadAllBytes(proxy.Location);\n        if(Convert.ToHexString(SHA256.HashData(bytes))==RawPin)return \"raw\";\n        var pins=new Dictionary<string,string>(StringComparer.Ordinal);\n        foreach(var assembly in new[]{typeof(ModCore.Mods.ModBase).Assembly,typeof(HashlinkNET.Compiler.HashlinkCompiler).Assembly,\n            typeof(ModuleDefinition).Assembly,typeof(HaxeProxy.Runtime.HaxeProxyBase).Assembly})\n        {\n            byte[] image=File.ReadAllBytes(assembly.Location);\n            using(var stream=new MemoryStream(image,false))using(var parsed=AssemblyDefinition.ReadAssembly(stream))\n                if(parsed.MainModule.Mvid!=assembly.ManifestModule.ModuleVersionId || parsed.Name.FullName!=assembly.FullName)\n                    throw new InvalidOperationException(\"Loaded generator identity differs from its file\");\n            pins.Add(assembly.GetName().Name,Convert.ToHexString(SHA256.HashData(image)));\n        }\n        ValidateImage(bytes,proxy.ManifestModule.ModuleVersionId,proxy.FullName,pins,forceSymbolic:false);\n        return \"symbolic\";\n",
+    "replace": "        var image=global::CoopPackRuntime.PackProxyImage.Acquire(proxy);\n        try\n        {\n            if(image.RawSha256==RawPin)return \"raw\";\n            ValidateImage(image,proxy.ManifestModule.ModuleVersionId,proxy.FullName,image.Generators,forceSymbolic:false);\n            return \"symbolic\";\n        }\n        finally{image.Release();}\n",
+    "count": 1,
+    "note": "S1: raw accelerator on the shared image hash (no second 27 MB read); the generator pins and their loaded-identity check come from PackProxyImage.Generators (the same expressions); order unchanged: raw check first, then generators, then the symbolic check"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "    public static void ValidateImage(byte[] bytes,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators,bool forceSymbolic)\n    {\n        if(!forceSymbolic&&Convert.ToHexString(SHA256.HashData(bytes))==RawPin)return;\n",
+    "replace": "    public static void ValidateImage(byte[] bytes,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators,bool forceSymbolic)\n    {using(var image=global::CoopPackRuntime.PackProxyImage.FromBytes(bytes))ValidateImage(image,loadedMvid,loadedName,generators,forceSymbolic);}\n    public static void ValidateImage(global::CoopPackRuntime.PackProxyImage image,Guid loadedMvid,string loadedName,IReadOnlyDictionary<string,string> generators,bool forceSymbolic)\n    {\n        if(!forceSymbolic&&image.RawSha256==RawPin)return;\n",
+    "count": 1,
+    "note": "S1: the check runs on a PackProxyImage; the byte[] overload (managed checks) keeps its signature and contract through a private image"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "        using(var stream=new MemoryStream(bytes,false))using(var assembly=AssemblyDefinition.ReadAssembly(stream))\n        {\n            if(assembly.Modules.Count!=1 || assembly.MainModule.Mvid!=loadedMvid || assembly.Name.FullName!=loadedName)\n                throw new InvalidOperationException(\"Loaded GameProxy identity differs from the checked image\");\n            if(CoopBossTargetProxyFingerprint.Compute(assembly).Sha256!=FingerprintPin)\n",
+    "replace": "        {\n            var assembly=image.Definition;\n            if(assembly.Modules.Count!=1 || assembly.MainModule.Mvid!=loadedMvid || assembly.Name.FullName!=loadedName)\n                throw new InvalidOperationException(\"Loaded GameProxy identity differs from the checked image\");\n            if(CoopBossTargetProxyFingerprint.Compute(image).Sha256!=FingerprintPin)\n",
+    "count": 1,
+    "note": "S1: identity check and symbolic digest on the image Definition (shared in game, private for the byte[] overload)"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "    readonly Dictionary<string,List<CustomAttribute>> bindings=new(StringComparer.Ordinal);",
+    "replace": "    readonly Dictionary<string,List<CustomAttribute>> bindings;",
+    "count": 1,
+    "note": "S1"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "    CoopBossTargetProxyFingerprint(AssemblyDefinition value)\n    {\n        assembly=value;\n        types=AllTypes(value.MainModule.Types).GroupBy(t=>t.FullName,StringComparer.Ordinal).ToDictionary(g=>g.Key,g=>g.ToArray(),StringComparer.Ordinal);\n        foreach(var attr in value.CustomAttributes.Where(a=>a.AttributeType.FullName==\"HaxeProxy.Runtime.Internals.HaxeProxyBindingAttribute\"))\n        {\n            string target=BindingTarget(attr);\n            if(!bindings.TryGetValue(target,out var list))bindings.Add(target,list=new List<CustomAttribute>());\n            list.Add(attr);\n        }\n    }\n",
+    "replace": "    CoopBossTargetProxyFingerprint(global::CoopPackRuntime.PackProxyImage image)\n    {\n        assembly=image.Definition;this.image=image;\n        types=image.TypesByFullName;\n        bindings=image.Bindings;\n    }\n",
+    "count": 1,
+    "note": "S1: types and bindings from the image (PackProxyImage.cs copies these two expressions verbatim)"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "    public static Result Compute(byte[] bytes)\n    {using(var s=new MemoryStream(bytes,false))using(var a=AssemblyDefinition.ReadAssembly(s))return Compute(a);}\n    public static Result Compute(AssemblyDefinition value)=>new CoopBossTargetProxyFingerprint(value).Run();\n",
+    "replace": "    public static Result Compute(byte[] bytes)\n    {using(var image=global::CoopPackRuntime.PackProxyImage.FromBytes(bytes))return Compute(image);}\n    public static Result Compute(global::CoopPackRuntime.PackProxyImage image)=>new CoopBossTargetProxyFingerprint(image).Run();\n",
+    "count": 1,
+    "note": "S1: Compute(byte[]) keeps its contract through a private image; Compute(PackProxyImage) is the entry the G8c harness and ValidateImage use"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "foreach(var name in RootMethods)AddMethod(types.Values.SelectMany(group=>group).SelectMany(t=>t.Methods).Single(v=>v.FullName==name));",
+    "replace": "foreach(var name in RootMethods)AddMethod(image.MethodsByFullName(name).Single(v=>v.FullName==name));",
+    "count": 1,
+    "note": "S1: FullName index of the same enumeration; same .Single outcome"
+  },
+  {
+    "id": "S1",
+    "file": "CoopBossTargetProxyFingerprint.cs",
+    "find": "        throw new InvalidOperationException(\"Unreviewed symbolic value \"+v.GetType().FullName);\n    }\n",
+    "replace": "        throw new InvalidOperationException(\"Unreviewed symbolic value \"+v.GetType().FullName);\n    }\n    // CoopPack S1: the GameProxy image this walk reads (types, bindings, method index). Declared last so no member\n    // ordinal (and so no compiler-generated name) of the original members changes.\n    readonly global::CoopPackRuntime.PackProxyImage image;\n",
+    "count": 1,
+    "note": "S1: image field, appended after all original members"
+  }
+]

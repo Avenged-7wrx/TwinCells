@@ -46,7 +46,7 @@ public sealed partial class CoopSyncFixes
     }
     static bool HoldDeathsBeforeConsume()
     {
-        if(!(bool)IsTransitionQuiesced.Invoke(null,null))return true;
+        if(!CsfMobs.SyncQuiesced())return true;   // IsSyncQuiescedForTransition, entered on every call as before
         HeldDeathConsumes++;
         return false;
     }

@@ -48,9 +48,12 @@ public sealed partial class CoopSyncFixes
     private static void TickHostJoinLeases(NetNode net)
     {
         if(net==null || !net.IsHost || !HostJoinLeases.TryGetValue(net,out var set))return;
-        var live=new HashSet<object>();
-        if(net.IsAlive)lock(NetField(net,"_clientsLock"))
-            foreach(DictionaryEntry pair in (IDictionary)NetField(net,(bool)NetField(net,"_useSteamTransport")?"_steamClients":"_clients"))live.Add(pair.Value);
+        // The set is kept between calls (gc-opt call sites): taken out of its slot while in use, so a nested call makes its
+        // own, and put back empty at the end. The connections are read from the same table, under the same lock, in the
+        // same order (its values), and the transport flag and the lock object directly (the fields NetField read).
+        var live=System.Threading.Interlocked.Exchange(ref CsfLeaseScratch.Live,null)??new HashSet<object>();
+        if(net.IsAlive)lock(CsfWire.ClientsLock(net))
+            foreach(var connection in CsfWire.Clients(net,CsfWire.Steam(net)).Values)live.Add(connection);
         var now=Environment.TickCount64;
         for(int i=set.Entries.Count-1;i>=0;i--)
         {
@@ -59,10 +62,15 @@ public sealed partial class CoopSyncFixes
             if(now<slot.LeaseUntil)continue;
             // A timed-out join loses its transport authority before transitions are released.
             slot.Cancelled=true;set.Entries.RemoveAt(i);
-            var method=(bool)NetField(net,"_useSteamTransport")?"CleanupHostSteamClient":"CleanupHostClient";
+            var method=CsfWire.Steam(net)?"CleanupHostSteamClient":"CleanupHostClient";
             typeof(NetNode).GetMethod(method,InstanceFlags).Invoke(net,new[] {entry.Connection});
             Log.Warning("[CoopSyncFixes] Joining peer timed out before final acknowledgement; connection closed");
         }
+        live.Clear();CsfLeaseScratch.Live=live;
+    }
+    private static class CsfLeaseScratch
+    {
+        internal static HashSet<object> Live=new HashSet<object>();   // TickHostJoinLeases only (see there)
     }
     private static bool HostJoinLeasePending(NetNode net)
     {

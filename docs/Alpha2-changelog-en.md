@@ -1,0 +1,14 @@
+- Fixed the client getting stuck after the Concierge dies: the death animation can now finish its scene without being overwritten by remote animation updates.
+- Fixed the Concierge keeping a downed host as its target. It switches to the surviving partner and resumes normal targeting after revival.
+- Fixed the Combo mutation: client hits no longer build the host's combo, and client damage uses the client's own combo multiplier. Fire, poison and bleeding do not create extra stacks.
+- Fixed repeated flask consumption during revival. One downed episode costs one charge; a disconnected request costs nothing, and an empty flask produces a clear hint.
+- Fixed missing enemy death sounds on the client and duplicate sounds after the client's own killing blow.
+- Fixed partners appearing at incorrect coordinates while they are in a different room or secret area. Their minimap marker is retained, and revival across different rooms is prevented.
+- Fixed the partner's head position and presentation during dialogs and cinematics.
+- Reduced ordinary elevator jitter and the partner's displacement relative to a moving platform.
+- Fixed doors behind the Collector and Guillain opening before both players are ready, with handling for a downed or disconnected partner.
+- Fixed gamepad setup: the D-pad controls movement, DualSense uses PlayStation button icons, and manual icon choices are preserved.
+- Reduced the size and opacity of overhead player names so they obscure less of the action.
+- Reworked the partner panel to show the full name, current/maximum health and synchronized Brutality, Tactics and Survival values, with layout handling for long names.
+- Fixed version mismatch notifications, including rapid disconnections between Alpha1 and Alpha2. The explanatory text fits inside the popup.
+- Reduced repeated object scans, allocations and network-payload work in CoopSyncFixes and CoopFrameFix, and sped up update-file verification.

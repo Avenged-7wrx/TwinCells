@@ -14,7 +14,7 @@ namespace CoopPackRuntime
     // names a part type, so a bisect build without some parts still compiles and a type-load failure stays in its part.
     public static class PackHost
     {
-        public const string PackVersion="0.1.0-alpha";
+        public const string PackVersion="0.2.0-alpha";
         public const string PackSwitch="COOP_PACK_DISABLE";
         public const string FaultInjection="COOP_QA_PACK_FAIL_AFTER";
         const BindingFlags AnyInstance=BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic;
@@ -278,12 +278,12 @@ namespace CoopPackRuntime
                     if(assembly.IsDynamic)continue;
                     foreach(var name in names)
                         if(assembly.GetType(name,false)!=null)
-                            return "legacy module "+name+" loaded from "+assembly.Location+"; remove the old coremod\\mods\\<folder> (the Alpha1 updater does this)";
+                            return "legacy module "+name+" loaded from "+assembly.Location+"; remove the old coremod\\mods\\<folder> (the Twin Cells updater does this)";
                     if(assembly.GetName().Name=="CoopSteamInviteWorker")
                     {
                         var dir=Path.GetFullPath(Path.GetDirectoryName(assembly.Location)??"");
                         if(packDir==null||!string.Equals(dir,packDir,StringComparison.OrdinalIgnoreCase))
-                            return "legacy module CoopSteamInviteWorker loaded from "+assembly.Location+"; remove the old coremod\\mods\\<folder> (the Alpha1 updater does this)";
+                            return "legacy module CoopSteamInviteWorker loaded from "+assembly.Location+"; remove the old coremod\\mods\\<folder> (the Twin Cells updater does this)";
                     }
                 }
                 catch{}

@@ -26,12 +26,21 @@ public sealed partial class CoopSyncFixes
     }
     private static void EnterRegistryBatch(out RegistryBindScope __state)
     {
-        __state=new RegistryBindScope {Previous=RegistryScope};RegistryScope=__state;
+        // gc-opt call sites: while no batch is open on this thread, the scope of the last finished outermost batch is used
+        // again (its reservation set was emptied when that batch finished and nothing else holds it); a nested batch gets a
+        // new scope, as before.
+        var previous=RegistryScope;
+        __state=(previous==null?System.Threading.Interlocked.Exchange(ref CsfRegistrySpare.Slot[0],null) as RegistryBindScope:null)??new RegistryBindScope();
+        __state.Previous=previous;RegistryScope=__state;
     }
     private static Exception LeaveRegistryBatch(Exception __exception,RegistryBindScope __state)
     {
-        if(__state!=null){RegistryScope=__state.Previous;__state.Reserved.Clear();}
+        if(__state!=null){RegistryScope=__state.Previous;__state.Reserved.Clear();if(__state.Previous==null)CsfRegistrySpare.Slot[0]=__state;}
         return __exception;
+    }
+    private static class CsfRegistrySpare
+    {
+        internal static readonly object[] Slot=new object[1];   // [0]: a finished outermost RegistryBindScope, or null
     }
     private static void SupplyRegistryReservation(ref HashSet<Mob> reservedMobs)
     {

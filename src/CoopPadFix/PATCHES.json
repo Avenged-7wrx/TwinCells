@@ -1,0 +1,27 @@
+[
+  {
+    "file": "CoopPadFix.cs",
+    "before": "2D834F648A537E02ADF8BF371AEF75833C1319680974EB2D707AA34BBA15138C",
+    "after": "C547C3FAAFF59E98ECF760AB2EC6EB8FB09BE07BC05C329E59232E86C8153F44",
+    "edits": [
+      "S2"
+    ]
+  },
+  {
+    "file": "PadProxyFingerprint.cs",
+    "before": "A9507C9231B60B8D4B1FEA0268B13E40E9BAA1774ECAA8C4137FCDBACFA36BBB",
+    "after": "1E4FFF9843CDB77996D5BE3C9FEB3640D985F03FD72F42E04C5F476EBC40FCED",
+    "edits": [
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1",
+      "S1"
+    ]
+  }
+]

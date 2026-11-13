@@ -1,0 +1,25 @@
+[
+  {
+    "file": "CoopReviveCostProxyFingerprint.cs",
+    "before": "06D801B188EA1E5C8021D55C7B88F5B9CDA031AEF2181F6520A04A31F7F784ED",
+    "after": "9D2D38F675F9C1B7403F855F690CDFBB5165A8A20BBD31E0B9C1965D3F4A58B2",
+    "edits": [
+      "S1",
+      "S1",
+      "R9",
+      "S1",
+      "R9",
+      "R9",
+      "S1",
+      "S1"
+    ]
+  },
+  {
+    "file": "CoopReviveCostPatch.cs",
+    "before": "00C8F67742651E5D844B1A3663D94DF8677BB56AA7814E5EB5EBBC1581A6E4B9",
+    "after": "0CA718D7821AE039C318B0F80B537AB2E16F3DBEF5FC05F2B654AC21A2B78D46",
+    "edits": [
+      "S2"
+    ]
+  }
+]

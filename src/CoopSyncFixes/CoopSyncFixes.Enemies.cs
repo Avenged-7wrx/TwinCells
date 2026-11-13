@@ -70,10 +70,10 @@ public sealed partial class CoopSyncFixes
         if (net == null || !net.IsAlive || !net.IsHost) return;
         lock (Gate)
         {
-            foreach (var value in ((IDictionary)Field("s_hostDeathTombstonesBySyncId")).Values)
+            // The same dictionary and the same field of each tombstone, read and written without a box per record.
+            foreach (var value in CsfMobExtras.HostDeathTombstones.Values)
             {
-                var remaining = value.GetType().GetField("SendsRemaining");
-                if ((int)remaining.GetValue(value) < 1) remaining.SetValue(value, 1);
+                if (CsfMobExtras.TombstoneSends(value) < 1) CsfMobExtras.SetTombstoneSends(value, 1);
             }
         }
         // Original generation/TTL/cadence checks remain authoritative. Only the shorter send

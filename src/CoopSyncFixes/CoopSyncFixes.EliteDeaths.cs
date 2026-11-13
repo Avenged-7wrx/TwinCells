@@ -282,11 +282,11 @@ public sealed partial class CoopSyncFixes
         if(states==null || !EliteClient())return;
         lock(Gate)
         {
-            var forward=(IDictionary)Field("IdToMob");List<NetNode.MobStateSnapshot> filtered=null;
+            var forward=CsfMobs.IdToMob;List<NetNode.MobStateSnapshot> filtered=null;   // the object Field("IdToMob") returned, typed
             for(int i=0;i<states.Count;i++)
             {
-                var state=states[i];bool reject=state.Life>0 && Current(state.Generation) && forward.Contains(state.Index) &&
-                    forward[state.Index] is Mob mob && (EliteHasNativeFault(mob) || EliteScopedPending(mob));
+                var state=states[i];bool reject=state.Life>0 && Current(state.Generation) && forward.TryGetValue(state.Index,out var mob) &&
+                    mob!=null && (EliteHasNativeFault(mob) || EliteScopedPending(mob));
                 if(reject)
                 {
                     if(filtered==null){filtered=new List<NetNode.MobStateSnapshot>();for(int j=0;j<i;j++)filtered.Add(states[j]);}

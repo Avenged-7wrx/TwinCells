@@ -1,0 +1,26 @@
+[
+  {
+    "id": "R14",
+    "file": "CoopTransitionGatePatch.cs",
+    "find": "foreach(var a in AppDomain.CurrentDomain.GetAssemblies()){Type t=null;try{t=a.GetType(\"CoopBranchVisibilityApi\",false);}catch{}if(t!=null){found=t;n++;}}",
+    "replace": "{Type t=null;try{t=global::CoopPackRuntime.PackParts.FindType(\"CoopBranchVisibilityFix\",\"CoopBranchVisibilityApi\");}catch{}if(t!=null){found=t;n++;}}",
+    "count": 1,
+    "note": "BranchOf (CoopTransitionGatePatch.cs:162): the U9 branch API is the present CoopBranchVisibilityFix part of this assembly (same lookup form as R1/R4/R11). Without the edit the type is always found in CoopPack.dll, also when the U9 row is switched off or failed: BranchApi binds, \"Branch key from CoopBranchVisibilityFix\" is logged and Snapshot branchFromPart=true although Active stays false. With it a switched-off or failed U9 reads as absent, exactly as a missing standalone module (map-id fallback of CoopTransitionGateRules.Branch). n==1 keeps its meaning (one hit); the try/catch keeps the original \"a throwing lookup reads as absent\"."
+  },
+  {
+    "id": "R15",
+    "file": "CoopTransitionGateWire.cs",
+    "find": "            foreach(var asm in AppDomain.CurrentDomain.GetAssemblies())\n            {\n                Type csf;try{csf=asm.GetType(\"CoopSyncFixes\",false);}catch{continue;}\n                if(csf==null)continue;\n                var f=csf.GetField(\"RejectedConnections\",S);\n                if(f!=null&&f.FieldType==typeof(ConditionalWeakTable<NetNode,object>))CsfRejected=(ConditionalWeakTable<NetNode,object>)f.GetValue(null);\n                break;\n            }\n",
+    "replace": "            {\n                // CoopPack: the CSF part of this assembly while it is present; a switched-off or failed CSF reads as absent, as a missing module does standalone.\n                Type csf=null;try{csf=global::CoopPackRuntime.PackParts.FindType(\"CoopSyncFixes\",\"CoopSyncFixes\");}catch{}\n                if(csf!=null)\n                {\n                    var f=csf.GetField(\"RejectedConnections\",S);\n                    if(f!=null&&f.FieldType==typeof(ConditionalWeakTable<NetNode,object>))CsfRejected=(ConditionalWeakTable<NetNode,object>)f.GetValue(null);\n                }\n            }\n",
+    "count": 1,
+    "note": "Rejected (CoopTransitionGateWire.cs:64-71): CSF's terminal connection verdict (private static RejectedConnections, alpha2-csf CoopSyncFixes.Join.cs:18) is read from the present CSF part of this assembly (same lookup as R1/R4/R11). Without the edit the AppDomain scan always finds CoopSyncFixes in CoopPack.dll, also when COOP_PACK_SYNC_FIXES_DISABLE=1 or CSF failed, and f.GetValue(null) would run CSF's type initializer for a part that never installed (the hazard PACK-DESIGN 3.2 names for LobbyColor LookUpCsf). Field name, type check, cache flag CsfLooked and the single-lookup (break) semantics are unchanged."
+  },
+  {
+    "id": "S2",
+    "file": "CoopTransitionGatePins.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read (RequireExactBinaries hashes the base DLL 378BE6B0 and hlboot.dat A37869A3, both already hashed by other parts)"
+  }
+]

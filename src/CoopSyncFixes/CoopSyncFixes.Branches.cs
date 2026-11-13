@@ -55,7 +55,7 @@ public sealed partial class CoopSyncFixes
     {
         var net=ModEntry._net;var game=Game.Class.ME;var hero=game?.hero;
         if(net==null || !net.IsAlive || game==null || game.curCine!=null || hero==null || hero.destroyed || hero.life<=0 ||
-            !(bool)Lobby.GetMethod("IsInActualRun",Flags).Invoke(null,null))return null;
+            !CsfRun.InActualRun())return null;
         return hero._level;
     }
     private static bool RejectInactiveRebuild(Level level,ref bool __result)

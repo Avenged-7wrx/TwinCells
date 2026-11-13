@@ -1,0 +1,18 @@
+[
+  {
+    "id": "S2",
+    "file": "BossOutroPatch.cs",
+    "find": "static string Hash(string path)=>Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));",
+    "replace": "static string Hash(string path)=>global::CoopPackRuntime.PackPins.Sha256(path);",
+    "count": 1,
+    "note": "memoized file SHA-256 (PackPins); same value, same exception on a failed read"
+  },
+  {
+    "id": "S1",
+    "file": "BossOutroPatch.cs",
+    "find": "        using var image=BossOutroProxyImage.FromFile(proxy.Location);\n        if(image.RawSha256==BossOutroProxyCompatibility.RawPin)return \"raw\";\n        var mode=BossOutroProxyCompatibility.ValidateImage(image,proxy.ManifestModule.ModuleVersionId,proxy.FullName,Generators());\n        try{Serilog.Log.Information(\"[CoopBossOutroFix] Generated GameProxy ABI/IL verified: raw={Raw} symbolic={Symbolic}\",image.RawSha256,BossOutroProxyCompatibility.FingerprintPin);}catch{}\n        return mode;\n",
+    "replace": "        // CoopPack S1: the raw pin from the shared GameProxy image (no second 27 MB read and hash); the symbolic fallback\n        // walks this part's own image over the same bytes with the shared generator pins (same expressions, same order).\n        var shared=global::CoopPackRuntime.PackProxyImage.Acquire(proxy);\n        try\n        {\n            if(shared.RawSha256==BossOutroProxyCompatibility.RawPin)return \"raw\";\n            using var image=BossOutroProxyImage.FromBytes(shared.Bytes);\n            var mode=BossOutroProxyCompatibility.ValidateImage(image,proxy.ManifestModule.ModuleVersionId,proxy.FullName,shared.Generators);\n            try{Serilog.Log.Information(\"[CoopBossOutroFix] Generated GameProxy ABI/IL verified: raw={Raw} symbolic={Symbolic}\",shared.RawSha256,BossOutroProxyCompatibility.FingerprintPin);}catch{}\n            return mode;\n        }\n        finally{shared.Release();}\n",
+    "count": 1,
+    "note": "S1: raw-pin fast path on the shared image hash and the shared bytes and generator pins for the symbolic fallback (as CoopReviveFix S1); BossOutroProxyFingerprint.cs is not edited, so its walk, label and pin AAD286AD are unchanged"
+  }
+]

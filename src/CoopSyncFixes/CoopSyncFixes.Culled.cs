@@ -25,23 +25,34 @@ public sealed partial class CoopSyncFixes
         lock(Gate)
         {
             if(!Current(generation) || DeadOnClient(generation,id))return;
-            var forward=(IDictionary)Field("IdToMob");var reverse=(IDictionary)Field("MobToId");var targets=(IDictionary)Field("clientMobTargets");
-            var mob=forward.Contains(id)?forward[id] as Mob:null;
-            if(mob==null || !reverse.Contains(mob) || (int)reverse[mob]!=id || !targets.Contains(mob))return;
+            // The base mod's typed registry and accepted targets (the objects Field returned), read without boxing.
+            CsfMobs.IdToMob.TryGetValue(id,out var mob);
+            if(mob==null || !CsfMobs.MobToId.TryGetValue(mob,out var bound) || bound!=id ||
+                !CsfMobs.TargetState(mob,out var life,out _,out var targetX,out var targetY))return;
             // The accepted interpolation target already resolves stale/out-of-order packets.
-            var target=targets[mob];var type=target.GetType();
-            if((int)type.GetField("Life").GetValue(target)<=0)return;
-            PlaceSleepingReplica(mob,(double)type.GetField("X").GetValue(target),(double)type.GetField("Y").GetValue(target));
+            if(life<=0)return;
+            PlaceSleepingReplica(mob,targetX,targetY);
         }
     }
     private static void PlaceSleepingReplica(Mob mob,double worldX,double worldY)
     {
         if(mob==null || mob.destroyed || mob.life<=0 || !double.IsFinite(worldX) || !double.IsFinite(worldY) ||
-            (bool)IsSnapshotBoss.Invoke(null,new object[] {mob}) || !(bool)Invoke("IsMobCulledLocally",mob))return;
-        if(Math.Abs((double)Invoke("GetWorldX",mob)-worldX)<.01 && Math.Abs((double)Invoke("GetWorldY",mob)-worldY)<.01)return;
+            CsfMobCalls.IsBossMob(mob) || !CsfMobCalls.MobCulledLocally(mob))return;
+        if(Math.Abs(CsfMobCalls.WorldX(mob)-worldX)<.01 && Math.Abs(CsfMobCalls.WorldY(mob)-worldY)<.01)return;
         var cellSize=Convert.ToDouble(Field("PixelsPerCase"));var x=worldX/cellSize;var y=worldY/cellSize;
         var cx=(int)Math.Floor(x);var cy=(int)Math.Floor(y);
-        // Coordinate placement does not unlock AI, force native visibility or run animations.
-        mob.GetType().GetMethod("setPosCase").Invoke(mob,new object[] {cx,cy,x-cx,y-cy});
+        // Coordinate placement does not unlock AI, force native visibility or run animations. The same virtual method with
+        // the same four values (two non-null fractions) as the reflective call; its exception leaves inside a
+        // TargetInvocationException, as from MethodInfo.Invoke.
+        try{CsfEntityCalls.SetPosCase(mob,cx,cy,x-cx,y-cy);}
+        catch(Exception error){throw new TargetInvocationException(error);}
+    }
+    // Entity.setPosCase(int, int, double?, double?) as an open-instance delegate: it dispatches virtually on the mob, as
+    // mob.GetType().GetMethod("setPosCase").Invoke(mob, ...) did (every declaration of the name overrides this one slot).
+    private static class CsfEntityCalls
+    {
+        internal static readonly Action<Mob,int,int,double?,double?> SetPosCase=(Action<Mob,int,int,double?,double?>)Delegate.CreateDelegate(
+            typeof(Action<Mob,int,int,double?,double?>),typeof(dc.Entity).GetMethod("setPosCase",BindingFlags.Instance|BindingFlags.Public,null,
+                new[]{typeof(int),typeof(int),typeof(double?),typeof(double?)},null)??throw new MissingMethodException("dc.Entity","setPosCase"));
     }
 }

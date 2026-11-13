@@ -27,7 +27,8 @@ using Path=System.IO.Path;
 // only broadcasts the hero tick while its HeroInstance is set; IsHeroRuntimeReadyForCoop minus the
 // curCine test; and the avatar must belong to the current hero and game (otherwise the mod's
 // bootstrap would rebuild it first, which is left to the mod). Nothing else of the gated tick is
-// run: no sending, no fake-death flow, no ghost heads, weapons or attacks, and readiness itself is
+// run: no sending, no fake-death flow, no head rebuilds (Alpha2: only the existing partner heads'
+// effects are advanced, UpdatePartnerHeads), no weapons or attacks, and readiness itself is
 // not changed. Cinematics owned by the installed presenter are left to it.
 // Local presentation only: the receiver puts nothing on the wire, so the two players cannot desync
 // through it. (If the receiver has to create the avatar on the host it bumps the mod's local
@@ -165,6 +166,7 @@ public static class DialogPresencePatch
             if(Disabled)return;
             Receive(__instance);                       // the mod's own consumer; it keeps its own transition guards
             CineFrames++;Interlocked.Increment(ref Frames);ConsecutiveFaults=0;
+            UpdatePartnerHeads(game,hero,level);
         }
         catch(Exception error)
         {
@@ -172,6 +174,42 @@ public static class DialogPresencePatch
             if(DialogPresenceRules.ShouldTrip(++ConsecutiveFaults))Tripped=true;
             if(n==1||Tripped)
                 try{Serilog.Log.Warning("[CoopDialogPresenceFix] Frame skipped{Off}: {Error}",Tripped?"; switched off for this session":"",error.GetBaseException().Message);}catch{}
+        }
+    }
+    // Alpha2 U9 (PLAN-ALPHA2.md issue 6 R1). The receiver above moves the partner's body during the dialog, but his head is
+    // advanced only by ModEntry.UpdateGhostHeads at the end of the gated hero tick, so it froze at a stale offset while the
+    // body moved. Only Kinghead.updateHeadFx runs here, on heads the mod already built for avatars of this level (never
+    // UpdateGhostHeads: it can rebuild heads in the middle of a scene). Kinghead swaps the local hero's lastHeadPos and
+    // visible and restores them in a finally (Kinghead.cs:281-314); both are checked after every call, restored if changed,
+    // and the head path then stops for the session. A head fault stops only the head path, never the body presentation.
+    // Own switch: COOP_DIALOG_PRESENCE_HEADS_DISABLE=1.
+    static bool HeadsOff=Environment.GetEnvironmentVariable("COOP_DIALOG_PRESENCE_HEADS_DISABLE")=="1";
+    static long HeadFrames;
+    public static long PresentedHeadFrames=>Interlocked.Read(ref HeadFrames);
+    public static bool HeadsSwitchedOff=>HeadsOff;
+    static void UpdatePartnerHeads(dc.pr.Game game,Hero hero,dc.pr.Level level)
+    {
+        if(HeadsOff)return;
+        var clients=ModEntry.clients;var heads=ModEntry.clientHeads;
+        for(int i=0;i<clients.Length&&i<heads.Length;i++)
+        {
+            var ghost=clients[i];var head=heads[i];
+            if(ghost==null||head==null||ghost.HashlinkPointer==IntPtr.Zero||head.HashlinkPointer==IntPtr.Zero||ghost.destroyed||
+                ghost._level==null||ghost._level.HashlinkPointer!=level.HashlinkPointer)continue;
+            bool visible=hero.visible;var last=hero.lastHeadPos;var lastPointer=last?.HashlinkPointer??IntPtr.Zero;
+            try{head.updateHeadFx(game.ftime);Interlocked.Increment(ref HeadFrames);}
+            catch(Exception error)
+            {
+                HeadsOff=true;
+                try{Serilog.Log.Warning("[CoopDialogPresenceFix] Partner head update switched off for this session: {Error}",error.GetBaseException().Message);}catch{}
+                return;
+            }
+            if(hero.visible!=visible||(hero.lastHeadPos?.HashlinkPointer??IntPtr.Zero)!=lastPointer)
+            {
+                hero.visible=visible;hero.lastHeadPos=last;HeadsOff=true;
+                try{Serilog.Log.Warning("[CoopDialogPresenceFix] Partner head update changed the local hero; restored and switched off for this session");}catch{}
+                return;
+            }
         }
     }
     // A new cinematic object (or the same one on another level): classify it once and say so once in the log.

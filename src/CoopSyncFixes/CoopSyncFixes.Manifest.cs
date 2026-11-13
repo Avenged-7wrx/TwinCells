@@ -37,6 +37,11 @@ public sealed partial class CoopSyncFixes
         Patch(harmony,Mobs,"RunClientIncomingFrameConsume",nameof(WaitForManifestBindings));
         Patch(harmony,Mobs,"ResetMobTrackingLocked",nameof(SaveVerifiedClientBirths));
         InitializeSnapshotFence(harmony);
+        CineGate.Alpha1Rule=Disabled("CINEGATE");
+        Log.Information("[CoopSyncFixes] Cinematic gate: {CineGateMode:l}",Disabled("ACTIVATION")?
+            "off (COOP_SYNC_DISABLE_ACTIVATION=1): incoming mob sync is never held for a cinematic":CineGate.Alpha1Rule?
+            "Alpha1 rule (COOP_SYNC_DISABLE_CINEGATE=1): incoming mob sync held during every cinematic":
+            "incoming mob sync held during a cinematic only while a level change is in progress");
     }
     private static void CaptureBootstrapManifest(NetNode net,Level level)
     {
@@ -141,8 +146,129 @@ public sealed partial class CoopSyncFixes
     }
     private static bool WaitForManifestBindings(NetNode net)
     {
-        if(!Disabled("ACTIVATION") && net!=null && !net.IsHost && dc.pr.Game.Class.ME?.curCine!=null)return false;
+        if(!Disabled("ACTIVATION") && net!=null && !net.IsHost && HoldConsumeForCinematic())return false;
         EnsureClientActivation(net);return WireConsumeReady(net) && (!PendingWorld(net,out var state) || (!state.ActivationOnly && state.ManifestApplied));
+    }
+    // Alpha2 U2 (PLAN-ALPHA2.md issues 12 and 10 step 1). Alpha1 skipped the client's whole incoming consume (host mob
+    // states, moves, attacks, deaths, hits and the base mod's boss death watchdog) while ANY cinematic ran, so every dialog,
+    // item, chest or boss scene froze the replicas, and a scene that waits for a boss death (the Behemoth outro) could
+    // never receive it. The hold protects a level change, so it now applies only while one is in progress: a
+    // LevelTransition, a level identity that is not ready, no live hero or level, or a hero whose native level is not the
+    // tracked one (the Z-door, teleporter and sub-level window before ReconcileActiveBranch runs). Every other cinematic
+    // falls through to the unchanged tail above (EnsureClientActivation does nothing during a cinematic: ActiveBranch() is
+    // null). COOP_SYNC_DISABLE_CINEGATE=1 restores the Alpha1 rule; a fault in the reads holds that frame and, after
+    // CineGateMonitor.FaultLimit faults, restores the Alpha1 rule until the game restarts; COOP_SYNC_DISABLE_ACTIVATION=1
+    // still removes the hold altogether, as before.
+    internal const int CineGateNone=0,CineGateOpen=1,CineGateHoldTransition=2,CineGateHoldIdentity=3,CineGateHoldNoLevel=4,
+        CineGateHoldBranch=5,CineGateHoldAlpha1=6,CineGateVerdicts=7;
+    internal static int CineGateVerdict(bool cine,bool alpha1Rule,bool levelTransition,bool identityReady,bool heroLive,IntPtr heroLevel,IntPtr trackedLevel)
+    {
+        if(!cine)return CineGateNone;
+        if(alpha1Rule)return CineGateHoldAlpha1;
+        if(levelTransition)return CineGateHoldTransition;
+        if(!identityReady)return CineGateHoldIdentity;
+        if(!heroLive || heroLevel==IntPtr.Zero || trackedLevel==IntPtr.Zero)return CineGateHoldNoLevel;
+        return heroLevel==trackedLevel?CineGateOpen:CineGateHoldBranch;
+    }
+    internal static bool CineGateHolds(int verdict)=>verdict>=CineGateHoldTransition;
+    internal static string CineGateReason(int verdict)=>verdict switch {CineGateNone=>"none",CineGateOpen=>"open",CineGateHoldTransition=>"level-transition",
+        CineGateHoldIdentity=>"identity-not-ready",CineGateHoldNoLevel=>"no-hero-level",CineGateHoldBranch=>"branch-not-reconciled",CineGateHoldAlpha1=>"alpha1-rule",_=>"unknown"};
+    internal static string CineGateName(int verdict)=>CineGateHolds(verdict)?"held:"+CineGateReason(verdict):CineGateReason(verdict);
+    // Per-cinematic bookkeeping, the fault latch and the rate-limited lines of the gate. Plain instance state, touched only
+    // on the game thread (the consume prefix), so the managed checks drive it without a game.
+    internal sealed class CineGateMonitor
+    {
+        internal const int FaultLimit=3,LogBurst=12;
+        internal const long LogWindowMs=60000;
+        internal static readonly long[] LongMarksMs={20000,60000,180000};
+        internal bool Alpha1Rule,Latched;internal int Faults;internal string LastFault;
+        internal IntPtr Cine;internal string Type;internal long StartedMs;internal int Verdict=CineGateNone,LongMark;
+        internal readonly long[] Frames=new long[CineGateVerdicts],Totals=new long[CineGateVerdicts];
+        internal long Episodes,LinesWritten,LinesSuppressed;
+        long windowStart,pendingSuppressed;int windowLines;bool windowOpen;
+        internal bool UseAlpha1=>Alpha1Rule || Latched;
+        // One call per client frame of the prefix (IntPtr.Zero: no cinematic). Returns a line to log, or null.
+        internal string Observe(IntPtr cine,string type,int verdict,long nowMs)
+        {
+            if(verdict<CineGateNone || verdict>=CineGateVerdicts)throw new ArgumentOutOfRangeException(nameof(verdict));
+            string line=null;
+            if(cine!=Cine && Cine!=IntPtr.Zero)line=Close(nowMs);
+            if(cine==IntPtr.Zero)return Limit(line,nowMs);
+            if(cine!=Cine){Cine=cine;Type=type??"?";StartedMs=nowMs;Verdict=verdict;LongMark=0;Array.Clear(Frames,0,Frames.Length);Episodes++;}
+            else if(verdict!=Verdict){line??=Type+" now "+CineGateName(verdict)+" after "+Seconds(nowMs)+" s (was "+CineGateName(Verdict)+")";Verdict=verdict;}
+            Frames[verdict]++;Totals[verdict]++;
+            if(LongMark<LongMarksMs.Length && nowMs-StartedMs>=LongMarksMs[LongMark]){LongMark++;line??=Type+" running for "+Seconds(nowMs)+" s; "+Counts();}
+            return Limit(line,nowMs);
+        }
+        internal string Fault(Exception error,long nowMs)
+        {
+            Faults++;LastFault=error==null?"unknown":error.GetType().Name+": "+error.Message;
+            if(!Latched && Faults>=FaultLimit){Latched=true;LinesWritten++;return "Cinematic gate: fault "+Faults+" ("+LastFault+"); fell back to the Alpha1 hold rule until the game restarts";}
+            return Limit("fault "+Faults+" ("+LastFault+"); this frame held",nowMs);
+        }
+        string Close(long nowMs)
+        {
+            var line=Type+" ended after "+Seconds(nowMs)+" s; "+Counts();
+            Cine=IntPtr.Zero;Type=null;Verdict=CineGateNone;return line;
+        }
+        string Counts()
+        {
+            long held=0;var reasons=new System.Text.StringBuilder();
+            for(int v=CineGateHoldTransition;v<CineGateVerdicts;v++)if(Frames[v]>0)
+            {held+=Frames[v];reasons.Append(reasons.Length==0?" (":", ").Append(CineGateReason(v)).Append(' ').Append(Frames[v]);}
+            if(reasons.Length>0)reasons.Append(')');
+            return "gate open on "+Frames[CineGateOpen]+" frames, held on "+held+" frames"+reasons;
+        }
+        string Seconds(long nowMs)=>((nowMs-StartedMs)/1000.0).ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);
+        string Limit(string line,long nowMs)
+        {
+            if(line==null)return null;
+            if(!windowOpen || nowMs<windowStart || nowMs-windowStart>=LogWindowMs){windowOpen=true;windowStart=nowMs;windowLines=0;}
+            if(windowLines>=LogBurst){LinesSuppressed++;pendingSuppressed++;return null;}
+            windowLines++;LinesWritten++;
+            if(pendingSuppressed>0){line+=" (+"+pendingSuppressed+" gate lines suppressed)";pendingSuppressed=0;}
+            return "Cinematic gate: "+line;
+        }
+    }
+    private static readonly CineGateMonitor CineGate=new();
+    private static FieldInfo CineGateReadyField,CineGateTrackedField;
+    private static bool HoldConsumeForCinematic()
+    {
+        var game=dc.pr.Game.Class.ME;var cine=game?.curCine;   // the Alpha1 read, unchanged
+        long now=Environment.TickCount64;
+        if(cine==null)
+        {
+            if(CineGate.Cine!=IntPtr.Zero)
+                try{LogCineGate(CineGate.Observe(IntPtr.Zero,null,CineGateNone,now),false);}
+                catch(Exception error){try{LogCineGate(CineGate.Fault(error,now),true);}catch{}}
+            return false;
+        }
+        try
+        {
+            bool alpha1=CineGate.UseAlpha1,transition=false,ready=false,heroLive=false;IntPtr heroLevel=IntPtr.Zero,trackedLevel=IntPtr.Zero;
+            if(!alpha1)
+            {
+                var hero=game.hero;var level=hero?._level;
+                var tracked=(CineGateTrackedField??=Mobs.GetField("currentLevel",Flags)).GetValue(null) as Level;
+                ready=(bool)(CineGateReadyField??=Mobs.GetField("s_levelIdentityReady",Flags)).GetValue(null);
+                transition=cine is dc.cine.LevelTransition;heroLive=hero!=null && !hero.destroyed && level!=null && !level.destroyed;
+                heroLevel=level?.HashlinkPointer??IntPtr.Zero;trackedLevel=tracked?.HashlinkPointer??IntPtr.Zero;
+            }
+            var verdict=CineGateVerdict(true,alpha1,transition,ready,heroLive,heroLevel,trackedLevel);
+            var pointer=cine.HashlinkPointer;
+            LogCineGate(CineGate.Observe(pointer,pointer==CineGate.Cine?null:cine.GetType().FullName,verdict,now),false);
+            return CineGateHolds(verdict);
+        }
+        catch(Exception error)
+        {
+            try{LogCineGate(CineGate.Fault(error,now),true);}catch{}
+            return true;   // the Alpha1 hold for this frame
+        }
+    }
+    private static void LogCineGate(string line,bool warning)
+    {
+        if(line==null)return;
+        if(warning)Log.Warning("[CoopSyncFixes] {CineGateLine:l}",line);else Log.Information("[CoopSyncFixes] {CineGateLine:l}",line);
     }
     private static void ApplyJoinManifest(WorldJoin state)
     {
