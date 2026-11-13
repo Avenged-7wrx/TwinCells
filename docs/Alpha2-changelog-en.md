@@ -11,4 +11,5 @@
 - Reduced the size and opacity of overhead player names so they obscure less of the action.
 - Reworked the partner panel to show the full name, current/maximum health and synchronized Brutality, Tactics and Survival values, with layout handling for long names.
 - Fixed version mismatch notifications, including rapid disconnections between Alpha1 and Alpha2. The explanatory text fits inside the popup.
+- Removed unnecessary periodic lobby menu rebuilds during runs and cinematics. Lobby state changes still refresh the menu, with recovery for a stale disabled Start button when everyone is ready.
 - Reduced repeated object scans, allocations and network-payload work in CoopSyncFixes and CoopFrameFix, and sped up update-file verification.
